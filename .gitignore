@@ -1,3 +1,11 @@
+# build code
+build-clang
+build-g++
+build
+tidy
+html
+.vscode
+
 # Prerequisites
 *.d
 
