@@ -1122,29 +1122,29 @@ template <typename nodeview_t> class NodeView {
 //         return this->_adjdict[u][v];
 //     }
 
-//     // EdgeDataView methods
-//     auto __call__( nbunch=None, data=false, default=None) {
-//         if (nbunch.empty() && data == false) {
-//             return (*this);
-//         }
-//         return this->dataview( nbunch, data, default);
-//     }
+//     // // EdgeDataView methods
+//     // auto __call__( nbunch=None, data=false, default=None) {
+//     //     if (nbunch.empty() && data == false) {
+//     //         return (*this);
+//     //     }
+//     //     return this->dataview( nbunch, data, default);
+//     // }
 
-//     auto data( data=true, default=None, nbunch=None) {
-//         if (nbunch.empty() && data == false) {
-//             return (*this);
-//         }
-//         return this->dataview( nbunch, data, default);
-//     }
+//     // auto data( data=true, default=None, nbunch=None) {
+//     //     if (nbunch.empty() && data == false) {
+//     //         return (*this);
+//     //     }
+//     //     return this->dataview( nbunch, data, default);
+//     // }
 
-//     // String Methods
-//     auto __str__( ) {
-//         return str(list( ));
-//     }
+//     // // String Methods
+//     // auto __str__( ) {
+//     //     return str(list( ));
+//     // }
 
-//     auto __repr__( ) {
-//         return "{0.__class__.__name__}({1!r})".format( list( ));
-//     }
+//     // auto __repr__( ) {
+//     //     return "{0.__class__.__name__}({1!r})".format( list( ));
+//     // }
 // };
 
 // class EdgeView(OutEdgeView) {
