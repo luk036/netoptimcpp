@@ -196,8 +196,8 @@ namespace xn {
 
 struct object : py::dict<const char *, std::any> {};
 
-template <typename nodeview_t, typename nodemap_t,
-          typename adjlist_inner_dict_factory = 
+template <typename nodeview_t,
+          typename adjlist_t = 
                 py::set<Value_type<nodeview_t>>>
 class Graph : public object {
   public:
@@ -209,15 +209,15 @@ class Graph : public object {
     // using node_dict_factory = py::dict<Node, node_attr_dict_factory>;
     // using adjlist_inner_dict_factory = py::dict<Node,
     // edge_attr_dict_factory>;
-    // using adjlist_inner_dict_factory = py::set<Node>;
-    using adjlist_outer_dict_factory = std::vector<adjlist_inner_dict_factory>;
-    using key_type = typename adjlist_inner_dict_factory::key_type;
-    using value_type = typename adjlist_inner_dict_factory::value_type;
+    using adjlist_inner_dict_factory = adjlist_t;
+    using adjlist_outer_dict_factory = std::vector<adjlist_t>;
+    using key_type = typename adjlist_t::key_type;
+    using value_type = typename adjlist_t::value_type;
+    using edge_t = std::pair<Node, Node>;
 
   public:
     // std::vector<Node > _Nodes{};
     nodeview_t _node;
-    nodemap_t _node_map;
     graph_attr_dict_factory graph{}; // dictionary for graph attributes
     // node_dict_factory _node{};  // empty node attribute dict
     adjlist_outer_dict_factory _adj; // empty adjacency dict
@@ -251,12 +251,22 @@ class Graph : public object {
         >>> r = py::range(100);
         >>> G = xn::Graph(r);  // or DiGraph, MultiGraph, MultiDiGraph, etc
     */
-    Graph(const nodeview_t &Nodes, const nodemap_t &node_map)
-        : _node{Nodes}, _node_map{node_map}, _adj(Nodes.size()) {}
+    Graph(const nodeview_t &Nodes)
+        : _node{Nodes}, _adj(Nodes.size()) {}
 
     Graph(int num_nodes) 
-        : _node{py::range<int>(num_nodes)}, _node_map{py::range<int>(num_nodes)}, 
+        : _node{py::range<int>(num_nodes)},
           _adj(num_nodes) {}
+
+    /**
+     * @brief For compatible with BGL adaptor
+     * 
+     * @param e 
+     * @return edge_t& 
+     */
+    static edge_t&& end_points(edge_t&& e) {
+        return std::forward<edge_t>(e);
+    }
 
     /// @property
     /** Graph adjacency object holding the neighbors of each node.
@@ -345,7 +355,7 @@ class Graph : public object {
     AtlasView({1: {}});
      */
     auto operator[](const Node &n) const {
-        return this->adj()[this->_node_map[n]];
+        return this->adj()[n];
     }
 
     /// @property
@@ -460,22 +470,21 @@ class Graph : public object {
 
     /** Return true if (the graph contains the node n.
 
-    Identical to `n : G`
+        Identical to `n : G`
 
-    Parameters
-    ----------
-    n : node
+        Parameters
+        ----------
+        n : node
 
-    Examples
-    --------
-    >>> G = xn::path_graph(3);  // or DiGraph, MultiGraph, MultiDiGraph, etc
-    >>> G.has_node(0);
-    true
+        Examples
+        --------
+        >>> G = xn::path_graph(3);  // or DiGraph, MultiGraph, MultiDiGraph, etc
+        >>> G.has_node(0);
+        true
      */
     auto has_node(const Node &n) { return this->_node.contains(n); }
 
-    auto add_edge(const Node &u, const Node &v) {
-        /** Add an edge between u && v.
+    /** Add an edge between u && v.
 
         The nodes u && v will be automatically added if (they are
         not already : the graph.
@@ -518,7 +527,8 @@ class Graph : public object {
         >>> G.add_edge(1, 2);
         >>> G[1][2].update({0: 5});
         >>> G.edges()[1, 2].update({0: 5});
-         */
+     */
+    auto add_edge(const Node &u, const Node &v) {
         // auto [u, v] = u_of_edge, v_of_edge;
         // add nodes
         assert(this->_node.contains(u));
@@ -528,14 +538,31 @@ class Graph : public object {
         // datadict.update(attr);
         if constexpr (std::is_same_v<key_type, value_type>) {
             // set
-            this->_adj[this->_node_map[u]].insert(v);
-            this->_adj[this->_node_map[v]].insert(u);
+            this->_adj[u].insert(v);
+            this->_adj[v].insert(u);
         }
         else {
-            using T = typename adjlist_inner_dict_factory::mapped_type;
-            auto data = this->_adj[this->_node_map[u]].get(v, T{});
-            this->_adj[this->_node_map[u]][v] = data;
-            this->_adj[this->_node_map[v]][u] = data; // ???
+            using T = typename adjlist_t::mapped_type;
+            auto data = this->_adj[u].get(v, T{});
+            this->_adj[u][v] = data;
+            this->_adj[v][u] = data; // ???
+        }
+    }
+
+    template <typename T>
+    auto add_edge(const Node &u, const Node &v, const T& data) {
+        assert(this->_node.contains(u));
+        assert(this->_node.contains(v));
+        this->_adj[u][v] = data;
+        this->_adj[v][u] = data;
+    }
+
+    template <typename C1, typename C2>
+    auto add_edges_from(const C1 &edges, const C2 &data) {
+        auto N = edges.size();
+        for (auto i=0U; i<N; ++i) {
+            auto [u, v] = edges[i];
+            this->add_edge(u, v, data[i]);
         }
     }
 
@@ -575,70 +602,70 @@ class Graph : public object {
         true
 
          */
-        return this->_adj[this->_node_map[u]].contains(v);
+        return this->_adj[u].contains(v);
     }
 
-    auto degree(const Node &n) { return this->_adj[this->_node_map[n]].size(); }
+    auto degree(const Node &n) { return this->_adj[n].size(); }
 
-    // /// @property
-    // /** An EdgeView of the Graph as G.edges().
+    /// @property
+    /** An EdgeView of the Graph as G.edges().
 
-    //     edges( nbunch=None, data=false, default=None);
+        edges( nbunch=None, data=false, default=None);
 
-    //     The EdgeView provides set-like operations on the edge-tuples
-    //     as well as edge attribute lookup. When called, it also provides
-    //     an EdgeDataView object which allows control of access to edge
-    //     attributes (but does not provide set-like operations).
-    //     Hence, `G.edges[u, v]["color"]` provides the value of the color
-    //     attribute for edge `(u, v)` while
-    //     `for (auto u, v, c] : G.edges.data("color", default="red") {`
-    //     iterates through all the edges yielding the color attribute
-    //     with default `"red"` if (no color attribute exists.
+        The EdgeView provides set-like operations on the edge-tuples
+        as well as edge attribute lookup. When called, it also provides
+        an EdgeDataView object which allows control of access to edge
+        attributes (but does not provide set-like operations).
+        Hence, `G.edges[u, v]["color"]` provides the value of the color
+        attribute for edge `(u, v)` while
+        `for (auto u, v, c] : G.edges.data("color", default="red") {`
+        iterates through all the edges yielding the color attribute
+        with default `"red"` if (no color attribute exists.
 
-    //     Parameters
-    //     ----------
-    //     nbunch : single node, container, || all nodes (default= all nodes);
-    //         The view will only report edges incident to these nodes.
-    //     data : string || bool, optional (default=false);
-    //         The edge attribute returned : 3-tuple (u, v, ddict[data]).
-    //         If true, return edge attribute dict : 3-tuple (u, v, ddict).
-    //         If false, return 2-tuple (u, v).
-    //     default : value, optional (default=None);
-    //         Value used for edges that don"t have the requested attribute.
-    //         Only relevant if (data is not true || false.
+        Parameters
+        ----------
+        nbunch : single node, container, || all nodes (default= all nodes);
+            The view will only report edges incident to these nodes.
+        data : string || bool, optional (default=false);
+            The edge attribute returned : 3-tuple (u, v, ddict[data]).
+            If true, return edge attribute dict : 3-tuple (u, v, ddict).
+            If false, return 2-tuple (u, v).
+        default : value, optional (default=None);
+            Value used for edges that don"t have the requested attribute.
+            Only relevant if (data is not true || false.
 
-    //     Returns
-    //     -------
-    //     edges : EdgeView
-    //         A view of edge attributes, usually it iterates over (u, v);
-    //         || (u, v, d) tuples of edges, but can also be used for
-    //         attribute lookup as `edges[u, v]["foo"]`.
+        Returns
+        -------
+        edges : EdgeView
+            A view of edge attributes, usually it iterates over (u, v);
+            || (u, v, d) tuples of edges, but can also be used for
+            attribute lookup as `edges[u, v]["foo"]`.
 
-    //     Notes
-    //     -----
-    //     Nodes : nbunch that are not : the graph will be (quietly) ignored.
-    //     For directed graphs this returns the out-edges.
+        Notes
+        -----
+        Nodes : nbunch that are not : the graph will be (quietly) ignored.
+        For directed graphs this returns the out-edges.
 
-    //     Examples
-    //     --------
-    //     >>> G = xn::path_graph(3)   // or MultiGraph, etc
-    //     >>> G.add_edge(2, 3, weight=5);
-    //     >>> [e for e : G.edges];
-    //     [(0, 1), (1, 2), (2, 3)];
-    //     >>> G.edges.data();  // default data is {} (empty dict);
-    //     EdgeDataView([(0, 1, {}), (1, 2, {}), (2, 3, {"weight": 5})]);
-    //     >>> G.edges.data("weight", default=1);
-    //     EdgeDataView([(0, 1, 1), (1, 2, 1), (2, 3, 5)]);
-    //     >>> G.edges([0, 3]);  // only edges incident to these nodes
-    //     EdgeDataView([(0, 1), (3, 2)]);
-    //     >>> G.edges(0);  // only edges incident to a single node (use
-    //     G.adj[0]?); EdgeDataView([(0, 1)]);
-    // */
-    // auto edges() {
-    //     auto edges = EdgeView(*this);
-    //     this->operator[]("edges") = std::any(edges);
-    //     return edges;
-    // }
+        Examples
+        --------
+        >>> G = xn::path_graph(3)   // or MultiGraph, etc
+        >>> G.add_edge(2, 3, weight=5);
+        >>> [e for e : G.edges];
+        [(0, 1), (1, 2), (2, 3)];
+        >>> G.edges.data();  // default data is {} (empty dict);
+        EdgeDataView([(0, 1, {}), (1, 2, {}), (2, 3, {"weight": 5})]);
+        >>> G.edges.data("weight", default=1);
+        EdgeDataView([(0, 1, 1), (1, 2, 1), (2, 3, 5)]);
+        >>> G.edges([0, 3]);  // only edges incident to these nodes
+        EdgeDataView([(0, 1), (3, 2)]);
+        >>> G.edges(0);  // only edges incident to a single node (use
+        G.adj[0]?); EdgeDataView([(0, 1)]);
+    */
+    auto edges() {
+        auto edges = EdgeView(*this);
+        this->operator[]("edges") = std::any(edges);
+        return edges;
+    }
 
     // /// @property
     // auto degree() {
@@ -717,9 +744,9 @@ class Graph : public object {
 };
 
 
-template <typename nodeview_t, typename nodemap_t,
-          typename adjlist_inner_dict_factory> Graph(int ) 
--> Graph<decltype(py::range<int>(1)), decltype(py::range<int>(1)), py::set<int>>;
+template <typename nodeview_t,
+          typename adjlist_t> Graph(int ) 
+-> Graph<decltype(py::range<int>(1)), py::set<int>>;
 
 }; // namespace xn
 

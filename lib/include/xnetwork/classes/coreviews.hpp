@@ -48,8 +48,12 @@ template <typename Atlas> class AtlasView {
 
     auto end() const { return std::end(this->_atlas); }
 
+    // template <typename T> auto& operator[](const T &key) {
+    //     return this->_atlas[key];
+    // }
+
     template <typename T> auto operator[](const T &key) const {
-        return this->_atlas[key];
+        return this->_atlas.at(key);
     }
 
     // auto copy( ) {

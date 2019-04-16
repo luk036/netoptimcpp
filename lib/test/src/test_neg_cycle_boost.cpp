@@ -1,6 +1,4 @@
 // -*- coding: utf-8 -*-
-#define CATCH_CONFIG_MAIN
-
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/graph_traits.hpp>
 #include <catch.hpp>
@@ -77,7 +75,7 @@ bool do_case(xn::grAdaptor<graph_t> &G) {
     return !cycle.empty();
 }
 
-TEST_CASE("Test Negative Cycle", "[test_neg_cycle]") {
+TEST_CASE("Test Negative Cycle (boost)", "[test_neg_cycle_boost]") {
     xn::grAdaptor<graph_t> G = create_test_case1();
     // boost::property_map<graph_t, boost::edge_weight_t>::type weightmap =
     // boost::get(boost::edge_weight, G); std::vector<Vertex>
@@ -90,13 +88,13 @@ TEST_CASE("Test Negative Cycle", "[test_neg_cycle]") {
     // CHECK(!hasNeg);
 }
 
-TEST_CASE("Test No Negative Cycle", "[test_neg_cycle]") {
+TEST_CASE("Test No Negative Cycle (boost)", "[test_neg_cycle_boost]") {
     xn::grAdaptor<graph_t> G = create_test_case2();
     bool hasNeg = do_case(G);
     CHECK(!hasNeg);
 }
 
-TEST_CASE("Test Timing Graph", "[test_neg_cycle]") {
+TEST_CASE("Test Timing Graph (boost)", "[test_neg_cycle_boost]") {
     xn::grAdaptor<graph_t> G = create_test_case_timing();
     bool hasNeg = do_case(G);
     CHECK(!hasNeg);
