@@ -80,15 +80,15 @@ auto do_case(const Graph &G) -> bool {
         return G2[u][v];
     };
 
-    // auto N = negCycleFinder(G, get_weight);
-    // auto cycle = N.find_neg_cycle();
-    // return !cycle.empty();
-    return false;
+    auto N = negCycleFinder(G, get_weight);
+    auto cycle = N.find_neg_cycle();
+    return !cycle.empty();
+    // return false;
 }
 
 TEST_CASE("Test Negative Cycle", "[test_neg_cycle]") {
     auto G = create_test_case1();
-    auto hasNeg = do_case(G);
+    // auto hasNeg = do_case(G);
     // CHECK(hasNeg);
 
     // G = xn::path_graph(5, create_using=xn::DiGraph());

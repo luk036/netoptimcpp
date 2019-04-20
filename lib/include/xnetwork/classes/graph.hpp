@@ -196,11 +196,12 @@ namespace xn {
 
 struct object : py::dict<const char *, std::any> {};
 
-template <typename nodeview_t,
+template <typename __nodeview_t,
           typename adjlist_t = 
-                py::set<Value_type<nodeview_t>>>
+                py::set<Value_type<__nodeview_t>>>
 class Graph : public object {
   public:
+    using nodeview_t = __nodeview_t;
     using Node = typename nodeview_t::value_type; // luk
     using dict = py::dict<const char *, std::any>;
     using graph_attr_dict_factory = dict;
@@ -214,7 +215,8 @@ class Graph : public object {
     using key_type = typename adjlist_t::key_type;
     using value_type = typename adjlist_t::value_type;
     using edge_t = std::pair<Node, Node>;
-
+    using node_t = Node;
+        
   public:
     // std::vector<Node > _Nodes{};
     nodeview_t _node;
@@ -264,9 +266,20 @@ class Graph : public object {
      * @param e 
      * @return edge_t& 
      */
-    static edge_t&& end_points(edge_t&& e) {
-        return std::forward<edge_t>(e);
+    static edge_t& end_points(edge_t& e) {
+        return e;
     }
+
+    /**
+     * @brief For compatible with BGL adaptor
+     * 
+     * @param e 
+     * @return edge_t& 
+     */
+    static const edge_t& end_points(const edge_t& e) {
+        return e;
+    }
+
 
     /// @property
     /** Graph adjacency object holding the neighbors of each node.
@@ -285,6 +298,10 @@ class Graph : public object {
         For directed graphs, `G.adj` holds outgoing (successor) info.
     */
     auto adj() const { return AdjacencyView(this->_adj); }
+
+    auto _nodes_nbrs() const { return py::enumerate(this->_adj); }
+
+    static Node null_vertex() { return Node(0); }
 
     /// @property
     auto get_name() {
@@ -661,11 +678,11 @@ class Graph : public object {
         >>> G.edges(0);  // only edges incident to a single node (use
         G.adj[0]?); EdgeDataView([(0, 1)]);
     */
-    auto edges() {
-        auto edges = EdgeView(*this);
-        this->operator[]("edges") = std::any(edges);
-        return edges;
-    }
+    // auto edges() {
+    //     auto edges = EdgeView(*this);
+    //     this->operator[]("edges") = std::any(edges);
+    //     return edges;
+    // }
 
     // /// @property
     // auto degree() {

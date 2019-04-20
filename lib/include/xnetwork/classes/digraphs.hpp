@@ -6,10 +6,12 @@
 #include <py2cpp/py2cpp.hpp>
 #include <type_traits>
 #include <vector>
+#include <utility>
 // #include <xnetwork.hpp> // as xn
 #include <xnetwork/classes/graph.hpp>
 #include <xnetwork/classes/coreviews.hpp> // import AtlasView, AdjacencyView
 #include <xnetwork/classes/reportviews.hpp> // import NodeView, EdgeView, DegreeView
+#include <boost/coroutine2/all.hpp>
 
 namespace xn {
 
@@ -203,6 +205,7 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t> {
 
   public:
     using Node = typename _Base::Node; // luk
+    using edge_t = std::pair<Node, Node>;
     using graph_attr_dict_factory = typename _Base::graph_attr_dict_factory;
     using adjlist_outer_dict_factory = typename _Base::adjlist_outer_dict_factory;
     using key_type = typename _Base::key_type;
@@ -390,6 +393,10 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t> {
         return this->_succ[n]; 
     }
 
+    using coro_t = boost::coroutines2::coroutine<edge_t>;
+    using pull_t = typename coro_t::pull_type;
+    
+
     /// @property
     /** An OutEdgeView of the DiGraph as G.edges().
 
@@ -450,9 +457,20 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t> {
         OutEdgeDataView([(0, 1)])
 
     */
-    auto edges() {
-        return OutEdgeView(*this);
+    auto edges() const -> pull_t {
+        auto func = [&](typename coro_t::push_type & yield){
+            for (auto [n, nbrs] : this->_nodes_nbrs()) {
+                for (auto nbr : nbrs) {
+                    yield (std::pair{n, nbr});
+                }
+            }
+        };
+        return pull_t(func);
     }
+
+    // auto edges() {
+    //     return OutEdgeView(*this);
+    // }
 
     // auto in_edges() {
     //     return InEdgeView(*this);

@@ -76,16 +76,16 @@ constexpr auto enumerate(T &&iterable) {
 // }
 
 template <typename T> inline constexpr auto range(T start, T stop) {
-    struct iterator {
+    struct __iterator {
         T i;
-        constexpr bool operator!=(const iterator &other) const {
+        constexpr bool operator!=(const __iterator &other) const {
             return i != other.i;
         }
-        constexpr bool operator==(const iterator &other) const {
+        constexpr bool operator==(const __iterator &other) const {
             return i == other.i;
         }
         constexpr T operator*() const { return i; }
-        constexpr iterator &operator++() {
+        constexpr __iterator &operator++() {
             ++i;
             return *this;
         }
@@ -93,6 +93,7 @@ template <typename T> inline constexpr auto range(T start, T stop) {
 
     struct iterable_wrapper {
         using value_type = T; // luk
+        using iterator = __iterator; // luk
         T start;
         T stop;
         constexpr auto begin() const { return iterator{start}; }

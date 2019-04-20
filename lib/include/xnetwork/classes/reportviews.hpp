@@ -1060,100 +1060,101 @@ template <typename nodeview_t> class NodeView {
 //     }
 // };
 
+
 // EdgeViews    have set operations and no data reported
 // Interface: Set, Mapping
 /** A EdgeView class for outward edges of a DiGraph */
-template <typename graph_t> 
-class OutEdgeView {
-    // static const auto __slots__ = ("_adjdict", "_graph", "_nodes_nbrs");
+// template <typename graph_t> 
+// class OutEdgeView {
+//     // static const auto __slots__ = ("_adjdict", "_graph", "_nodes_nbrs");
 
-    // auto __getstate__( ) {
-    //     return {"_graph": this->_graph};
-    // }
+//     // auto __getstate__( ) {
+//     //     return {"_graph": this->_graph};
+//     // }
 
-    // auto __setstate__( state) {
-    //     this->_graph = G = state["_graph"];
-    //     this->_adjdict = G._succ if (hasattr(G, "succ") else G._adj;
-    //     this->_nodes_nbrs = this->_adjdict.items;
-    // }
+//     // auto __setstate__( state) {
+//     //     this->_graph = G = state["_graph"];
+//     //     this->_adjdict = G._succ if (hasattr(G, "succ") else G._adj;
+//     //     this->_nodes_nbrs = this->_adjdict.items;
+//     // }
 
-    /// @classmethod
-    // auto _from_iterable(cls, it) {
-    //     return set(it);
-    // }
+//     /// @classmethod
+//     // auto _from_iterable(cls, it) {
+//     //     return set(it);
+//     // }
 
-    // using dataview = OutEdgeDataView;
-    using Self = OutEdgeView<graph_t>;
+//     // using dataview = OutEdgeDataView;
+//     using Self = OutEdgeView<graph_t>;
 
 
-    using node_t = typename graph_t::Node;
-    using edge_t = std::pair<node_t, node_t>;
-    using adjdict_t = typename graph_t::adjlist_outer_dict_factory;
+//     using node_t = typename graph_t::Node;
+//     using edge_t = std::pair<node_t, node_t>;
+//     using adjdict_t = typename graph_t::adjlist_outer_dict_factory;
     
-    graph_t& _graph;
-    adjdict_t& _adjdict;
-    node_t cursource;
-    // T  _nodes_nbrs;
+//     graph_t& _graph;
+//     adjdict_t& _adjdict;
+//     // T  _nodes_nbrs;
 
-    using adjiterator = decltype(_graph.adj().begin());
-    adjiterator curitem; /* ??? */
+//     // using adjiterator = decltype(_graph.adj().begin());
+//     // adjiterator curitem; /* ??? */
 
-    explicit OutEdgeView(graph_t& G) :
-        _graph{G},
-        // _adjdict = G._succ if (hasattr(G, "succ") else G._adj;
-        // _nodes_nbrs{this->_adjdict.items()},
-        _adjdict{G._adj}
-    {}
+//     explicit OutEdgeView(graph_t& G) :
+//         _graph{G},
+//         // _adjdict = G._succ if (hasattr(G, "succ") else G._adj;
+//         // _nodes_nbrs{this->_adjdict.items()},
+//         _adjdict{G._adj}
+//     {}
 
 
-    // Set methods
-    // auto __len__( ) {
-    //     return sum(len(nbrs) for n, nbrs : this->_nodes_nbrs());
-    // }
+//     // Set methods
+//     // auto __len__( ) {
+//     //     return sum(len(nbrs) for n, nbrs : this->_nodes_nbrs());
+//     // }
 
-    // auto __iter__( ) {
-    //     for (auto [n, nbrs] : this->_nodes_nbrs()) {
-    //         for (auto nbr : nbrs) {
-    //             yield (n, nbr);
-    //         }
-    //     }
-    // }
+//     // auto __iter__( ) {
+//     //     for (auto [n, nbrs] : this->_nodes_nbrs()) {
+//     //         for (auto nbr : nbrs) {
+//     //             yield (n, nbr);
+//     //         }
+//     //     }
+//     // }
 
-    bool contains(const edge_t& e) {
-        auto [u, v] = e;
-        return this->_adjdict[u].contains(v);
-    }
+//     bool contains(const edge_t& e) {
+//         auto [u, v] = e;
+//         return this->_adjdict[u].contains(v);
+//     }
 
-    // Mapping Methods
-    auto operator[](const edge_t& e) {
-        auto [u, v] = e;
-        return this->_adjdict[u][v];
-    }
+//     // Mapping Methods
+//     auto operator[](const edge_t& e) {
+//         auto [u, v] = e;
+//         return this->_adjdict[u][v];
+//     }
 
-    // // EdgeDataView methods
-    // auto __call__( nbunch=None, data=false, default=None) {
-    //     if (nbunch.empty() && data == false) {
-    //         return (*this);
-    //     }
-    //     return this->dataview( nbunch, data, default);
-    // }
+//     // // EdgeDataView methods
+//     // auto __call__( nbunch=None, data=false, default=None) {
+//     //     if (nbunch.empty() && data == false) {
+//     //         return (*this);
+//     //     }
+//     //     return this->dataview( nbunch, data, default);
+//     // }
 
-    // auto data( data=true, default=None, nbunch=None) {
-    //     if (nbunch.empty() && data == false) {
-    //         return (*this);
-    //     }
-    //     return this->dataview( nbunch, data, default);
-    // }
+//     // auto data( data=true, default=None, nbunch=None) {
+//     //     if (nbunch.empty() && data == false) {
+//     //         return (*this);
+//     //     }
+//     //     return this->dataview( nbunch, data, default);
+//     // }
 
-    // // String Methods
-    // auto __str__( ) {
-    //     return str(list( ));
-    // }
+//     // // String Methods
+//     // auto __str__( ) {
+//     //     return str(list( ));
+//     // }
 
-    // auto __repr__( ) {
-    //     return "{0.__class__.__name__}({1!r})".format( list( ));
-    // }
-};
+//     // auto __repr__( ) {
+//     //     return "{0.__class__.__name__}({1!r})".format( list( ));
+//     // }
+// };
+
 
 // class EdgeView(OutEdgeView) {
 //     /** A EdgeView class for edges of a Graph
