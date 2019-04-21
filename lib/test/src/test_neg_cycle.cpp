@@ -35,7 +35,7 @@ static auto create_test_case1() {
     static std::vector<Edge> edge_array = {Edge(A, B), Edge(B, C), Edge(C, D), Edge(D, E),
                                 Edge(E, A)};
     int weights[] = {-5, 1, 1, 1, 1};
-    int num_arcs = sizeof(edge_array) / sizeof(Edge);
+    // int num_arcs = sizeof(edge_array) / sizeof(Edge);
     auto g = xn::DiGraphS(py::range<int>(num_nodes));
     g.add_edges_from(edge_array, weights);
     return g;
@@ -88,8 +88,8 @@ auto do_case(const Graph &G) -> bool {
 
 TEST_CASE("Test Negative Cycle", "[test_neg_cycle]") {
     auto G = create_test_case1();
-    // auto hasNeg = do_case(G);
-    // CHECK(hasNeg);
+    auto hasNeg = do_case(G);
+    CHECK(hasNeg);
 
     // G = xn::path_graph(5, create_using=xn::DiGraph());
     // hasNeg = do_case(G);

@@ -301,7 +301,7 @@ class Graph : public object {
 
     auto _nodes_nbrs() const { return py::enumerate(this->_adj); }
 
-    static Node null_vertex() { return Node(0); }
+    static Node null_vertex() { return Node(-1); }
 
     /// @property
     auto get_name() {
