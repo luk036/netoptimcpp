@@ -24,44 +24,44 @@ using Edge_it = boost::graph_traits<graph_t>::edge_iterator;
 
 static xn::grAdaptor<graph_t> create_test_case1() {
     using Edge = std::pair<int, int>;
-    const int num_nodes = 5;
+    const auto num_nodes = 5;
     enum nodes { A, B, C, D, E };
     // char name[] = "ABCDE";
     static Edge edge_array[] = {Edge(A, B), Edge(B, C), Edge(C, D), Edge(D, E),
                                 Edge(E, A)};
     int weights[] = {-5, 1, 1, 1, 1};
     int num_arcs = sizeof(edge_array) / sizeof(Edge);
-    static graph_t g(edge_array, edge_array + num_arcs, weights, num_nodes);
+    static auto g = graph_t(edge_array, edge_array + num_arcs, weights, num_nodes);
     return xn::grAdaptor<graph_t>(g);
 }
 
 static xn::grAdaptor<graph_t> create_test_case2() {
     using Edge = std::pair<int, int>;
-    const int num_nodes = 5;
+    const auto num_nodes = 5;
     enum nodes { A, B, C, D, E };
     // char name[] = "ABCDE";
     static Edge edge_array[] = {Edge(A, B), Edge(B, C), Edge(C, D), Edge(D, E),
                                 Edge(E, A)};
     int weights[] = {2, 1, 1, 1, 1};
     int num_arcs = sizeof(edge_array) / sizeof(Edge);
-    static graph_t g(edge_array, edge_array + num_arcs, weights, num_nodes);
+    static auto g = graph_t(edge_array, edge_array + num_arcs, weights, num_nodes);
     return xn::grAdaptor<graph_t>(g);
 }
 
-static xn::grAdaptor<graph_t> create_test_case_timing() {
+static auto create_test_case_timing() -> xn::grAdaptor<graph_t> {
     using Edge = std::pair<int, int>;
-    const int num_nodes = 3;
+    const auto num_nodes = 3;
     enum nodes { A, B, C };
     // char name[] = "ABCDE";
     static Edge edge_array[] = {Edge(A, B), Edge(B, A), Edge(B, C), Edge(C, B),
                                 Edge(B, C), Edge(C, B), Edge(C, A), Edge(A, C)};
     int weights[] = {7, 0, 3, 1, 6, 4, 2, 5};
     int num_arcs = sizeof(edge_array) / sizeof(Edge);
-    static graph_t g(edge_array, edge_array + num_arcs, weights, num_nodes);
+    static auto g = graph_t(edge_array, edge_array + num_arcs, weights, num_nodes);
     return xn::grAdaptor<graph_t>(g);
 }
 
-bool do_case(xn::grAdaptor<graph_t> &G) {
+auto do_case(xn::grAdaptor<graph_t> &G) -> bool {
     using edge_t = decltype(*(std::begin(G.edges())));
 
     auto get_weight = [](const xn::grAdaptor<graph_t> &G,
@@ -70,17 +70,17 @@ bool do_case(xn::grAdaptor<graph_t> &G) {
         return weightmap[e];
     };
 
-    negCycleFinder N(G, get_weight);
+    auto N = negCycleFinder(G, get_weight);
     auto cycle = N.find_neg_cycle();
     return !cycle.empty();
 }
 
 TEST_CASE("Test Negative Cycle (boost)", "[test_neg_cycle_boost]") {
-    xn::grAdaptor<graph_t> G = create_test_case1();
+    auto G = create_test_case1();
     // boost::property_map<graph_t, boost::edge_weight_t>::type weightmap =
     // boost::get(boost::edge_weight, G); std::vector<Vertex>
     // p(boost::num_vertices(G));
-    bool hasNeg = do_case(G);
+    auto hasNeg = do_case(G);
     CHECK(hasNeg);
 
     // G = xn::path_graph(5, create_using=xn::DiGraph());
@@ -89,13 +89,13 @@ TEST_CASE("Test Negative Cycle (boost)", "[test_neg_cycle_boost]") {
 }
 
 TEST_CASE("Test No Negative Cycle (boost)", "[test_neg_cycle_boost]") {
-    xn::grAdaptor<graph_t> G = create_test_case2();
-    bool hasNeg = do_case(G);
+    auto G = create_test_case2();
+    auto hasNeg = do_case(G);
     CHECK(!hasNeg);
 }
 
 TEST_CASE("Test Timing Graph (boost)", "[test_neg_cycle_boost]") {
-    xn::grAdaptor<graph_t> G = create_test_case_timing();
-    bool hasNeg = do_case(G);
+    auto G = create_test_case_timing();
+    auto hasNeg = do_case(G);
     CHECK(!hasNeg);
 }

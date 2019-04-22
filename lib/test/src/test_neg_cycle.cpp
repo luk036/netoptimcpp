@@ -9,6 +9,7 @@
 #include <py2cpp/nx2bgl.hpp>
 #include <utility> // for std::pair
 #include <xnetwork/classes/digraphs.hpp>
+#include <array>
 
 // using graph_t = boost::adjacency_list<
 //     boost::listS, boost::vecS, boost::directedS, boost::no_property,
@@ -29,43 +30,41 @@
 
 static auto create_test_case1() {
     using Edge = std::pair<int, int>;
-    int num_nodes = 5;
+    auto num_nodes = 5;
     enum nodes { A, B, C, D, E };
     // char name[] = "ABCDE";
-    static std::vector<Edge> edge_array = {Edge(A, B), Edge(B, C), Edge(C, D), Edge(D, E),
-                                Edge(E, A)};
-    int weights[] = {-5, 1, 1, 1, 1};
+    auto edges = std::array{Edge(A, B), Edge(B, C), Edge(C, D), Edge(D, E),
+                            Edge(E, A)};
+    auto weights = std::array{-5, 1, 1, 1, 1};
     // int num_arcs = sizeof(edge_array) / sizeof(Edge);
     auto g = xn::DiGraphS(py::range<int>(num_nodes));
-    g.add_edges_from(edge_array, weights);
+    g.add_edges_from(edges, weights);
     return g;
 }
 
 static auto create_test_case2() {
     using Edge = std::pair<int, int>;
-    int num_nodes = 5;
+    auto num_nodes = 5;
     enum nodes { A, B, C, D, E };
     // char name[] = "ABCDE";
-    static std::vector<Edge> edge_array = {Edge(A, B), Edge(B, C), Edge(C, D), Edge(D, E),
-                                Edge(E, A)};
-    int weights[] = {2, 1, 1, 1, 1};
-    // int num_arcs = sizeof(edge_array) / sizeof(Edge);
+    auto edges = std::array{Edge(A, B), Edge(B, C), Edge(C, D),
+                            Edge(D, E), Edge(E, A)};
+    auto weights = std::array{2, 1, 1, 1, 1};
     auto g = xn::DiGraphS(py::range<int>(num_nodes));
-    g.add_edges_from(edge_array, weights);
+    g.add_edges_from(edges, weights);
     return g;
 }
 
 static auto create_test_case_timing() {
     using Edge = std::pair<int, int>;
-    int num_nodes = 3;
+    auto num_nodes = 3;
     enum nodes { A, B, C };
     // char name[] = "ABCDE";
-    static std::vector<Edge> edge_array = {Edge(A, B), Edge(B, A), Edge(B, C), Edge(C, B),
-                                Edge(B, C), Edge(C, B), Edge(C, A), Edge(A, C)};
-    int weights[] = {7, 0, 3, 1, 6, 4, 2, 5};
-    // int num_arcs = sizeof(edge_array) / sizeof(Edge);
+    auto edges = std::array{Edge(A, B), Edge(B, A), Edge(B, C), Edge(C, B),
+                            Edge(B, C), Edge(C, B), Edge(C, A), Edge(A, C)};
+    auto weights = std::array{7, 0, 3, 1, 6, 4, 2, 5};
     auto g = xn::DiGraphS(py::range<int>(num_nodes));
-    g.add_edges_from(edge_array, weights);
+    g.add_edges_from(edges, weights);
     return g;
 }
 
@@ -76,7 +75,7 @@ auto do_case(const Graph &G) -> bool {
 
     auto get_weight = [](const Graph &G2,
                          const edge_t &e) -> int {
-        auto [u, v] = e;
+        const auto &[u, v] = e;
         return G2[u][v];
     };
 

@@ -38,12 +38,12 @@ auto max_parametric(Graph &G, T r, Fn1 &d, Fn2 &zero_cancel) {
     };
 
     auto S = negCycleFinder(G, get_weight);
-    std::vector<edge_t> C_opt{};
-    T r_opt = r;
+    auto C_opt = std::vector<edge_t>{};
+    auto r_opt = r;
 
     while (true) {
         const auto &C = S.neg_cycle_relax();
-        const T &r_min = zero_cancel(G, C);
+        const auto &r_min = zero_cancel(G, C);
         // std::cout << "r_min=" << r_min << '\n';
 
         if (r_min >= r_opt) {
