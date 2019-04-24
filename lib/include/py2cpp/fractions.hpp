@@ -1,5 +1,13 @@
-#ifndef _HOME_UBUNTU_GITHUB_PGCPP_FRACTION_HPP
-#define _HOME_UBUNTU_GITHUB_PGCPP_FRACTION_HPP 1
+// The template and inlines for the -*- C++ -*- fraction classes.
+// Initially implemented by Wai-Shing Luk <luk036@gmail.com>
+//
+
+/** @file include/fractions.hpp
+ *  This is a C++ Library header.
+ */
+
+#ifndef _HOME_UBUNTU_GITHUB_PGCPP_FRACTIONS_HPP
+#define _HOME_UBUNTU_GITHUB_PGCPP_FRACTIONS_HPP 1
 
 #include <cassert>
 #include <cmath>
@@ -32,29 +40,23 @@ template <typename _Mn> constexpr _Mn lcm(_Mn __m, _Mn __n) {
     return (__m != 0 && __n != 0) ? (abs(__m) / gcd(__m, __n)) * abs(__n) : 0;
 }
 
-/**
- * @brief
- *
- * @tparam Z
- */
-template <typename Z> struct Fraction {
+template <typename Z>
+struct Fraction {
     using _Self = Fraction<Z>;
 
     Z _numerator;
     Z _denominator;
 
-  public:
     /**
      * @brief Construct a new Fraction object
      *
      * @param numerator
      * @param denominator
      */
-    constexpr Fraction(const Z &numerator, const Z &denominator)
-        : _numerator{numerator}, _denominator{denominator} {
+    constexpr Fraction(const Z &numerator, const Z &denominator) {
         const Z &common = gcd(numerator, denominator);
-        _numerator /= common;
-        _denominator /= common;
+        _numerator = (common == Z(0)) ? Z(0) : numerator / common;
+        _denominator = (common == Z(0)) ? Z(0) : denominator / common;
     }
 
     /**
@@ -62,7 +64,7 @@ template <typename Z> struct Fraction {
      *
      * @param numerator
      */
-    explicit Fraction(const Z &numerator)
+    constexpr explicit Fraction(const Z &numerator)
         : _numerator{numerator}, _denominator{1} {}
 
     /**
@@ -70,6 +72,8 @@ template <typename Z> struct Fraction {
      *
      */
     constexpr Fraction() = default;
+    // Fraction(const _Self &) = delete;
+    // Fraction(_Self &&) = default;
 
     /**
      * @brief
@@ -116,6 +120,9 @@ template <typename Z> struct Fraction {
      * @return _Self
      */
     constexpr _Self operator+(const _Self &frac) const {
+        if (_denominator == frac._denominator) {
+            return _Self(_numerator + frac._numerator, _denominator);
+        }
         auto common = lcm(_denominator, frac._denominator);
         auto n = common / _denominator * _numerator +
                  common / frac._denominator * frac._numerator;
@@ -271,11 +278,13 @@ template <typename Z> struct Fraction {
     /**
      * @brief Three way comparison
      *
-     * @tparam U
      * @param frac
      * @return auto
      */
     template <typename U> constexpr auto cmp(const Fraction<U> &frac) const {
+        // if (_denominator == frac._denominator) {
+        //     return _numerator - frac._numerator;
+        // }
         return _numerator * frac._denominator - _denominator * frac._numerator;
     }
 
@@ -289,6 +298,9 @@ template <typename Z> struct Fraction {
      */
     template <typename U>
     constexpr bool operator==(const Fraction<U> &frac) const {
+        if (_denominator == frac._denominator) {
+            return _numerator == frac._numerator;
+        }
         return this->cmp(frac) == 0;
     }
 
@@ -302,7 +314,7 @@ template <typename Z> struct Fraction {
      */
     template <typename U>
     constexpr bool operator!=(const Fraction<U> &frac) const {
-        return this->cmp(frac) != 0;
+        return !(*this == frac);
     }
 
     /**
@@ -315,6 +327,9 @@ template <typename Z> struct Fraction {
      */
     template <typename U>
     constexpr bool operator<(const Fraction<U> &frac) const {
+        if (_denominator == frac._denominator) {
+            return _numerator < frac._numerator;
+        }
         return this->cmp(frac) < 0;
     }
 
@@ -328,7 +343,7 @@ template <typename Z> struct Fraction {
      */
     template <typename U>
     constexpr bool operator>(const Fraction<U> &frac) const {
-        return this->cmp(frac) > 0;
+        return frac < *this;
     }
 
     /**
@@ -341,7 +356,7 @@ template <typename Z> struct Fraction {
      */
     template <typename U>
     constexpr bool operator<=(const Fraction<U> &frac) const {
-        return this->cmp(frac) <= 0;
+        return !(frac < *this);
     }
 
     /**
@@ -354,7 +369,7 @@ template <typename Z> struct Fraction {
      */
     template <typename U>
     constexpr bool operator>=(const Fraction<U> &frac) const {
-        return this->cmp(frac) >= 0;
+        return !(*this < frac);
     }
 
     /**
@@ -426,13 +441,14 @@ template <typename Z> struct Fraction {
      *
      * @return double
      */
-    explicit operator double() { return double(_numerator) / _denominator; }
+    constexpr explicit operator double() {
+        return double(_numerator) / _denominator;
+    }
 };
 
 /**
  * @brief
  *
- * @tparam Z
  * @param c
  * @param frac
  * @return Fraction<Z>
@@ -445,7 +461,6 @@ constexpr Fraction<Z> operator+(const Z &c, const Fraction<Z> &frac) {
 /**
  * @brief
  *
- * @tparam Z
  * @param c
  * @param frac
  * @return Fraction<Z>
@@ -458,7 +473,6 @@ constexpr Fraction<Z> operator-(const Z &c, const Fraction<Z> &frac) {
 /**
  * @brief
  *
- * @tparam Z
  * @param c
  * @param frac
  * @return Fraction<Z>
@@ -471,39 +485,36 @@ constexpr Fraction<Z> operator*(const Z &c, const Fraction<Z> &frac) {
 /**
  * @brief
  *
- * @tparam Z
  * @param c
  * @param frac
  * @return Fraction<Z>
  */
 template <typename Z>
-constexpr Fraction<Z> operator+(int c, const Fraction<Z> &frac) {
+constexpr Fraction<Z> operator+(int &&c, const Fraction<Z> &frac) {
     return frac + c;
 }
 
 /**
  * @brief
  *
- * @tparam Z
  * @param c
  * @param frac
  * @return Fraction<Z>
  */
 template <typename Z>
-constexpr Fraction<Z> operator-(int c, const Fraction<Z> &frac) {
-    return c + (-frac);
+constexpr Fraction<Z> operator-(int &&c, const Fraction<Z> &frac) {
+    return (-frac) + c;
 }
 
 /**
  * @brief
  *
- * @tparam Z
  * @param c
  * @param frac
  * @return Fraction<Z>
  */
 template <typename Z>
-constexpr Fraction<Z> operator*(int c, const Fraction<Z> &frac) {
+constexpr Fraction<Z> operator*(int &&c, const Fraction<Z> &frac) {
     return frac * c;
 }
 

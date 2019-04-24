@@ -218,6 +218,8 @@ class Graph : public object {
     using node_t = Node;
         
   public:
+    size_t _num_of_edges = 0;
+
     // std::vector<Node > _Nodes{};
     nodeview_t _node;
     graph_attr_dict_factory graph{}; // dictionary for graph attributes
@@ -472,6 +474,8 @@ class Graph : public object {
      */
     auto number_of_nodes() const { return std::size(this->_node); }
 
+    auto number_of_edges() const { return this->_num_of_edges; }
+
     /** Return the number of nodes : the graph.
 
     Returns
@@ -564,6 +568,7 @@ class Graph : public object {
             this->_adj[u][v] = data;
             this->_adj[v][u] = data; // ???
         }
+        this->_num_of_edges += 1;
     }
 
     template <typename T>
@@ -572,6 +577,7 @@ class Graph : public object {
         assert(this->_node.contains(v));
         this->_adj[u][v] = data;
         this->_adj[v][u] = data;
+        this->_num_of_edges += 1;
     }
 
     template <typename C1, typename C2>

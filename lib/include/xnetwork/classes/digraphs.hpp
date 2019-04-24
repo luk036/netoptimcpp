@@ -335,6 +335,7 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t> {
             this->_succ[u][v] = data;
             // this->_prev[v][u] = data;
         }
+        this->_num_of_edges += 1;
     }
 
     template <typename T>
@@ -342,6 +343,7 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t> {
         assert(this->_node.contains(u));
         assert(this->_node.contains(v));
         this->_succ[u][v] = data;
+        this->_num_of_edges += 1;
     }
 
     template <typename C1, typename C2>

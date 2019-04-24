@@ -64,7 +64,7 @@ static xn::grAdaptor<graph_t> create_test_case_timing() {
 }
 
 bool do_case(xn::grAdaptor<graph_t> &G) {
-    using edge_t = decltype(*(std::begin(G.edges())));
+    using edge_t = typename xn::grAdaptor<graph_t>::edge_t;
 
     auto get_weight = [](const xn::grAdaptor<graph_t> &G,
                          const edge_t &e) -> int {
