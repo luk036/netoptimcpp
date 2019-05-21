@@ -31,7 +31,8 @@ static xn::grAdaptor<graph_t> create_test_case1() {
                                 Edge(E, A)};
     int weights[] = {-5, 1, 1, 1, 1};
     int num_arcs = sizeof(edge_array) / sizeof(Edge);
-    static auto g = graph_t(edge_array, edge_array + num_arcs, weights, num_nodes);
+    static auto g =
+        graph_t(edge_array, edge_array + num_arcs, weights, num_nodes);
     return xn::grAdaptor<graph_t>(g);
 }
 
@@ -44,7 +45,8 @@ static xn::grAdaptor<graph_t> create_test_case2() {
                                 Edge(E, A)};
     int weights[] = {2, 1, 1, 1, 1};
     int num_arcs = sizeof(edge_array) / sizeof(Edge);
-    static auto g = graph_t(edge_array, edge_array + num_arcs, weights, num_nodes);
+    static auto g =
+        graph_t(edge_array, edge_array + num_arcs, weights, num_nodes);
     return xn::grAdaptor<graph_t>(g);
 }
 
@@ -57,7 +59,8 @@ static auto create_test_case_timing() -> xn::grAdaptor<graph_t> {
                                 Edge(B, C), Edge(C, B), Edge(C, A), Edge(A, C)};
     int weights[] = {7, 0, 3, 1, 6, 4, 2, 5};
     int num_arcs = sizeof(edge_array) / sizeof(Edge);
-    static auto g = graph_t(edge_array, edge_array + num_arcs, weights, num_nodes);
+    static auto g =
+        graph_t(edge_array, edge_array + num_arcs, weights, num_nodes);
     return xn::grAdaptor<graph_t>(g);
 }
 
