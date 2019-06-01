@@ -33,7 +33,7 @@ auto min_cycle_ratio(Graph &G, Fn1 get_cost, Fn2 get_time, T && /** dummy */) {
     // auto min_time = *std::min_element(time.begin(), time.end());
     auto max_cost = get_cost(G, e0);
     auto min_time = get_time(G, e0);
-    for (const auto &e : G.edges()) {
+    for (auto &&e : G.edges()) {
         auto c = get_cost(G, e);
         auto t = get_time(G, e);
         if (max_cost < c)
@@ -49,7 +49,7 @@ auto min_cycle_ratio(Graph &G, Fn1 get_cost, Fn2 get_time, T && /** dummy */) {
     auto calc_ratio = [&](const Graph &G, auto &C) {
         auto total_cost = cost_t(0);
         auto total_time = time_t(0);
-        for (const auto &e : C) {
+        for (auto &&e : C) {
             total_cost += get_cost(G, e);
             total_time += get_time(G, e);
         }

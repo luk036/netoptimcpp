@@ -92,14 +92,14 @@ class negCycleFinder {
      */
     auto relax() -> bool {
         auto changed = false;
-        for (const auto &e : this->_G.edges()) {
+        for (auto &&e : this->_G.edges()) {
             auto wt = this->_get_weight(this->_G, e);
-            auto const &[u, v] = this->_G.end_points(e);
+            auto &&[u, v] = this->_G.end_points(e);
             auto d = this->_dist[u] + wt;
             if (this->_dist[v] > d) {
                 this->_dist[v] = d;
                 this->_pred[v] = u;
-                this->_edge[v] = e;
+                this->_edge[v] = e; // ???
                 changed = true;
             }
         }

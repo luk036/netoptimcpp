@@ -67,7 +67,7 @@ static auto create_test_case_timing() {
  */
 template <typename Graph> auto do_case(const Graph &G) -> bool {
     auto get_weight = [](const Graph &G2, const auto &e) -> int {
-        const auto &[u, v] = e;
+        auto &&[u, v] = e;
         return G2[u][v];
     };
 
