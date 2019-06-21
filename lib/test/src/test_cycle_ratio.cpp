@@ -3,7 +3,7 @@
 #include <catch.hpp>
 #include <netoptim/min_cycle_ratio.hpp>
 #include <py2cpp/fractions.hpp> // import Fraction
-#include <py2cpp/nx2bgl.hpp>
+//#include <py2cpp/nx2bgl.hpp>
 #include <xnetwork/classes/digraphs.hpp>
 
 /**
