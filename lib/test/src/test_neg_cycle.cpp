@@ -8,100 +8,125 @@
 
 /**
  * @brief Create a test case1 object
- * 
- * @return auto 
+ *
+ * @return auto
  */
-static auto create_test_case1() {
-    using Edge = std::pair<int, int>;
+static auto create_test_case1()
+{
+    using Edge     = std::pair<int, int>;
     auto num_nodes = 5;
-    enum nodes { A, B, C, D, E };
-    auto edges =
-        std::array{Edge(A, B), Edge(B, C), Edge(C, D), Edge(D, E), Edge(E, A)};
+    enum nodes
+    {
+        A,
+        B,
+        C,
+        D,
+        E
+    };
+    auto edges   = std::array{Edge(A, B), Edge(B, C), Edge(C, D), Edge(D, E), Edge(E, A)};
     auto weights = std::array{-5, 1, 1, 1, 1};
-    auto g = xn::DiGraphS(py::range<int>(num_nodes));
+    auto g       = xn::DiGraphS(py::range<int>(num_nodes));
     g.add_edges_from(edges, weights);
     return g;
 }
 
 /**
  * @brief Create a test case2 object
- * 
- * @return auto 
+ *
+ * @return auto
  */
-static auto create_test_case2() {
-    using Edge = std::pair<int, int>;
+static auto create_test_case2()
+{
+    using Edge     = std::pair<int, int>;
     auto num_nodes = 5;
-    enum nodes { A, B, C, D, E };
-    auto edges =
-        std::array{Edge(A, B), Edge(B, C), Edge(C, D), Edge(D, E), Edge(E, A)};
+    enum nodes
+    {
+        A,
+        B,
+        C,
+        D,
+        E
+    };
+    auto edges   = std::array{Edge(A, B), Edge(B, C), Edge(C, D), Edge(D, E), Edge(E, A)};
     auto weights = std::array{2, 1, 1, 1, 1};
-    auto g = xn::DiGraphS(py::range<int>(num_nodes));
+    auto g       = xn::DiGraphS(py::range<int>(num_nodes));
     g.add_edges_from(edges, weights);
     return g;
 }
 
 /**
  * @brief Create a test case timing object
- * 
- * @return auto 
+ *
+ * @return auto
  */
-static auto create_test_case_timing() {
-    using Edge = std::pair<int, int>;
+static auto create_test_case_timing()
+{
+    using Edge     = std::pair<int, int>;
     auto num_nodes = 3;
-    enum nodes { A, B, C };
-    auto edges = std::array{Edge(A, B), Edge(B, A), Edge(B, C), Edge(C, B),
+    enum nodes
+    {
+        A,
+        B,
+        C
+    };
+    auto edges   = std::array{Edge(A, B), Edge(B, A), Edge(B, C), Edge(C, B),
                             Edge(B, C), Edge(C, B), Edge(C, A), Edge(A, C)};
     auto weights = std::array{7, 0, 3, 1, 6, 4, 2, 5};
-    auto g = xn::DiGraphS(py::range<int>(num_nodes));
+    auto g       = xn::DiGraphS(py::range<int>(num_nodes));
     g.add_edges_from(edges, weights);
     return g;
 }
 
 /**
- * @brief 
- * 
- * @tparam Graph 
- * @param G 
- * @return true 
- * @return false 
+ * @brief
+ *
+ * @tparam Graph
+ * @param G
+ * @return true
+ * @return false
  */
-template <typename Graph> auto do_case(const Graph &G) -> bool {
-    auto get_weight = [](const Graph &G2, const auto &e) -> int {
-        auto &&[u, v] = e;
+template<typename Graph>
+auto do_case(const Graph& G) -> bool
+{
+    auto get_weight = [](const Graph& G2, const auto& e) -> int {
+        auto [u, v] = G2.end_points(e);
         return G2[u][v];
     };
 
-    auto N = negCycleFinder(G, get_weight);
+    auto N     = negCycleFinder(G, get_weight);
     auto cycle = N.find_neg_cycle();
     return !cycle.empty();
 }
 
 /**
- * @brief 
- * 
+ * @brief
+ *
  */
-TEST_CASE("Test Negative Cycle", "[test_neg_cycle]") {
-    auto G = create_test_case1();
+TEST_CASE("Test Negative Cycle", "[test_neg_cycle]")
+{
+    auto G      = create_test_case1();
     auto hasNeg = do_case(G);
     CHECK(hasNeg);
 }
 
 /**
- * @brief 
- * 
+ * @brief
+ *
  */
-TEST_CASE("Test No Negative Cycle", "[test_neg_cycle]") {
-    auto G = create_test_case2();
+TEST_CASE("Test No Negative Cycle", "[test_neg_cycle]")
+{
+    auto G      = create_test_case2();
     auto hasNeg = do_case(G);
     CHECK(!hasNeg);
 }
 
 /**
- * @brief 
- * 
+ * @brief
+ *
  */
-TEST_CASE("Test Timing Graph", "[test_neg_cycle]") {
-    auto G = create_test_case_timing();
+TEST_CASE("Test Timing Graph", "[test_neg_cycle]")
+{
+    auto G      = create_test_case_timing();
     auto hasNeg = do_case(G);
     CHECK(!hasNeg);
 }

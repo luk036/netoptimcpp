@@ -2,10 +2,10 @@
 #ifndef _HOME_UBUNTU_GITHUB_NETOPTIMCPP_ORACLES_MIN_CYCLE_RATIO_HPP
 #define _HOME_UBUNTU_GITHUB_NETOPTIMCPP_ORACLES_MIN_CYCLE_RATIO_HPP 1
 
-#include "parametric.hpp" // import max_parametric
-#include <py2cpp/py2cpp.hpp>
-#include <numeric>
 #include <algorithm>
+#include <numeric>
+#include <py2cpp/py2cpp.hpp>
+#include "parametric.hpp" // import max_parametric
 
 /**
  * @brief
@@ -19,12 +19,14 @@
  * @param get_time
  * @return auto
  */
-template <typename Graph, typename Fn1, typename Fn2, typename T>
-auto min_cycle_ratio(Graph &G, Fn1 get_cost, Fn2 get_time, T && /** dummy */) {
+template<typename Graph, typename Fn1, typename Fn2, typename T>
+auto min_cycle_ratio(Graph& G, Fn1 get_cost, Fn2 get_time, T&& /** dummy */)
+{
     using edge_t = typename Graph::edge_t;
 
     edge_t e0;
-    for (auto e : G.edges()) {
+    for (auto e : G.edges())
+    {
         e0 = e; // get the first edge (better idea???)
         break;
     }
@@ -33,30 +35,30 @@ auto min_cycle_ratio(Graph &G, Fn1 get_cost, Fn2 get_time, T && /** dummy */) {
     // auto min_time = *std::min_element(time.begin(), time.end());
     auto max_cost = get_cost(G, e0);
     auto min_time = get_time(G, e0);
-    for (auto &&e : G.edges()) {
+    for (auto e : G.edges())
+    {
         auto c = get_cost(G, e);
         auto t = get_time(G, e);
-        if (max_cost < c)
-            max_cost = c;
-        if (min_time > t)
-            min_time = t;
+        if (max_cost < c) max_cost = c;
+        if (min_time > t) min_time = t;
     }
     auto r0 = T(max_cost * G.number_of_edges()) / min_time;
 
     using cost_t = decltype(get_cost(G, e0));
     using time_t = decltype(get_time(G, e0));
 
-    auto calc_ratio = [&](const Graph &G, auto &C) {
+    auto calc_ratio = [&](const Graph& G, auto& C) {
         auto total_cost = cost_t(0);
         auto total_time = time_t(0);
-        for (auto &&e : C) {
+        for (auto e : C)
+        {
             total_cost += get_cost(G, e);
             total_time += get_time(G, e);
         }
         return T(total_cost) / total_time;
     };
 
-    auto calc_weight = [&](const Graph &, T r, const auto &e) {
+    auto calc_weight = [&](const Graph&, T r, const auto& e) {
         return get_cost(G, e) - r * get_time(G, e);
     };
     return max_parametric(G, r0, calc_weight, calc_ratio);
