@@ -6,7 +6,7 @@
 #include <netoptim/neg_cycle.hpp> // import negCycleFinder
 #include <xnetwork/classes/digraphs.hpp>
 
-/**
+/*!
  * @brief Create a test case1 object
  *
  * @return auto
@@ -30,7 +30,7 @@ static auto create_test_case1()
     return g;
 }
 
-/**
+/*!
  * @brief Create a test case2 object
  *
  * @return auto
@@ -54,7 +54,7 @@ static auto create_test_case2()
     return g;
 }
 
-/**
+/*!
  * @brief Create a test case timing object
  *
  * @return auto
@@ -77,7 +77,7 @@ static auto create_test_case_timing()
     return g;
 }
 
-/**
+/*!
  * @brief
  *
  * @tparam Graph
@@ -98,7 +98,7 @@ auto do_case(const Graph& G) -> bool
     return !cycle.empty();
 }
 
-/**
+/*!
  * @brief
  *
  */
@@ -109,7 +109,7 @@ TEST_CASE("Test Negative Cycle", "[test_neg_cycle]")
     CHECK(hasNeg);
 }
 
-/**
+/*!
  * @brief
  *
  */
@@ -120,7 +120,7 @@ TEST_CASE("Test No Negative Cycle", "[test_neg_cycle]")
     CHECK(!hasNeg);
 }
 
-/**
+/*!
  * @brief
  *
  */

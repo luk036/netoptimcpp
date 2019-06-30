@@ -30,9 +30,9 @@ using edge_t = typename boost::graph_traits<graph_t>::edge_iterator;
 
 static auto create_test_case1()
 {
-    using Edge          = std::pair<int, int>;
-    
-    const int num_nodes = 5;
+    using Edge = std::pair<int, int>;
+
+    const auto num_nodes = 5;
     enum nodes
     {
         A,
@@ -50,18 +50,20 @@ static auto create_test_case1()
 
 static auto create_test_case_timing()
 {
-    using Edge          = std::pair<int, int>;
-    const int num_nodes = 3;
+    using Edge = std::pair<int, int>;
+
+    const auto num_nodes = 3;
     enum nodes
     {
         A,
         B,
         C
     };
-    Edge           edge_array[] = {Edge(A, B), Edge(B, A), Edge(B, C), Edge(C, B),
+    Edge        edge_array[] = {Edge(A, B), Edge(B, A), Edge(B, C), Edge(C, B),
                          Edge(B, C), Edge(C, B), Edge(C, A), Edge(A, C)};
-    std::size_t    indices[]    = {0, 1, 2, 3, 4, 5, 6, 7};
-    int            num_arcs     = sizeof(edge_array) / sizeof(Edge);
+    std::size_t indices[]    = {0, 1, 2, 3, 4, 5, 6, 7};
+    int         num_arcs     = sizeof(edge_array) / sizeof(Edge);
+
     static graph_t g(edge_array, edge_array + num_arcs, indices, num_nodes);
     return xn::grAdaptor<graph_t>(g);
 }

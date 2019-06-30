@@ -7,7 +7,7 @@
 #include <vector>
 #include "neg_cycle.hpp" // import negCycleFinder
 
-/**
+/*!
  * @brief maximum parametric problem
  *
  *    max  r
@@ -50,10 +50,10 @@ auto max_parametric(Graph& G, T r, Fn1& d, Fn2& zero_cancel)
         C_opt = C_min;
         r_opt = r_min;
         // update ???
-        for (auto const& e : C_opt)
+        for (const auto& e : C_opt)
         {
             auto [u, v] = G.end_points(e);
-            S._dist[u]    = S._dist[v] - get_weight(G, e);
+            S._dist[u]  = S._dist[v] - get_weight(G, e);
         }
     }
 

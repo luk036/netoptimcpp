@@ -6,7 +6,7 @@
 //#include <py2cpp/nx2bgl.hpp>
 #include <xnetwork/classes/digraphs.hpp>
 
-/**
+/*!
  * @brief Create a test case1 object
  *
  * @return auto
@@ -30,7 +30,7 @@ static auto create_test_case1()
     return g;
 }
 
-/**
+/*!
  * @brief Create a test case timing object
  *
  * @return auto

@@ -13,7 +13,7 @@ using Value_type = typename T::value_type;
 
 namespace py {
 
-/**
+/*!
  * @brief
  *
  * @tparam T
@@ -117,7 +117,7 @@ template <typename T> inline constexpr auto range(T stop) {
     return range(T(0), stop);
 }
 
-/**
+/*!
  * @brief
  *
  * @tparam Key
@@ -126,13 +126,13 @@ template <typename Key> class set : public std::unordered_set<Key> {
     using _Self = set<Key>;
 
   public:
-    /**
+    /*!
      * @brief Construct a new set object
      *
      */
     set() : std::unordered_set<Key>{} {}
 
-    /**
+    /*!
      * @brief Construct a new set object
      *
      */
@@ -140,14 +140,14 @@ template <typename Key> class set : public std::unordered_set<Key> {
     set(const FwdIter &start, const FwdIter &stop)
         : std::unordered_set<Key>(start, stop) {}
 
-    /**
+    /*!
      * @brief Construct a new set object
      *
      * @param init
      */
     set(std::initializer_list<Key> init) : std::unordered_set<Key>{init} {}
 
-    /**
+    /*!
      * @brief
      *
      * @param key
@@ -158,35 +158,35 @@ template <typename Key> class set : public std::unordered_set<Key> {
         return this->find(key) != this->end();
     }
 
-    /**
+    /*!
      * @brief
      *
      * @return _Self
      */
     _Self copy() const { return *this; }
 
-    /**
+    /*!
      * @brief
      *
      * @return _Self&
      */
     _Self &operator=(const _Self &) = delete;
 
-    /**
+    /*!
      * @brief
      *
      * @return _Self&
      */
     _Self &operator=(_Self &&) = default;
 
-    /**
+    /*!
      * @brief Move Constructor (default)
      *
      */
     set(_Self &&) = default;
 
   private:
-    /**
+    /*!
      * @brief Copy Constructor (deleted)
      *
      * Copy through explicitly the public copy() function!!!
@@ -194,7 +194,7 @@ template <typename Key> class set : public std::unordered_set<Key> {
     set(const _Self &) = default;
 };
 
-/**
+/*!
  * @brief
  *
  * @tparam Key
@@ -208,7 +208,7 @@ inline bool operator<(const Key &key, const set<Key> &m) {
     return m.contains(key);
 }
 
-/**
+/*!
  * @brief
  *
  * @tparam Key
@@ -219,7 +219,7 @@ template <typename Key> inline size_t len(const set<Key> &m) {
     return m.size();
 }
 
-/**
+/*!
  * @brief Template Deduction Guide
  *
  * @tparam Key
@@ -240,7 +240,7 @@ struct key_iterator : Iter {
 };
 
 
-/**
+/*!
  * @brief
  *
  * @tparam Key
@@ -254,13 +254,13 @@ class dict : public std::unordered_map<Key, T> {
   public:
     using value_type = std::pair<const Key, T>;
 
-    /**
+    /*!
      * @brief Construct a new dict object
      *
      */
     dict() : std::unordered_map<Key, T>{} {}
 
-    /**
+    /*!
      * @brief Construct a new dict object
      *
      * @param init
@@ -268,7 +268,7 @@ class dict : public std::unordered_map<Key, T> {
     dict(std::initializer_list<value_type> init)
         : std::unordered_map<Key, T>{init} {}
 
-    /**
+    /*!
      * @brief Construct a new dict object
      *
      * @tparam Sequence
@@ -282,7 +282,7 @@ class dict : public std::unordered_map<Key, T> {
     //     }
     // }
 
-    /**
+    /*!
      * @brief
      *
      * @param key
@@ -293,7 +293,7 @@ class dict : public std::unordered_map<Key, T> {
         return this->find(key) != this->end();
     }
 
-    /**
+    /*!
      * @brief
      *
      * @param key
@@ -307,7 +307,7 @@ class dict : public std::unordered_map<Key, T> {
         return (*this)[key];
     }
 
-    /**
+    /*!
      * @brief 
      * 
      * @return auto 
@@ -316,7 +316,7 @@ class dict : public std::unordered_map<Key, T> {
         return key_iterator{std::unordered_map<Key, T>::begin()};
     }
 
-    /**
+    /*!
      * @brief 
      * 
      * @return auto 
@@ -325,49 +325,49 @@ class dict : public std::unordered_map<Key, T> {
         return key_iterator{std::unordered_map<Key, T>::end()};
     }
 
-    /**
+    /*!
      * @brief 
      * 
      * @return std::unordered_map<Key, T>& 
      */
     std::unordered_map<Key, T>& items() { return *this; }
 
-    /**
+    /*!
      * @brief 
      * 
      * @return const std::unordered_map<Key, T>& 
      */
     const std::unordered_map<Key, T>& items() const { return *this; }
 
-    /**
+    /*!
      * @brief
      *
      * @return _Self
      */
     _Self copy() const { return *this; }
 
-    /**
+    /*!
      * @brief
      *
      * @return _Self&
      */
     _Self &operator=(const _Self &) = delete;
 
-    /**
+    /*!
      * @brief
      *
      * @return _Self&
      */
     _Self &operator=(_Self &&) = default;
 
-    /**
+    /*!
      * @brief Move Constructor (default)
      *
      */
     dict(_Self &&) = default;
 
   private:
-    /**
+    /*!
      * @brief Construct a new dict object
      *
      * Copy through explicitly the public copy() function!!!
@@ -375,7 +375,7 @@ class dict : public std::unordered_map<Key, T> {
     dict(const _Self &) = default;
 };
 
-/**
+/*!
  * @brief
  *
  * @tparam Key
@@ -390,7 +390,7 @@ inline bool operator<(const Key &key, const dict<Key, T> &m) {
     return m.contains(key);
 }
 
-/**
+/*!
  * @brief
  *
  * @tparam Key
@@ -402,7 +402,7 @@ template <typename Key, typename T> inline size_t len(const dict<Key, T> &m) {
     return m.size();
 }
 
-/**
+/*!
  * @brief Template Deduction Guide
  *
  * @tparam Key

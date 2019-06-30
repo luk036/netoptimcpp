@@ -2,13 +2,13 @@
 #ifndef _HOME_UBUNTU_GITHUB_NETOPTIMCPP_ORACLES_NEG_CYCLE_HPP
 #define _HOME_UBUNTU_GITHUB_NETOPTIMCPP_ORACLES_NEG_CYCLE_HPP 1
 
-/**
+/*!
 Negative cycle detection for (auto weighed graphs.
 **/
 #include <py2cpp/py2cpp.hpp>
 #include <vector>
 
-/**
+/*!
  * @brief negative cycle
  *
  * @tparam Graph
@@ -38,7 +38,7 @@ public:
     py::dict<node_t, wt_t>   _dist;
 
 public:
-    /**
+    /*!
      * @brief Construct a new neg Cycle Finder object
      *
      * @param G
@@ -53,7 +53,7 @@ public:
         // this->_pred.clear();
     }
 
-    /**
+    /*!
      * @brief Find a cycle on policy graph
      *
      * @return handle -- a start node of the cycle
@@ -88,7 +88,7 @@ public:
         return this->_G.null_vertex();
     }
 
-    /**
+    /*!
      * @brief Perform a updating of dist and pred
      *
      * @return bool
@@ -114,7 +114,7 @@ public:
         return changed;
     }
 
-    /** Perform a updating of dist and pred
+    /*! Perform a updating of dist and pred
      *    Arguments:
      *        G {[type]} -- [description];
      *        dist {dictionary} -- [description];
@@ -132,7 +132,7 @@ public:
         return std::move(this->neg_cycle_relax());
     }
 
-    /**
+    /*!
      * @brief
      *
      * @return std::vector<edge_t>
@@ -154,7 +154,7 @@ public:
         return std::vector<edge_t>{}; // ???
     }
 
-    /**
+    /*!
      * @brief
      *
      * @param handle

@@ -12,7 +12,7 @@
 // Authors: Wai-Shing Luk (luk036@gmail.com),
 //          Pieter Swart (swart@lanl.gov),
 //          Dan Schult(dschult@colgate.edu);
-/**
+/*!
 View Classes provide node, edge && degree "views" of a graph.
 
 Views for nodes, edges && degree are provided for all base graph classes.
@@ -127,7 +127,7 @@ namespace xn {
 //                              "OutMultiDegreeView"};
 
 // NodeViews
-/** A NodeView class to act as G.nodes for a XNetwork Graph
+/*! A NodeView class to act as G.nodes for a XNetwork Graph
 Set operations act on the nodes without considering data.
 Iteration is over nodes. Node data can be looked up like a dict.
 Use NodeDataView to iterate over node data || to specify a data
@@ -233,7 +233,7 @@ template <typename nodeview_t> class NodeView {
 };
 
 // class NodeDataView: public Set {
-//     /** A DataView class for nodes of a XNetwork Graph
+//     /*! A DataView class for nodes of a XNetwork Graph
 
 //     The main use for this class is to iterate through node-data pairs.
 //     The data can be the entire data-dictionary for each node, or it
@@ -344,7 +344,7 @@ template <typename nodeview_t> class NodeView {
 // };
 
 // // DegreeViews
-// /** A View class for degree of nodes : a XNetwork Graph
+// /*! A View class for degree of nodes : a XNetwork Graph
 
 //     The functionality is like dict.items() with (node, degree) pairs.
 //     Additional functionality includes read-only lookup of node degree,
@@ -456,7 +456,7 @@ template <typename nodeview_t> class NodeView {
 // };
 
 // class DegreeView: public DiDegreeView {
-//     /** A DegreeView class to act as G.degree for a XNetwork Graph
+//     /*! A DegreeView class to act as G.degree for a XNetwork Graph
 
 //     Typical usage focuses on iteration over `(node, degree)` pairs.
 //     The degree is by default the number of edges incident to the node.
@@ -528,7 +528,7 @@ template <typename nodeview_t> class NodeView {
 // };
 
 // class OutDegreeView: public DiDegreeView {
-//     /** A DegreeView class to report out_degree for a DiGraph; See DegreeView
+//     /*! A DegreeView class to report out_degree for a DiGraph; See DegreeView
 //     */
 
 //     auto operator[]( n) {
@@ -558,7 +558,7 @@ template <typename nodeview_t> class NodeView {
 // };
 
 // class InDegreeView: public DiDegreeView {
-//     /** A DegreeView class to report in_degree for a DiGraph; See DegreeView
+//     /*! A DegreeView class to report in_degree for a DiGraph; See DegreeView
 //     */
 
 //     auto operator[]( n) {
@@ -588,7 +588,7 @@ template <typename nodeview_t> class NodeView {
 // };
 
 // class MultiDegreeView: public DiDegreeView {
-//     /** A DegreeView class for undirected multigraphs; See DegreeView */
+//     /*! A DegreeView class for undirected multigraphs; See DegreeView */
 
 //     auto operator[]( n) {
 //         weight = this->_weight;
@@ -630,7 +630,7 @@ template <typename nodeview_t> class NodeView {
 // };
 
 // class DiMultiDegreeView: public DiDegreeView {
-//     /** A DegreeView class for MultiDiGraph; See DegreeView */
+//     /*! A DegreeView class for MultiDiGraph; See DegreeView */
 
 //     auto operator[]( n) {
 //         weight = this->_weight;
@@ -673,7 +673,7 @@ template <typename nodeview_t> class NodeView {
 // };
 
 // class InMultiDegreeView: public DiDegreeView {
-//     /** A DegreeView class for inward degree of MultiDiGraph; See DegreeView
+//     /*! A DegreeView class for inward degree of MultiDiGraph; See DegreeView
 //     */
 
 //     auto operator[]( n) {
@@ -707,7 +707,7 @@ template <typename nodeview_t> class NodeView {
 // };
 
 // class OutMultiDegreeView: public DiDegreeView {
-//     /** A DegreeView class for outward degree of MultiDiGraph; See DegreeView
+//     /*! A DegreeView class for outward degree of MultiDiGraph; See DegreeView
 //     */
 
 //     auto operator[]( n) {
@@ -742,7 +742,7 @@ template <typename nodeview_t> class NodeView {
 
 // // EdgeDataViews
 // class OutEdgeDataView: public object {
-//     /** EdgeDataView for outward edges of DiGraph; See EdgeDataView */
+//     /*! EdgeDataView for outward edges of DiGraph; See EdgeDataView */
 //     static const auto __slots__ = ("_viewer", "_nbunch", "_data", "_default",
 //                  "_adjdict", "_nodes_nbrs", "_report");
 
@@ -810,7 +810,7 @@ template <typename nodeview_t> class NodeView {
 // };
 
 // class EdgeDataView(OutEdgeDataView) {
-//     /** A EdgeDataView class for edges of Graph
+//     /*! A EdgeDataView class for edges of Graph
 
 //     This view is primarily used to iterate over the edges reporting
 //     edges as node-tuples with edge data optionally reported. The
@@ -872,7 +872,7 @@ template <typename nodeview_t> class NodeView {
 // };
 
 // class InEdgeDataView(OutEdgeDataView) {
-//     /** An EdgeDataView class for outward edges of DiGraph; See EdgeDataView
+//     /*! An EdgeDataView class for outward edges of DiGraph; See EdgeDataView
 //     */ static const auto __slots__ = ();
 
 //     auto __iter__( ) {
@@ -892,7 +892,7 @@ template <typename nodeview_t> class NodeView {
 // };
 
 // class OutMultiEdgeDataView(OutEdgeDataView) {
-//     /** An EdgeDataView for outward edges of MultiDiGraph; See EdgeDataView
+//     /*! An EdgeDataView for outward edges of MultiDiGraph; See EdgeDataView
 //     */ static const auto __slots__ = ("keys",);
 
 //     auto __getstate__( ) {
@@ -982,7 +982,7 @@ template <typename nodeview_t> class NodeView {
 // };
 
 // class MultiEdgeDataView(OutMultiEdgeDataView) {
-//     /** An EdgeDataView class for edges of MultiGraph; See EdgeDataView */
+//     /*! An EdgeDataView class for edges of MultiGraph; See EdgeDataView */
 //     static const auto __slots__ = ();
 
 //     auto __iter__( ) {
@@ -1030,7 +1030,7 @@ template <typename nodeview_t> class NodeView {
 // };
 
 // class InMultiEdgeDataView(OutMultiEdgeDataView) {
-//     /** An EdgeDataView for inward edges of MultiDiGraph; See EdgeDataView */
+//     /*! An EdgeDataView for inward edges of MultiDiGraph; See EdgeDataView */
 //     static const auto __slots__ = ();
 
 //     auto __iter__( ) {
@@ -1063,7 +1063,7 @@ template <typename nodeview_t> class NodeView {
 
 // EdgeViews    have set operations and no data reported
 // Interface: Set, Mapping
-/** A EdgeView class for outward edges of a DiGraph */
+/*! A EdgeView class for outward edges of a DiGraph */
 // template <typename graph_t> 
 // class OutEdgeView {
 //     // static const auto __slots__ = ("_adjdict", "_graph", "_nodes_nbrs");
@@ -1157,7 +1157,7 @@ template <typename nodeview_t> class NodeView {
 
 
 // class EdgeView(OutEdgeView) {
-//     /** A EdgeView class for edges of a Graph
+//     /*! A EdgeView class for edges of a Graph
 
 //     This densely packed View allows iteration over edges, data lookup
 //     like a dict && set operations on edges represented by node-tuples.
@@ -1254,7 +1254,7 @@ template <typename nodeview_t> class NodeView {
 // };
 
 // class InEdgeView(OutEdgeView) {
-//     /** A EdgeView class for inward edges of a DiGraph */
+//     /*! A EdgeView class for inward edges of a DiGraph */
 //     static const auto __slots__ = ();
 
 //     auto __setstate__( state) {
@@ -1295,7 +1295,7 @@ template <typename nodeview_t> class NodeView {
 // };
 
 // class OutMultiEdgeView(OutEdgeView) {
-//     /** A EdgeView class for outward edges of a MultiDiGraph */
+//     /*! A EdgeView class for outward edges of a MultiDiGraph */
 //     static const auto __slots__ = ();
 
 //     dataview = OutMultiEdgeDataView;
@@ -1353,7 +1353,7 @@ template <typename nodeview_t> class NodeView {
 // };
 
 // class MultiEdgeView(OutMultiEdgeView) {
-//     /** A EdgeView class for edges of a MultiGraph */
+//     /*! A EdgeView class for edges of a MultiGraph */
 //     static const auto __slots__ = ();
 
 //     dataview = MultiEdgeDataView;
@@ -1379,7 +1379,7 @@ template <typename nodeview_t> class NodeView {
 // };
 
 // class InMultiEdgeView(OutMultiEdgeView) {
-//     /** A EdgeView class for inward edges of a MultiDiGraph */
+//     /*! A EdgeView class for inward edges of a MultiDiGraph */
 //     static const auto __slots__ = ();
 
 //     auto __setstate__( state) {
