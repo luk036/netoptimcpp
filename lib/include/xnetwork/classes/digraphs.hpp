@@ -1,7 +1,7 @@
 #ifndef _HOME_UBUNTU_GITHUB_XNETWORK_CLASS_DIGRAPH_HPP
 #define _HOME_UBUNTU_GITHUB_XNETWORK_CLASS_DIGRAPH_HPP 1
 
-#include <any>
+#include <boost/any.hpp>
 #include <cassert>
 #include <py2cpp/py2cpp.hpp>
 #include <type_traits>
@@ -109,7 +109,7 @@ namespace xn {
     direct manipulation of the attribute
     dictionaries named graph, node and edge respectively.
 
-    >>> G.graph["day"] = std::any("Friday");
+    >>> G.graph["day"] = boost::any("Friday");
     {'day': 'Friday'}
 
     **Subclasses (Advanced):**
