@@ -515,9 +515,11 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t> {
     }
 };
 
-template <typename nodeview_t,
-          typename adjlist_t> DiGraphS(int ) 
--> DiGraphS<decltype(py::range<int>(1)), py::set<int>>;
+using SimpleDiGraphS = Graph<decltype(py::range<int>(1)), py::set<int>>;
+
+// template <typename nodeview_t,
+//           typename adjlist_t> DiGraphS(int ) 
+// -> DiGraphS<decltype(py::range<int>(1)), py::set<int>>;
 
 } // namespace xn
 

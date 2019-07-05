@@ -766,10 +766,11 @@ class Graph : public object {
     }
 };
 
+using SimpleGraph = Graph<decltype(py::range<int>(1)), py::set<int>>;
 
-template <typename nodeview_t,
-          typename adjlist_t> Graph(int ) 
--> Graph<decltype(py::range<int>(1)), py::set<int>>;
+// template <typename nodeview_t,
+//           typename adjlist_t> Graph(int ) 
+// -> Graph<decltype(py::range<int>(1)), py::set<int>>;
 
 }; // namespace xn
 
