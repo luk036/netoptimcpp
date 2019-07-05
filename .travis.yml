@@ -30,6 +30,19 @@ matrix:
     - os: linux
       addons: *clang8
       env: COMPILER=clang CLANG=8 BLAS=OpenBLAS BUILD_TYPE='Release'
+    - os: linux
+      addons: &gcc8
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-8
+            - catch
+            - lcov
+      env: COMPILER=gcc GCC=8 BLAS=OpenBLAS BUILD_TYPE='Debug'
+    - os: linux
+      addons: *gcc8
+      env: COMPILER=gcc GCC=8 BLAS=OpenBLAS BUILD_TYPE='Release'
 env:
   global:
     - MINCONDA_VERSION="latest"
@@ -84,7 +97,7 @@ script:
       ctest -S cmake/CI.CTestScript.cmake --output-on-failure -VV -DCMAKE_PREFIX_PATH=$CONDA_PREFIX -DCTEST_SITE=Travis -DCTEST_BUILD_NAME="${TRAVIS_OS_NAME}-$BUILD_TYPE"
     else
       mkdir build && cd build;
-      cmake -DBUILD_TESTS=ON -DCMAKE_PREFIX_PATH=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DCMAKE_SYSTEM_IGNORE_PATH=/usr/lib .;
+      cmake -DBUILD_TESTS=ON -DCMAKE_PREFIX_PATH=$CONDA_PREFIX -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DCMAKE_SYSTEM_IGNORE_PATH=/usr/lib ..;
       make -j2
       ctest -V -j 2
     fi
