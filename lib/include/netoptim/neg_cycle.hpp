@@ -139,11 +139,6 @@ public:
      */
     auto neg_cycle_relax() -> std::vector<edge_t>
     {
-        // for (node_t v : this->_G) {
-        //     this->_pred[v] = this->_G.null_vertex();
-        // }
-        // this->_pred.clear();
-
         while (true)
         {
             auto changed = this->relax();

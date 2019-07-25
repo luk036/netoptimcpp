@@ -13,14 +13,6 @@ using graph_t = boost::adjacency_list<
 using Vertex  = boost::graph_traits<graph_t>::vertex_descriptor;
 using Edge_it = boost::graph_traits<graph_t>::edge_iterator;
 
-// auto get_weight(const graph_t &G, const Edge_it &e) {
-//     auto weightmap = boost::get(boost::edge_weight_t(), G);
-//     return weightmap[*e];
-//     //auto u = boost::source(e, G);
-//     //auto v = boost::target(e, G);
-//     //return G[u][v].get("weight", 1);
-// }
-
 static xn::grAdaptor<graph_t> create_test_case1()
 {
     using Edge           = std::pair<int, int>;
@@ -33,7 +25,6 @@ static xn::grAdaptor<graph_t> create_test_case1()
         D,
         E
     };
-    // char name[] = "ABCDE";
     static Edge edge_array[] = {Edge(A, B), Edge(B, C), Edge(C, D), Edge(D, E), Edge(E, A)};
     int         weights[]    = {-5, 1, 1, 1, 1};
     int         num_arcs     = sizeof(edge_array) / sizeof(Edge);
@@ -53,7 +44,6 @@ static xn::grAdaptor<graph_t> create_test_case2()
         D,
         E
     };
-    // char name[] = "ABCDE";
     static Edge edge_array[] = {Edge(A, B), Edge(B, C), Edge(C, D), Edge(D, E), Edge(E, A)};
     int         weights[]    = {2, 1, 1, 1, 1};
     int         num_arcs     = sizeof(edge_array) / sizeof(Edge);
@@ -71,7 +61,6 @@ static auto create_test_case_timing() -> xn::grAdaptor<graph_t>
         B,
         C
     };
-    // char name[] = "ABCDE";
     static Edge edge_array[] = {Edge(A, B), Edge(B, A), Edge(B, C), Edge(C, B),
                                 Edge(B, C), Edge(C, B), Edge(C, A), Edge(A, C)};
     int         weights[]    = {7, 0, 3, 1, 6, 4, 2, 5};

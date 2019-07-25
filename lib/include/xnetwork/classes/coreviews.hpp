@@ -14,7 +14,6 @@
 /*!
  */
 // from collections import Mapping
-// #include <xnetwork.hpp> // as xn
 
 // static const auto __all__ = {
 //     "AtlasView",           "AdjacencyView",        "MultiAdjacencyView",
