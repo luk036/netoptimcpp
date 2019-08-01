@@ -1,5 +1,5 @@
-#ifndef _HOME_UBUNTU_GITHUB_PY2CPP_NX2BGL_HPP
-#define _HOME_UBUNTU_GITHUB_PY2CPP_NX2BGL_HPP 1
+// -*- coding: utf-8 -*-
+#pragma once
 
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/graph_utility.hpp>
@@ -289,6 +289,4 @@ class grAdaptor : public VertexView<Graph> {
     }
 };
 
-
 }
-#endif

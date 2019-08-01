@@ -1,5 +1,5 @@
-#ifndef PY2CPP_PY2CPP_HPP
-#define PY2CPP_PY2CPP_HPP 1
+// -*- coding: utf-8 -*-
+#pragma once
 
 #include <initializer_list>
 #include <tuple>
@@ -416,5 +416,3 @@ dict(const Sequence &S)
     ->dict<std::remove_cv_t<decltype(*std::begin(S))>, size_t>;
 
 } // namespace py
-
-#endif

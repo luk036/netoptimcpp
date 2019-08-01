@@ -1,6 +1,5 @@
 // -*- coding: utf-8 -*-
-#ifndef _HOME_UBUNTU_GITHUB_NETOPTIMCPP_ORACLES_NEG_CYCLE_HPP
-#define _HOME_UBUNTU_GITHUB_NETOPTIMCPP_ORACLES_NEG_CYCLE_HPP 1
+#pragma once
 
 /*!
 Negative cycle detection for (auto weighed graphs.
@@ -190,5 +189,3 @@ public:
 // template <typename Graph, typename WeightFn>
 // negCycleFinder(Graph &G, WeightFn &get_weight)->negCycleFinder<Graph,
 // WeightFn>;
-
-#endif

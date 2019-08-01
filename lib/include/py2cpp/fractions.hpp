@@ -1,13 +1,9 @@
-// The template and inlines for the -*- C++ -*- fraction classes.
-// Initially implemented by Wai-Shing Luk <luk036@gmail.com>
-//
+// -*- coding: utf-8 -*-
+#pragma once
 
 /*! @file include/fractions.hpp
  *  This is a C++ Library header.
  */
-
-#ifndef _HOME_UBUNTU_GITHUB_PGCPP_FRACTIONS_HPP
-#define _HOME_UBUNTU_GITHUB_PGCPP_FRACTIONS_HPP 1
 
 #include <cassert>
 #include <cmath>
@@ -537,5 +533,3 @@ _Stream &operator<<(_Stream &os, const Fraction<Z> &frac) {
 // Integral{Z} Fraction(const Z &, const Z &)->Fraction<Z>;
 
 } // namespace fun
-
-#endif

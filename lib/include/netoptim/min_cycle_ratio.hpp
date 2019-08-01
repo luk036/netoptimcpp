@@ -1,6 +1,5 @@
 // -*- coding: utf-8 -*-
-#ifndef _HOME_UBUNTU_GITHUB_NETOPTIMCPP_ORACLES_MIN_CYCLE_RATIO_HPP
-#define _HOME_UBUNTU_GITHUB_NETOPTIMCPP_ORACLES_MIN_CYCLE_RATIO_HPP 1
+#pragma once
 
 #include <algorithm>
 #include <numeric>
@@ -63,5 +62,3 @@ auto min_cycle_ratio(Graph& G, Fn1 get_cost, Fn2 get_time, T&& /*! dummy */)
     };
     return max_parametric(G, r0, calc_weight, calc_ratio);
 }
-
-#endif

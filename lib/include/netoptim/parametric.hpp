@@ -1,6 +1,5 @@
 // -*- coding: utf-8 -*-
-#ifndef _HOME_UBUNTU_GITHUB_NETOPTIMCPP_ORACLES_PARAMETRIC_HPP
-#define _HOME_UBUNTU_GITHUB_NETOPTIMCPP_ORACLES_PARAMETRIC_HPP 1
+#pragma once
 
 #include <iostream>
 #include <tuple>
@@ -59,5 +58,3 @@ auto max_parametric(Graph& G, T r, Fn1& d, Fn2& zero_cancel)
 
     return std::tuple{r_opt, std::move(C_opt)};
 }
-
-#endif
