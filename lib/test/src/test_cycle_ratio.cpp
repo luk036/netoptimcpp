@@ -45,7 +45,8 @@ static auto create_test_case_timing()
         B,
         C
     };
-    auto edges = std::array<Edge, 6>{Edge(A, B), Edge(B, A), Edge(B, C), Edge(C, B), Edge(C, A), Edge(A, C)};
+    auto edges =
+        std::array<Edge, 6>{Edge(A, B), Edge(B, A), Edge(B, C), Edge(C, B), Edge(C, A), Edge(A, C)};
     // make sure no parallel edges!!!
 
     auto indices = std::array<int, 6>{0, 1, 2, 3, 4, 5};

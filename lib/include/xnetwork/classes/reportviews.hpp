@@ -100,7 +100,8 @@ EdgeDataView
 #include <initializer_list>
 #include <utility>
 
-namespace xn {
+namespace xn
+{
 
 // static const auto __all__ = {"NodeView",
 //                              "NodeDataView",
@@ -173,12 +174,14 @@ true
 false
  */
 // interface: Mapping, Set
-template <typename nodeview_t> class NodeView {
-  private:
+template<typename nodeview_t>
+class NodeView
+{
+private:
     using _Self = NodeView<nodeview_t>;
-    using Node = typename nodeview_t::value_type;
+    using Node  = typename nodeview_t::value_type;
 
-    nodeview_t &_nodes;
+    nodeview_t& _nodes;
 
     // auto __getstate__( ) {
     //     return {"_nodes": this->_nodes};
@@ -187,8 +190,8 @@ template <typename nodeview_t> class NodeView {
     // auto __setstate__( state) {
     //     this->_nodes = state["_nodes"];
     // }
-  public:
-    explicit NodeView(nodeview_t &nodes) : _nodes{nodes} {}
+public:
+    explicit NodeView(nodeview_t& nodes) : _nodes{nodes} {}
 
     // Mapping methods
     auto size() { return this->_nodes.size(); }
@@ -197,10 +200,10 @@ template <typename nodeview_t> class NodeView {
 
     auto end() { return std::end(this->_nodes); }
 
-    auto operator[](const Node &n) { return this->_nodes[n]; }
+    auto operator[](const Node& n) { return this->_nodes[n]; }
 
     // Set methods
-    bool contains(const Node &n) { return this->_nodes.contains(n); }
+    bool contains(const Node& n) { return this->_nodes.contains(n); }
 
     // /// @classmethod
     // auto _from_iterable(cls, it) {
@@ -337,7 +340,7 @@ template <typename nodeview_t> class NodeView {
 //     //     if (this->_data == true) {
 //     //         return "%s(%r)" % (this->__class__.__name__, dict( ));
 //     //     }
-//     //     return "%s(%r, data=%r)" %  
+//     //     return "%s(%r, data=%r)" %
 //     //            this->__class__.__name__, dict( ), this->_data);
 //     // }
 // };
@@ -386,7 +389,7 @@ template <typename nodeview_t> class NodeView {
 //         this->_graph = G;
 //         this->_succ = G._adj;
 //         this->_pred = G._adj;
-//         this->_nodes = this->_succ if (nbunch.empty()  
+//         this->_nodes = this->_succ if (nbunch.empty()
 //             else list(G.nbunch_iter(nbunch));
 //         this->_weight = weight;
 //     }
@@ -418,7 +421,7 @@ template <typename nodeview_t> class NodeView {
 //         if (weight.empty()) {
 //             return len(succs) + len(preds);
 //         }
-//         return sum(dd.get(weight, 1) for dd : succs.values()) +  
+//         return sum(dd.get(weight, 1) for dd : succs.values()) +
 //             sum(dd.get(weight, 1) for dd : preds.values());
 //     }
 
@@ -434,7 +437,7 @@ template <typename nodeview_t> class NodeView {
 //             for (auto n : this->_nodes) {
 //                 succs = this->_succ[n];
 //                 preds = this->_pred[n];
-//                 deg = sum(dd.get(weight, 1) for dd : succs.values())  
+//                 deg = sum(dd.get(weight, 1) for dd : succs.values())
 //                     + sum(dd.get(weight, 1) for dd : preds.values());
 //                 yield (n, deg);
 //             }
@@ -504,7 +507,7 @@ template <typename nodeview_t> class NodeView {
 //         if (weight.empty()) {
 //             return len(nbrs) + (n : nbrs);
 //         }
-//         return sum(dd.get(weight, 1) for dd : nbrs.values()) +  
+//         return sum(dd.get(weight, 1) for dd : nbrs.values()) +
 //             (n : nbrs && nbrs[n].get(weight, 1));
 //     }
 
@@ -518,7 +521,7 @@ template <typename nodeview_t> class NodeView {
 //         } else {
 //             for (auto n : this->_nodes) {
 //                 nbrs = this->_succ[n];
-//                 deg = sum(dd.get(weight, 1) for dd : nbrs.values()) +  
+//                 deg = sum(dd.get(weight, 1) for dd : nbrs.values()) +
 //                     (n : nbrs && nbrs[n].get(weight, 1));
 //                 yield (n, deg);
 //             }
@@ -593,7 +596,7 @@ template <typename nodeview_t> class NodeView {
 //         weight = this->_weight;
 //         nbrs = this->_succ[n];
 //         if (weight.empty()) {
-//             return sum(len(keys) for keys : nbrs.values()) +  
+//             return sum(len(keys) for keys : nbrs.values()) +
 //                 (n : nbrs && len(nbrs[n]));
 //         }
 //         // edge weighted graph - degree is sum of nbr edge weights
@@ -610,7 +613,7 @@ template <typename nodeview_t> class NodeView {
 //         if (weight.empty()) {
 //             for (auto n : this->_nodes) {
 //                 nbrs = this->_succ[n];
-//                 deg = sum(len(keys) for keys : nbrs.values()) +  
+//                 deg = sum(len(keys) for keys : nbrs.values()) +
 //                     (n : nbrs && len(nbrs[n]));
 //                 yield (n, deg);
 //             }
@@ -636,12 +639,12 @@ template <typename nodeview_t> class NodeView {
 //         succs = this->_succ[n];
 //         preds = this->_pred[n];
 //         if (weight.empty()) {
-//             return sum(len(keys) for keys : succs.values()) +  
+//             return sum(len(keys) for keys : succs.values()) +
 //                 sum(len(keys) for keys : preds.values());
 //         }
 //         // edge weighted graph - degree is sum of nbr edge weights
 //         deg = sum(d.get(weight, 1) for key_dict : succs.values();
-//                   for (auto d : key_dict.values()) +  
+//                   for (auto d : key_dict.values()) +
 //             sum(d.get(weight, 1) for key_dict : preds.values();
 //                 for (auto d : key_dict.values());
 //         return deg;
@@ -653,7 +656,7 @@ template <typename nodeview_t> class NodeView {
 //             for (auto n : this->_nodes) {
 //                 succs = this->_succ[n];
 //                 preds = this->_pred[n];
-//                 deg = sum(len(keys) for keys : succs.values()) +  
+//                 deg = sum(len(keys) for keys : succs.values()) +
 //                     sum(len(keys) for keys : preds.values());
 //                 yield (n, deg);
 //             }
@@ -662,7 +665,7 @@ template <typename nodeview_t> class NodeView {
 //                 succs = this->_succ[n];
 //                 preds = this->_pred[n];
 //                 deg = sum(d.get(weight, 1) for key_dict : succs.values();
-//                           for (auto d : key_dict.values()) +  
+//                           for (auto d : key_dict.values()) +
 //                     sum(d.get(weight, 1) for key_dict : preds.values();
 //                         for (auto d : key_dict.values());
 //                 yield (n, deg);
@@ -775,7 +778,7 @@ template <typename nodeview_t> class NodeView {
 //         } else if (data == false) {
 //             this->_report = lambda n, nbr, dd: (n, nbr);
 //         } else { //data is attribute name
-//             this->_report = lambda n, nbr, dd:  
+//             this->_report = lambda n, nbr, dd:
 //                 (n, nbr, dd[data]) if (data : dd else (n, nbr, default);
 //         }
 //     }
@@ -936,10 +939,10 @@ template <typename nodeview_t> class NodeView {
 //             }
 //         } else { //data is attribute name
 //             if (keys == true) {
-//                 this->_report = lambda n, nbr, k, dd: (n, nbr, k, dd[data])  
+//                 this->_report = lambda n, nbr, k, dd: (n, nbr, k, dd[data])
 //                     if (data : dd else (n, nbr, k, default);
 //             } else {
-//                 this->_report = lambda n, nbr, k, dd: (n, nbr, dd[data])  
+//                 this->_report = lambda n, nbr, k, dd: (n, nbr, dd[data])
 //                     if (data : dd else (n, nbr, default);
 //             }
 //         }
@@ -1059,11 +1062,10 @@ template <typename nodeview_t> class NodeView {
 //     }
 // };
 
-
 // EdgeViews    have set operations and no data reported
 // Interface: Set, Mapping
 /*! A EdgeView class for outward edges of a DiGraph */
-// template <typename graph_t> 
+// template <typename graph_t>
 // class OutEdgeView {
 //     // static const auto __slots__ = ("_adjdict", "_graph", "_nodes_nbrs");
 
@@ -1085,11 +1087,10 @@ template <typename nodeview_t> class NodeView {
 //     // using dataview = OutEdgeDataView;
 //     using Self = OutEdgeView<graph_t>;
 
-
 //     using node_t = typename graph_t::Node;
 //     using edge_t = std::pair<node_t, node_t>;
 //     using adjdict_t = typename graph_t::adjlist_outer_dict_factory;
-    
+
 //     graph_t& _graph;
 //     adjdict_t& _adjdict;
 //     // T  _nodes_nbrs;
@@ -1103,7 +1104,6 @@ template <typename nodeview_t> class NodeView {
 //         // _nodes_nbrs{this->_adjdict.items()},
 //         _adjdict{G._adj}
 //     {}
-
 
 //     // Set methods
 //     // auto __len__( ) {
@@ -1153,7 +1153,6 @@ template <typename nodeview_t> class NodeView {
 //     //     return "{0.__class__.__name__}({1!r})".format( list( ));
 //     // }
 // };
-
 
 // class EdgeView(OutEdgeView) {
 //     /*! A EdgeView class for edges of a Graph

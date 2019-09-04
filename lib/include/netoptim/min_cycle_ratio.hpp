@@ -43,12 +43,12 @@ auto min_cycle_ratio(Graph& G, Fn1 get_cost, Fn2 get_time, T&& /*! dummy */)
     }
     auto r0 = T(max_cost * G.number_of_edges()) / min_time;
 
-    using cost_t = decltype(get_cost(G, e0));
-    using time_t = decltype(get_time(G, e0));
+    using cost_T = decltype(get_cost(G, e0));
+    using time_T = decltype(get_time(G, e0));
 
     auto calc_ratio = [&](const Graph& G, auto& C) {
-        auto total_cost = cost_t(0);
-        auto total_time = time_t(0);
+        auto total_cost = cost_T(0);
+        auto total_time = time_T(0);
         for (auto e : C)
         {
             total_cost += get_cost(G, e);

@@ -35,11 +35,13 @@
 
     Interface: Mapping
 */
-template <typename Atlas> class AtlasView {
-  public:
-    Atlas &_atlas;
+template<typename Atlas>
+class AtlasView
+{
+public:
+    Atlas& _atlas;
 
-    explicit AtlasView(Atlas &d) : _atlas{d} {}
+    explicit AtlasView(Atlas& d) : _atlas{d} {}
 
     auto size() const { return this->_atlas.size(); }
 
@@ -51,7 +53,9 @@ template <typename Atlas> class AtlasView {
     //     return this->_atlas[key];
     // }
 
-    template <typename T> auto operator[](const T &key) const {
+    template<typename T>
+    auto operator[](const T& key) const
+    {
         return this->_atlas.at(key);
     }
 
@@ -79,11 +83,15 @@ template <typename Atlas> class AtlasView {
     AtlasView - View into dict-of-dict
     MultiAdjacencyView - View into dict-of-dict-of-dict-of-dict
 */
-template <typename Atlas> class AdjacencyView : public AtlasView<Atlas> {
-  public:
-    explicit AdjacencyView(Atlas &d) : AtlasView<Atlas>{d} {}
+template<typename Atlas>
+class AdjacencyView : public AtlasView<Atlas>
+{
+public:
+    explicit AdjacencyView(Atlas& d) : AtlasView<Atlas>{d} {}
 
-    template <typename T> auto operator[](const T &name) const {
+    template<typename T>
+    auto operator[](const T& name) const
+    {
         return AtlasView(this->_atlas[name]);
     }
 

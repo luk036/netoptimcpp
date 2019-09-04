@@ -29,6 +29,13 @@ include(Warnings)
 include(CopyDllsForDebug)
 include(Coverage)
 
+# Adds convenience methods, see cmake/cleanCppExtensions.cmake
+include(cleanCppExtensions)
+
+# Creates options to turn on sanitizers, see cmake/sanitizers.cmake
+include(sanitizers)
+
+
 ###############
 ##  OPTIONS  ##
 ###############
@@ -48,7 +55,13 @@ set_property (GLOBAL PROPERTY USE_FOLDERS ON)
 set (CMAKE_CXX_STANDARD 17)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
 # Don't use e.g. GNU extension (like -std=gnu++11) for portability
-set(CMAKE_CXX_EXTENSIONS OFF)
+# set(CMAKE_CXX_EXTENSIONS OFF)
+# Enable helpfull warnings and C++17 for all files
+if(MSVC)
+    add_compile_options(/std:c++17 /W3 /WX )
+else()
+    add_compile_options(-std=c++17 -Wall -Wextra -Wshadow -Wnon-virtual-dtor -Wunused -pedantic)
+endif()
 
 # set(LIBS ${LIBS} "-L$ENV{CONDA_PREFIX}/lib")
 
@@ -95,3 +108,9 @@ add_subdirectory (lib)
 add_subdirectory (app)
 
 enable_testing ()
+
+#------------------------------------------------------------------------------
+# Other MISC targets
+
+# Adds misc targets: format, cppcheck, tidy, see cmake/cleanCppExtensions.cmake
+addMiscTargets()

@@ -6,10 +6,11 @@
 #include <py2cpp/py2cpp.hpp>
 #include <type_traits>
 #include <vector>
-#include <xnetwork/classes/coreviews.hpp> // import AtlasView, AdjacencyView
+#include <xnetwork/classes/coreviews.hpp>   // import AtlasView, AdjacencyView
 #include <xnetwork/classes/reportviews.hpp> // import NodeView, EdgeView, DegreeView
 
-namespace xn {
+namespace xn
+{
 
 /*! Base class for undirected graphs.
 
@@ -193,16 +194,17 @@ namespace xn {
     a dictionary-like object.
 */
 
-struct object : py::dict<const char *, boost::any> {};
+struct object : py::dict<const char*, boost::any>
+{
+};
 
-template <typename __nodeview_t,
-          typename adjlist_t = 
-                py::set<Value_type<__nodeview_t>>>
-class Graph : public object {
-  public:
-    using nodeview_t = __nodeview_t;
-    using Node = typename nodeview_t::value_type; // luk
-    using dict = py::dict<const char *, boost::any>;
+template<typename __nodeview_t, typename adjlist_t = py::set<Value_type<__nodeview_t>>>
+class Graph : public object
+{
+public:
+    using nodeview_t              = __nodeview_t;
+    using Node                    = typename nodeview_t::value_type; // luk
+    using dict                    = py::dict<const char*, boost::any>;
     using graph_attr_dict_factory = dict;
     // using edge_attr_dict_factory = dict;
     // using node_attr_dict_factory = dict;
@@ -211,16 +213,16 @@ class Graph : public object {
     // edge_attr_dict_factory>;
     using adjlist_inner_dict_factory = adjlist_t;
     using adjlist_outer_dict_factory = std::vector<adjlist_t>;
-    using key_type = typename adjlist_t::key_type;
-    using value_type = typename adjlist_t::value_type;
-    using edge_t = std::pair<Node, Node>;
-    using node_t = Node;
-        
-  public:
+    using key_type                   = typename adjlist_t::key_type;
+    using value_type                 = typename adjlist_t::value_type;
+    using edge_t                     = std::pair<Node, Node>;
+    using node_t                     = Node;
+
+public:
     size_t _num_of_edges = 0;
 
     // std::vector<Node > _Nodes{};
-    nodeview_t _node;
+    nodeview_t              _node;
     graph_attr_dict_factory graph{}; // dictionary for graph attributes
     // node_dict_factory _node{};  // empty node attribute dict
     adjlist_outer_dict_factory _adj; // empty adjacency dict
@@ -254,33 +256,25 @@ class Graph : public object {
         >>> r = py::range(100);
         >>> G = xn::Graph(r);  // or DiGraph, MultiGraph, MultiDiGraph, etc
     */
-    Graph(const nodeview_t &Nodes)
-        : _node{Nodes}, _adj(Nodes.size()) {}
+    Graph(const nodeview_t& Nodes) : _node{Nodes}, _adj(Nodes.size()) {}
 
-    Graph(int num_nodes) 
-        : _node{py::range<int>(num_nodes)},
-          _adj(num_nodes) {}
+    Graph(int num_nodes) : _node{py::range<int>(num_nodes)}, _adj(num_nodes) {}
 
     /*!
      * @brief For compatible with BGL adaptor
-     * 
-     * @param e 
-     * @return edge_t& 
+     *
+     * @param e
+     * @return edge_t&
      */
-    static edge_t& end_points(edge_t& e) {
-        return e;
-    }
+    static edge_t& end_points(edge_t& e) { return e; }
 
     /*!
      * @brief For compatible with BGL adaptor
-     * 
-     * @param e 
-     * @return edge_t& 
+     *
+     * @param e
+     * @return edge_t&
      */
-    static const edge_t& end_points(const edge_t& e) {
-        return e;
-    }
-
+    static const edge_t& end_points(const edge_t& e) { return e; }
 
     /// @property
     /*! Graph adjacency object holding the neighbors of each node.
@@ -305,20 +299,20 @@ class Graph : public object {
     static Node null_vertex() { return Node(-1); }
 
     /// @property
-    auto get_name() {
+    auto get_name()
+    {
         /*! String identifier of the graph.
 
         This graph attribute appears : the attribute dict G.graph
         keyed by the string `"name"`. as well as an attribute (technically
         a property) `G.name`. This is entirely user controlled.
          */
-        if (!this->graph.contains("name"))
-            return "";
-        return boost::any_cast<const char *>(this->graph["name"]);
+        if (!this->graph.contains("name")) return "";
+        return boost::any_cast<const char*>(this->graph["name"]);
     }
 
     // @name.setter
-    auto set_name(const char *s) { this->graph["name"] = boost::any(s); }
+    auto set_name(const char* s) { this->graph["name"] = boost::any(s); }
 
     /*! Iterate over the nodes. Use: "for (auto n : G)".
      *
@@ -347,7 +341,7 @@ class Graph : public object {
     >>> 1 : G
     true
      */
-    bool contains(const Node &n) { return this->_node.contains(n); }
+    bool contains(const Node& n) { return this->_node.contains(n); }
 
     /*! Return a dict of neighbors of node n.  Use: "G[n]".
 
@@ -372,12 +366,11 @@ class Graph : public object {
     >>> G[0];
     AtlasView({1: {}});
      */
-    auto operator[](const Node &n) const {
-        return this->adj()[n];
-    }
+    auto operator[](const Node& n) const { return this->adj()[n]; }
 
     /// @property
-    auto nodes() {
+    auto nodes()
+    {
         /*! A NodeView of the Graph as G.nodes().
 
         Returns
@@ -502,7 +495,7 @@ class Graph : public object {
         >>> G.has_node(0);
         true
      */
-    auto has_node(const Node &n) { return this->_node.contains(n); }
+    auto has_node(const Node& n) { return this->_node.contains(n); }
 
     /*! Add an edge between u && v.
 
@@ -548,7 +541,8 @@ class Graph : public object {
         >>> G[1][2].update({0: 5});
         >>> G.edges()[1, 2].update({0: 5});
      */
-    auto add_edge(const Node &u, const Node &v) {
+    auto add_edge(const Node& u, const Node& v)
+    {
         // auto [u, v] = u_of_edge, v_of_edge;
         // add nodes
         assert(this->_node.contains(u));
@@ -556,22 +550,25 @@ class Graph : public object {
         // add the edge
         // datadict = this->_adj[u].get(v, this->edge_attr_dict_factory());
         // datadict.update(attr);
-        if constexpr (std::is_same<key_type, value_type>::value) {
+        if constexpr (std::is_same<key_type, value_type>::value)
+        {
             // set
             this->_adj[u].insert(v);
             this->_adj[v].insert(u);
         }
-        else {
-            using T = typename adjlist_t::mapped_type;
-            auto data = this->_adj[u].get(v, T{});
+        else
+        {
+            using T          = typename adjlist_t::mapped_type;
+            auto data        = this->_adj[u].get(v, T{});
             this->_adj[u][v] = data;
             this->_adj[v][u] = data; // ???
         }
         this->_num_of_edges += 1;
     }
 
-    template <typename T>
-    auto add_edge(const Node &u, const Node &v, const T& data) {
+    template<typename T>
+    auto add_edge(const Node& u, const Node& v, const T& data)
+    {
         assert(this->_node.contains(u));
         assert(this->_node.contains(v));
         this->_adj[u][v] = data;
@@ -579,16 +576,19 @@ class Graph : public object {
         this->_num_of_edges += 1;
     }
 
-    template <typename C1, typename C2>
-    auto add_edges_from(const C1 &edges, const C2 &data) {
+    template<typename C1, typename C2>
+    auto add_edges_from(const C1& edges, const C2& data)
+    {
         auto N = edges.size();
-        for (auto i=0U; i<N; ++i) {
+        for (auto i = 0U; i < N; ++i)
+        {
             auto [u, v] = edges[i];
             this->add_edge(u, v, data[i]);
         }
     }
 
-    auto has_edge(const Node &u, const Node &v) -> bool {
+    auto has_edge(const Node& u, const Node& v) -> bool
+    {
         /*! Return true if (the edge (u, v) is : the graph.
 
         This is the same as `v : G[u]` without KeyError exceptions.
@@ -627,7 +627,7 @@ class Graph : public object {
         return this->_adj[u].contains(v);
     }
 
-    auto degree(const Node &n) { return this->_adj[n].size(); }
+    auto degree(const Node& n) { return this->_adj[n].size(); }
 
     /// @property
     /*! An EdgeView of the Graph as G.edges().
@@ -734,7 +734,8 @@ class Graph : public object {
     //     return degree;
     // }
 
-    auto clear() {
+    auto clear()
+    {
         /*! Remove all nodes && edges from the graph.
 
         This also removes the name, && all graph, node, && edge attributes.
@@ -755,20 +756,16 @@ class Graph : public object {
     }
 
     /*! Return true if (graph is a multigraph, false otherwise. */
-    auto is_multigraph() {
-        return false;
-    }
+    auto is_multigraph() { return false; }
 
     /*! Return true if (graph is directed, false otherwise. */
-    auto is_directed() {
-        return false;
-    }
+    auto is_directed() { return false; }
 };
 
 using SimpleGraph = Graph<decltype(py::range<int>(1)), py::set<int>>;
 
 // template <typename nodeview_t,
-//           typename adjlist_t> Graph(int ) 
+//           typename adjlist_t> Graph(int )
 // -> Graph<decltype(py::range<int>(1)), py::set<int>>;
 
 }; // namespace xn

@@ -2,17 +2,18 @@
 #define _HOME_UBUNTU_GITHUB_XNETWORK_CLASS_DIGRAPH_HPP 1
 
 #include <boost/any.hpp>
+#include <boost/coroutine2/all.hpp>
 #include <cassert>
 #include <py2cpp/py2cpp.hpp>
 #include <type_traits>
-#include <vector>
 #include <utility>
-#include <xnetwork/classes/graph.hpp>
+#include <vector>
 #include <xnetwork/classes/coreviews.hpp> // import AtlasView, AdjacencyView
+#include <xnetwork/classes/graph.hpp>
 #include <xnetwork/classes/reportviews.hpp> // import NodeView, EdgeView, DegreeView
-#include <boost/coroutine2/all.hpp>
 
-namespace xn {
+namespace xn
+{
 
 /*! Base class for directed graphs.
 
@@ -196,21 +197,20 @@ namespace xn {
     creating graph subclasses by overwriting the base class `dict` with
     a dictionary-like object.
 */
-template <typename nodeview_t,
-          typename adjlist_t = 
-                py::dict<Value_type<nodeview_t>, int>>
-class DiGraphS : public Graph<nodeview_t, adjlist_t> {
+template<typename nodeview_t, typename adjlist_t = py::dict<Value_type<nodeview_t>, int>>
+class DiGraphS : public Graph<nodeview_t, adjlist_t>
+{
     using _Base = Graph<nodeview_t, adjlist_t>;
 
-  public:
-    using Node = typename _Base::Node; // luk
-    using edge_t = std::pair<Node, Node>;
-    using graph_attr_dict_factory = typename _Base::graph_attr_dict_factory;
+public:
+    using Node                       = typename _Base::Node; // luk
+    using edge_t                     = std::pair<Node, Node>;
+    using graph_attr_dict_factory    = typename _Base::graph_attr_dict_factory;
     using adjlist_outer_dict_factory = typename _Base::adjlist_outer_dict_factory;
-    using key_type = typename _Base::key_type;
-    using value_type = typename _Base::value_type;
+    using key_type                   = typename _Base::key_type;
+    using value_type                 = typename _Base::value_type;
 
-  public:
+public:
     adjlist_outer_dict_factory& _succ; // successor
 
     /*! Initialize a graph with edges, name, or graph attributes.
@@ -227,11 +227,9 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t> {
         >>> r = py::range(100);
         >>> G = xn::DiGraphS(r, r);  // or DiGraph, MultiGraph, MultiDiGraph, etc
     */
-    DiGraphS(const nodeview_t &Nodes)
-        : _Base{Nodes}, _succ{_Base::_adj} {}
+    DiGraphS(const nodeview_t& Nodes) : _Base{Nodes}, _succ{_Base::_adj} {}
 
-    DiGraphS(int num_nodes) 
-        : _Base{py::range<int>(num_nodes)}, _succ{_Base::_adj} {}
+    DiGraphS(int num_nodes) : _Base{py::range<int>(num_nodes)}, _succ{_Base::_adj} {}
 
     /// @property
     /*! DiGraphS adjacency object holding the neighbors of each node.
@@ -315,7 +313,8 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t> {
         >>> G[1][2].update({0: 5});
         >>> G.edges()[1, 2].update({0: 5});
      */
-    auto add_edge(const Node &u, const Node &v) {
+    auto add_edge(const Node& u, const Node& v)
+    {
         // auto [u, v] = u_of_edge, v_of_edge;
         // add nodes
         assert(this->_node.contains(u));
@@ -323,43 +322,48 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t> {
         // add the edge
         // datadict = this->_adj[u].get(v, this->edge_attr_dict_factory());
         // datadict.update(attr);
-        if constexpr (std::is_same<key_type, value_type>::value) {
+        if constexpr (std::is_same<key_type, value_type>::value)
+        {
             // set
             this->_succ[u].insert(v);
             // this->_prev[v].insert(u);
         }
-        else {
-            using T = typename adjlist_t::mapped_type;
-            auto data = this->_adj[u].get(v, T{});
+        else
+        {
+            using T           = typename adjlist_t::mapped_type;
+            auto data         = this->_adj[u].get(v, T{});
             this->_succ[u][v] = data;
             // this->_prev[v][u] = data;
         }
         this->_num_of_edges += 1;
     }
 
-    template <typename T>
-    auto add_edge(const Node &u, const Node &v, const T& data) {
+    template<typename T>
+    auto add_edge(const Node& u, const Node& v, const T& data)
+    {
         assert(this->_node.contains(u));
         assert(this->_node.contains(v));
         this->_succ[u][v] = data;
         this->_num_of_edges += 1;
     }
 
-    template <typename C1, typename C2>
-    auto add_edges_from(const C1 &edges, const C2 &data) {
+    template<typename C1, typename C2>
+    auto add_edges_from(const C1& edges, const C2& data)
+    {
         auto N = edges.size();
-        for (auto i=0U; i<N; ++i) {
+        for (auto i = 0U; i < N; ++i)
+        {
             auto [u, v] = edges[i];
             this->add_edge(u, v, data[i]);
         }
     }
 
-
     /*! Returns True if node u has successor v.
 
         This is true if graph has the edge u->v.
     */
-    auto has_successor(const Node &u, const Node &v) -> bool {
+    auto has_successor(const Node& u, const Node& v) -> bool
+    {
         return this->_node.contains(u) && this->_succ[u].contains(v);
     }
 
@@ -386,17 +390,12 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t> {
         -----
         neighbors() and successors() are the same.
     */
-    auto& successors(const Node &n) {
-        return this->_succ[n]; 
-    }
+    auto& successors(const Node& n) { return this->_succ[n]; }
 
-    const auto& successors(const Node &n) const {
-        return this->_succ[n]; 
-    }
+    const auto& successors(const Node& n) const { return this->_succ[n]; }
 
     using coro_t = boost::coroutines2::coroutine<edge_t>;
     using pull_t = typename coro_t::pull_type;
-    
 
     /// @property
     /*! An OutEdgeView of the DiGraph as G.edges().
@@ -458,11 +457,14 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t> {
         OutEdgeDataView([(0, 1)])
 
     */
-    auto edges() const -> pull_t {
-        auto func = [&](typename coro_t::push_type & yield){
-            for (auto [n, nbrs] : this->_nodes_nbrs()) {
-                for (auto nbr : nbrs) {
-                    yield (std::pair{n, nbr});
+    auto edges() const -> pull_t
+    {
+        auto func = [&](typename coro_t::push_type& yield) {
+            for (auto [n, nbrs] : this->_nodes_nbrs())
+            {
+                for (auto nbr : nbrs)
+                {
+                    yield(std::pair{n, nbr});
                 }
             }
         };
@@ -477,10 +479,7 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t> {
     //     return InEdgeView(*this);
     // }
 
-    auto degree(const Node &n) {
-        return this->_succ[n].size();
-    }
-
+    auto degree(const Node& n) { return this->_succ[n].size(); }
 
     /*! Remove all nodes && edges from the graph.
 
@@ -496,7 +495,8 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t> {
         [];
 
     */
-    auto clear() {
+    auto clear()
+    {
         this->_succ.clear();
         // this->_pred.clear()
         // this->_node.clear();
@@ -504,20 +504,16 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t> {
     }
 
     /*! Return true if (graph is a multigraph, false otherwise. */
-    auto is_multigraph() {
-        return false;
-    }
+    auto is_multigraph() { return false; }
 
     /*! Return true if (graph is directed, false otherwise. */
-    auto is_directed() {
-        return true;
-    }
+    auto is_directed() { return true; }
 };
 
 using SimpleDiGraphS = Graph<decltype(py::range<int>(1)), py::set<int>>;
 
 // template <typename nodeview_t,
-//           typename adjlist_t> DiGraphS(int ) 
+//           typename adjlist_t> DiGraphS(int )
 // -> DiGraphS<decltype(py::range<int>(1)), py::set<int>>;
 
 } // namespace xn
