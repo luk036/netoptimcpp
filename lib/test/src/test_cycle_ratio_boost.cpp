@@ -23,8 +23,8 @@ BOOST_INSTALL_PROPERTY(edge, id_tag);
 } // namespace boost
 
 using graph_t =
-    boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS, boost::no_property,
-                          boost::property<boost::edge_id_tag_t, std::size_t>>;
+    boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS,
+        boost::no_property, boost::property<boost::edge_id_tag_t, std::size_t>>;
 using Vertex = typename boost::graph_traits<graph_t>::vertex_descriptor;
 using edge_t = typename boost::graph_traits<graph_t>::edge_iterator;
 
@@ -41,9 +41,10 @@ static auto create_test_case1()
         D,
         E
     };
-    static Edge    edge_array[] = {Edge(A, B), Edge(B, C), Edge(C, D), Edge(D, E), Edge(E, A)};
-    std::size_t    indices[]    = {0, 1, 2, 3, 4};
-    int            num_arcs     = sizeof(edge_array) / sizeof(Edge);
+    static Edge edge_array[] = {
+        Edge(A, B), Edge(B, C), Edge(C, D), Edge(D, E), Edge(E, A)};
+    std::size_t indices[] = {0, 1, 2, 3, 4};
+    int num_arcs = sizeof(edge_array) / sizeof(Edge);
     static graph_t g(edge_array, edge_array + num_arcs, indices, num_nodes);
     return xn::grAdaptor<graph_t>(g);
 }
@@ -59,10 +60,10 @@ static auto create_test_case_timing()
         B,
         C
     };
-    Edge        edge_array[] = {Edge(A, B), Edge(B, A), Edge(B, C), Edge(C, B),
-                         Edge(B, C), Edge(C, B), Edge(C, A), Edge(A, C)};
-    std::size_t indices[]    = {0, 1, 2, 3, 4, 5, 6, 7};
-    int         num_arcs     = sizeof(edge_array) / sizeof(Edge);
+    Edge edge_array[] = {Edge(A, B), Edge(B, A), Edge(B, C), Edge(C, B),
+        Edge(B, C), Edge(C, B), Edge(C, A), Edge(A, C)};
+    std::size_t indices[] = {0, 1, 2, 3, 4, 5, 6, 7};
+    int num_arcs = sizeof(edge_array) / sizeof(Edge);
 
     static graph_t g(edge_array, edge_array + num_arcs, indices, num_nodes);
     return xn::grAdaptor<graph_t>(g);
@@ -70,20 +71,23 @@ static auto create_test_case_timing()
 
 TEST_CASE("Test Cycle Ratio (boost)", "[test_cycle_ratio_boost]")
 {
-    using EdgeIndexMap = typename boost::property_map<graph_t, boost::edge_id_tag_t>::type;
-    using IterMap      = boost::iterator_property_map<int*, EdgeIndexMap, int, int&>;
+    using EdgeIndexMap =
+        typename boost::property_map<graph_t, boost::edge_id_tag_t>::type;
+    using IterMap = boost::iterator_property_map<int*, EdgeIndexMap, int, int&>;
 
-    auto         G       = create_test_case1();
-    int          cost[]  = {5, 1, 1, 1, 1};
+    auto G = create_test_case1();
+    int cost[] = {5, 1, 1, 1, 1};
     EdgeIndexMap edge_id = boost::get(boost::id_tag, G);
-    IterMap      cost_pa(cost, edge_id);
+    IterMap cost_pa(cost, edge_id);
 
     auto get_cost = [&](const xn::grAdaptor<graph_t>&, const auto& e) -> int {
         return boost::get(cost_pa, e);
     };
-    auto get_time = [&](const xn::grAdaptor<graph_t>&, const auto&) -> int { return 1; };
+    auto get_time = [&](const xn::grAdaptor<graph_t>&, const auto&) -> int {
+        return 1;
+    };
 
-    auto [r, c] = min_cycle_ratio(G, get_cost, get_time, fun::Fraction<int>{});
+    auto [r, c] = min_cycle_ratio(G, get_cost, get_time, fun::Fraction<int> {});
     CHECK(!c.empty());
     CHECK(c.size() == 5);
     CHECK(r == fun::Fraction<int>(9, 5));
@@ -92,22 +96,26 @@ TEST_CASE("Test Cycle Ratio (boost)", "[test_cycle_ratio_boost]")
     // print(dist.items());
 }
 
-TEST_CASE("Test Cycle Ratio of Timing Graph (boost)", "[test_cycle_ratio_boost]")
+TEST_CASE(
+    "Test Cycle Ratio of Timing Graph (boost)", "[test_cycle_ratio_boost]")
 {
-    using EdgeIndexMap = typename boost::property_map<graph_t, boost::edge_id_tag_t>::type;
-    using IterMap      = boost::iterator_property_map<int*, EdgeIndexMap, int, int&>;
+    using EdgeIndexMap =
+        typename boost::property_map<graph_t, boost::edge_id_tag_t>::type;
+    using IterMap = boost::iterator_property_map<int*, EdgeIndexMap, int, int&>;
 
-    auto         G       = create_test_case_timing();
-    int          cost[]  = {7, -1, 5, 4, 3, 0, 2, 4};
+    auto G = create_test_case_timing();
+    int cost[] = {7, -1, 5, 4, 3, 0, 2, 4};
     EdgeIndexMap edge_id = boost::get(boost::id_tag, G);
-    IterMap      cost_pa(cost, edge_id);
+    IterMap cost_pa(cost, edge_id);
 
-    auto get_cost = [&](const xn::grAdaptor<graph_t>&, const auto& e) -> int {
+    auto get_cost = [&](const xn::grAdaptor<graph_t>& /*G*/,
+                        const auto& e) -> int {
         return boost::get(cost_pa, e);
     };
-    auto get_time = [&](const xn::grAdaptor<graph_t>&, const auto&) -> int { return 1; };
+    auto get_time = [&](const xn::grAdaptor<graph_t>& /*G*/, const auto &
+                        /*e*/) -> int { return 1; };
 
-    auto [r, c] = min_cycle_ratio(G, get_cost, get_time, fun::Fraction<int>{});
+    auto [r, c] = min_cycle_ratio(G, get_cost, get_time, fun::Fraction<int> {});
     CHECK(!c.empty());
     CHECK(r == fun::Fraction<int>(3, 2));
     CHECK(c.size() == 2);

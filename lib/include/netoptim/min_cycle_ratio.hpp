@@ -1,10 +1,10 @@
 // -*- coding: utf-8 -*-
 #pragma once
 
+#include "parametric.hpp" // import max_parametric
 #include <algorithm>
 #include <numeric>
 #include <py2cpp/py2cpp.hpp>
-#include "parametric.hpp" // import max_parametric
 
 /*!
  * @brief
@@ -18,7 +18,7 @@
  * @param get_time
  * @return auto
  */
-template<typename Graph, typename Fn1, typename Fn2, typename T>
+template <typename Graph, typename Fn1, typename Fn2, typename T>
 auto min_cycle_ratio(Graph& G, Fn1 get_cost, Fn2 get_time, T&& /*! dummy */)
 {
     using edge_t = typename Graph::edge_t;
@@ -38,8 +38,10 @@ auto min_cycle_ratio(Graph& G, Fn1 get_cost, Fn2 get_time, T&& /*! dummy */)
     {
         auto c = get_cost(G, e);
         auto t = get_time(G, e);
-        if (max_cost < c) max_cost = c;
-        if (min_time > t) min_time = t;
+        if (max_cost < c)
+            max_cost = c;
+        if (min_time > t)
+            min_time = t;
     }
     auto r0 = T(max_cost * G.number_of_edges()) / min_time;
 

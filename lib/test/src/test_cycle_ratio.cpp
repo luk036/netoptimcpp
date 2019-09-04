@@ -13,7 +13,7 @@
  */
 static auto create_test_case1()
 {
-    using Edge     = std::pair<int, int>;
+    using Edge = std::pair<int, int>;
     auto num_nodes = 5;
     enum nodes
     {
@@ -23,9 +23,10 @@ static auto create_test_case1()
         D,
         E
     };
-    auto edges   = std::array<Edge, 5>{Edge(A, B), Edge(B, C), Edge(C, D), Edge(D, E), Edge(E, A)};
-    auto indices = std::array<int, 5>{0, 1, 2, 3, 4};
-    auto g       = xn::DiGraphS(py::range<int>(num_nodes));
+    auto edges = std::array<Edge, 5> {
+        Edge(A, B), Edge(B, C), Edge(C, D), Edge(D, E), Edge(E, A)};
+    auto indices = std::array<int, 5> {0, 1, 2, 3, 4};
+    auto g = xn::DiGraphS(py::range<int>(num_nodes));
     g.add_edges_from(edges, indices);
     return g;
 }
@@ -37,7 +38,7 @@ static auto create_test_case1()
  */
 static auto create_test_case_timing()
 {
-    using Edge     = std::pair<int, int>;
+    using Edge = std::pair<int, int>;
     auto num_nodes = 3;
     enum nodes
     {
@@ -45,28 +46,30 @@ static auto create_test_case_timing()
         B,
         C
     };
-    auto edges =
-        std::array<Edge, 6>{Edge(A, B), Edge(B, A), Edge(B, C), Edge(C, B), Edge(C, A), Edge(A, C)};
+    auto edges = std::array<Edge, 6> {
+        Edge(A, B), Edge(B, A), Edge(B, C), Edge(C, B), Edge(C, A), Edge(A, C)};
     // make sure no parallel edges!!!
 
-    auto indices = std::array<int, 6>{0, 1, 2, 3, 4, 5};
-    auto g       = xn::DiGraphS(py::range<int>(num_nodes));
+    auto indices = std::array<int, 6> {0, 1, 2, 3, 4, 5};
+    auto g = xn::DiGraphS(py::range<int>(num_nodes));
     g.add_edges_from(edges, indices);
     return g;
 }
 
 TEST_CASE("Test Cycle Ratio", "[test_cycle_ratio]")
 {
-    auto G    = create_test_case1();
-    auto cost = std::array<int, 5>{5, 1, 1, 1, 1};
+    auto G = create_test_case1();
+    auto cost = std::array<int, 5> {5, 1, 1, 1, 1};
 
     auto get_cost = [&](const auto& G, const auto& e) -> int {
         auto [u, v] = G.end_points(e);
         return cost[G[u][v]];
     };
-    auto get_time = [&](const auto&, const auto&) -> int { return 1; };
+    auto get_time = [&](const auto& /*G*/, const auto & /*e*/) -> int {
+        return 1;
+    };
 
-    auto [r, c] = min_cycle_ratio(G, get_cost, get_time, fun::Fraction<int>{});
+    auto [r, c] = min_cycle_ratio(G, get_cost, get_time, fun::Fraction<int> {});
     CHECK(!c.empty());
     CHECK(c.size() == 5);
     CHECK(r == fun::Fraction<int>(9, 5));
@@ -74,16 +77,18 @@ TEST_CASE("Test Cycle Ratio", "[test_cycle_ratio]")
 
 TEST_CASE("Test Cycle Ratio of Timing Graph", "[test_cycle_ratio]")
 {
-    auto G    = create_test_case_timing();
-    auto cost = std::array<int, 6>{7, -1, 3, 0, 2, 4};
+    auto G = create_test_case_timing();
+    auto cost = std::array<int, 6> {7, -1, 3, 0, 2, 4};
 
     auto get_cost = [&](const auto& G, const auto& e) -> int {
         auto [u, v] = G.end_points(e);
         return cost[G[u][v]];
     };
-    auto get_time = [&](const auto&, const auto&) -> int { return 1; };
+    auto get_time = [&](const auto& /*G*/, const auto & /*e*/) -> int {
+        return 1;
+    };
 
-    auto [r, c] = min_cycle_ratio(G, get_cost, get_time, fun::Fraction<int>{});
+    auto [r, c] = min_cycle_ratio(G, get_cost, get_time, fun::Fraction<int> {});
     CHECK(!c.empty());
     CHECK(r == fun::Fraction<int>(3, 2));
     CHECK(c.size() == 2);

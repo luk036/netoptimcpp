@@ -35,25 +35,37 @@
 
     Interface: Mapping
 */
-template<typename Atlas>
+template <typename Atlas>
 class AtlasView
 {
-public:
+  public:
     Atlas& _atlas;
 
-    explicit AtlasView(Atlas& d) : _atlas{d} {}
+    explicit AtlasView(Atlas& d)
+        : _atlas {d}
+    {
+    }
 
-    auto size() const { return this->_atlas.size(); }
+    auto size() const
+    {
+        return this->_atlas.size();
+    }
 
-    auto begin() const { return std::begin(this->_atlas); }
+    auto begin() const
+    {
+        return std::begin(this->_atlas);
+    }
 
-    auto end() const { return std::end(this->_atlas); }
+    auto end() const
+    {
+        return std::end(this->_atlas);
+    }
 
     // template <typename T> auto& operator[](const T &key) {
     //     return this->_atlas[key];
     // }
 
-    template<typename T>
+    template <typename T>
     auto operator[](const T& key) const
     {
         return this->_atlas.at(key);
@@ -83,13 +95,16 @@ public:
     AtlasView - View into dict-of-dict
     MultiAdjacencyView - View into dict-of-dict-of-dict-of-dict
 */
-template<typename Atlas>
+template <typename Atlas>
 class AdjacencyView : public AtlasView<Atlas>
 {
-public:
-    explicit AdjacencyView(Atlas& d) : AtlasView<Atlas>{d} {}
+  public:
+    explicit AdjacencyView(Atlas& d)
+        : AtlasView<Atlas> {d}
+    {
+    }
 
-    template<typename T>
+    template <typename T>
     auto operator[](const T& name) const
     {
         return AtlasView(this->_atlas[name]);

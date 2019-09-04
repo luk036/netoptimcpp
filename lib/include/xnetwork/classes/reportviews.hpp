@@ -174,12 +174,12 @@ true
 false
  */
 // interface: Mapping, Set
-template<typename nodeview_t>
+template <typename nodeview_t>
 class NodeView
 {
-private:
+  private:
     using _Self = NodeView<nodeview_t>;
-    using Node  = typename nodeview_t::value_type;
+    using Node = typename nodeview_t::value_type;
 
     nodeview_t& _nodes;
 
@@ -190,20 +190,38 @@ private:
     // auto __setstate__( state) {
     //     this->_nodes = state["_nodes"];
     // }
-public:
-    explicit NodeView(nodeview_t& nodes) : _nodes{nodes} {}
+  public:
+    explicit NodeView(nodeview_t& nodes)
+        : _nodes {nodes}
+    {
+    }
 
     // Mapping methods
-    auto size() { return this->_nodes.size(); }
+    auto size()
+    {
+        return this->_nodes.size();
+    }
 
-    auto begin() { return std::begin(this->_nodes); }
+    auto begin()
+    {
+        return std::begin(this->_nodes);
+    }
 
-    auto end() { return std::end(this->_nodes); }
+    auto end()
+    {
+        return std::end(this->_nodes);
+    }
 
-    auto operator[](const Node& n) { return this->_nodes[n]; }
+    auto operator[](const Node& n)
+    {
+        return this->_nodes[n];
+    }
 
     // Set methods
-    bool contains(const Node& n) { return this->_nodes.contains(n); }
+    bool contains(const Node& n)
+    {
+        return this->_nodes.contains(n);
+    }
 
     // /// @classmethod
     // auto _from_iterable(cls, it) {
