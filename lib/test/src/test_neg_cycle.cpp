@@ -2,7 +2,7 @@
 #define CATCH_CONFIG_MAIN
 
 #include <array>
-#include <catch.hpp>
+#include <catch2/catch.hpp>
 #include <netoptim/neg_cycle.hpp> // import negCycleFinder
 #include <xnetwork/classes/digraphs.hpp>
 

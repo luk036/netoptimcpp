@@ -5,7 +5,6 @@
  *  This is a C++ Library header.
  */
 
-#include <cassert>
 #include <cmath>
 #include <numeric>
 #include <type_traits>

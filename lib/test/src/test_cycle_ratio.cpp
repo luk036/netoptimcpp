@@ -1,6 +1,6 @@
 // -*- coding: utf-8 -*-
 #include <array>
-#include <catch.hpp>
+#include <catch2/catch.hpp>
 #include <netoptim/min_cycle_ratio.hpp>
 #include <py2cpp/fractions.hpp> // import Fraction
 //#include <py2cpp/nx2bgl.hpp>
