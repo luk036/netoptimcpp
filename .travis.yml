@@ -1,8 +1,8 @@
 language: cpp
-dist: trusty
 matrix:
   include:
     - os: linux
+      dist: trusty
       addons: &gcc7
         apt:
           sources:
@@ -12,12 +12,15 @@ matrix:
             - lcov
       env: COMPILER=gcc GCC=7 BUILD_TYPE='Debug'
     - os: linux
+      dist: trusty
       addons: *gcc7
       env: COMPILER=gcc GCC=7 BUILD_TYPE='Release'
     - os: linux
+      dist: trusty
       addons: *gcc7
       env: COMPILER=gcc GCC=7 BUILD_TYPE='Coverage'
     - os: linux
+      dist: trusty
       addons: &gcc8
         apt:
           sources:
@@ -27,15 +30,17 @@ matrix:
             - lcov
       env: COMPILER=gcc GCC=8 BUILD_TYPE='Debug'
     - os: linux
+      dist: trusty
       addons: *gcc8
       env: COMPILER=gcc GCC=8 BUILD_TYPE='Release'
     - os: linux
+      dist: xenial
       addons: &clang8
         apt:
-          sources: ['llvm-toolchain-trusty-8', 'ubuntu-toolchain-r-test']
+          sources: ['llvm-toolchain-xenial-8', 'ubuntu-toolchain-r-test']
           packages:
             - clang-8
-            - libstdc++-6-dev
+            - libstdc++-8-dev
             - lcov
       env: COMPILER=clang CLANG=8 BUILD_TYPE='Debug'
     - os: linux
