@@ -32,7 +32,7 @@ matrix:
     - os: linux
       addons: &clang8
         apt:
-          sources: ['llvm-toolchain-xenial-8', 'ubuntu-toolchain-r-test']
+          sources: ['llvm-toolchain-trusty-8', 'ubuntu-toolchain-r-test']
           packages:
             - clang-8
             - libstdc++-8-dev

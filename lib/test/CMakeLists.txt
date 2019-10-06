@@ -12,7 +12,6 @@ set (TEST_MODULE_PATH "${LIBRARY_MODULE_PATH}/test")
 set (TEST_SRC_PATH  "${TEST_MODULE_PATH}/src" )
 
 #set includes
-message(STATUS "Test: ${LIBRARY_INCLUDE_PATH} ")
 include_directories (${LIBRARY_INCLUDE_PATH} ${TEST_THIRD_PARTY_INCLUDE_PATH} ${Boost_INCLUDE_DIRS})
 
 #set test sources
