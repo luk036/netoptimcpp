@@ -196,7 +196,7 @@ class set : public std::unordered_set<Key>
      *
      * @param init
      */
-    set(std::initializer_list<Key> init)
+    explicit set(std::initializer_list<Key> init)
         : std::unordered_set<Key> {init}
     {
     }
@@ -241,7 +241,7 @@ class set : public std::unordered_set<Key>
      * @brief Move Constructor (default)
      *
      */
-    set(_Self&&) = default;
+    set(set<Key>&&) = default;
 
   private:
     /*!
@@ -249,7 +249,7 @@ class set : public std::unordered_set<Key>
      *
      * Copy through explicitly the public copy() function!!!
      */
-    set(const _Self&) = default;
+    set(const set<Key>&) = default;
 };
 
 /*!
@@ -294,7 +294,7 @@ set(std::initializer_list<Key>)->set<Key>;
 template <typename Iter>
 struct key_iterator : Iter
 {
-    key_iterator(Iter it)
+    explicit key_iterator(Iter it)
         : Iter(it)
     {
     }
@@ -338,7 +338,7 @@ class dict : public std::unordered_map<Key, T>
      *
      * @param init
      */
-    dict(std::initializer_list<value_type> init)
+    explicit dict(std::initializer_list<value_type> init)
         : std::unordered_map<Key, T> {init}
     {
     }
@@ -453,7 +453,7 @@ class dict : public std::unordered_map<Key, T>
      * @brief Move Constructor (default)
      *
      */
-    dict(_Self&&) = default;
+    dict(dict<Key, T>&&) = default;
 
   private:
     /*!
@@ -461,7 +461,7 @@ class dict : public std::unordered_map<Key, T>
      *
      * Copy through explicitly the public copy() function!!!
      */
-    dict(const _Self&) = default;
+    dict(const dict<Key, T>&) = default;
 };
 
 /*!

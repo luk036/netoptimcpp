@@ -257,13 +257,13 @@ class Graph : public object
         >>> r = py::range(100);
         >>> G = xn::Graph(r);  // or DiGraph, MultiGraph, MultiDiGraph, etc
     */
-    Graph(const nodeview_t& Nodes)
+    explicit Graph(const nodeview_t& Nodes)
         : _node {Nodes}
         , _adj(Nodes.size())
     {
     }
 
-    Graph(int num_nodes)
+    explicit Graph(int num_nodes)
         : _node {py::range<int>(num_nodes)}
         , _adj(num_nodes)
     {

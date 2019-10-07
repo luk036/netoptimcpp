@@ -231,13 +231,13 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t>
         >>> G = xn::DiGraphS(r, r);  // or DiGraph, MultiGraph, MultiDiGraph,
        etc
     */
-    DiGraphS(const nodeview_t& Nodes)
+    explicit DiGraphS(const nodeview_t& Nodes)
         : _Base {Nodes}
         , _succ {_Base::_adj}
     {
     }
 
-    DiGraphS(int num_nodes)
+    explicit DiGraphS(int num_nodes)
         : _Base {py::range<int>(num_nodes)}
         , _succ {_Base::_adj}
     {
