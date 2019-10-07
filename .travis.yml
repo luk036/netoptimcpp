@@ -44,6 +44,7 @@ matrix:
             - lcov
       env: COMPILER=clang CLANG=8 BUILD_TYPE='Debug'
     - os: linux
+      dist: xenial
       addons: *clang8
       env: COMPILER=clang CLANG=8 BUILD_TYPE='Release'
 env:

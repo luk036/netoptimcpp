@@ -23,9 +23,9 @@ static auto create_test_case1()
         D,
         E
     };
-    auto edges = std::array<Edge, 5> {
+    auto edges = std::array {
         Edge(A, B), Edge(B, C), Edge(C, D), Edge(D, E), Edge(E, A)};
-    auto weights = std::array<int, 5> {-5, 1, 1, 1, 1};
+    auto weights = std::array {-5, 1, 1, 1, 1};
     auto g = xn::DiGraphS(py::range<int>(num_nodes));
     g.add_edges_from(edges, weights);
     return g;
@@ -48,9 +48,9 @@ static auto create_test_case2()
         D,
         E
     };
-    auto edges = std::array<Edge, 5> {
+    auto edges = std::array {
         Edge(A, B), Edge(B, C), Edge(C, D), Edge(D, E), Edge(E, A)};
-    auto weights = std::array<int, 5> {2, 1, 1, 1, 1};
+    auto weights = std::array {2, 1, 1, 1, 1};
     auto g = xn::DiGraphS(py::range<int>(num_nodes));
     g.add_edges_from(edges, weights);
     return g;
@@ -71,9 +71,9 @@ static auto create_test_case_timing()
         B,
         C
     };
-    auto edges = std::array<Edge, 8> {Edge(A, B), Edge(B, A), Edge(B, C),
+    auto edges = std::array {Edge(A, B), Edge(B, A), Edge(B, C),
         Edge(C, B), Edge(B, C), Edge(C, B), Edge(C, A), Edge(A, C)};
-    auto weights = std::array<int, 8> {7, 0, 3, 1, 6, 4, 2, 5};
+    auto weights = std::array {7, 0, 3, 1, 6, 4, 2, 5};
     auto g = xn::DiGraphS(py::range<int>(num_nodes));
     g.add_edges_from(edges, weights);
     return g;
@@ -88,7 +88,7 @@ static auto create_test_case_timing()
  * @return false
  */
 template <typename Graph>
-auto do_case(const Graph& G) -> bool
+bool do_case(const Graph& G)
 {
     auto get_weight = [](const Graph& G2, const auto& e) -> int {
         auto [u, v] = G2.end_points(e);
