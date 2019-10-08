@@ -4,7 +4,7 @@
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/graph_traits.hpp>
 #include <catch2/catch.hpp>
-#include <fmt/format.h>
+// #include <fmt/format.h>
 #include <netoptim/min_cycle_ratio.hpp>
 #include <netoptim/neg_cycle.hpp> // import negCycleFinder
 #include <py2cpp/nx2bgl.hpp>
@@ -105,7 +105,7 @@ TEST_CASE("Test No Negative Cycle", "[test_neg_cycle]")
     xn::grAdaptor<graph_t> G      = create_test_case2();
     bool                   hasNeg = do_case(G);
     CHECK(!hasNeg);
-    fmt::print("The answer is {}.\n", hasNeg);
+    // fmt::print("The answer is {}.\n", hasNeg);
 }
 
 TEST_CASE("Test Timing Graph", "[test_neg_cycle]")
@@ -113,5 +113,5 @@ TEST_CASE("Test Timing Graph", "[test_neg_cycle]")
     xn::grAdaptor<graph_t> G      = create_test_case_timing();
     bool                   hasNeg = do_case(G);
     CHECK(!hasNeg);
-    fmt::print("The answer is {}.\n", hasNeg);
+    // fmt::print("The answer is {}.\n", hasNeg);
 }
