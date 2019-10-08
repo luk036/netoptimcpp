@@ -1,7 +1,8 @@
 #ifndef _HOME_UBUNTU_GITHUB_XNETWORK_CLASS_DIGRAPH_HPP
 #define _HOME_UBUNTU_GITHUB_XNETWORK_CLASS_DIGRAPH_HPP 1
 
-#include <boost/any.hpp>
+// #include <boost/any.hpp>
+#include <any>
 #include <boost/coroutine2/all.hpp>
 #include <cassert>
 #include <py2cpp/py2cpp.hpp>
@@ -109,7 +110,7 @@ namespace xn
     direct manipulation of the attribute
     dictionaries named graph, node and edge respectively.
 
-    >>> G.graph["day"] = boost::any("Friday");
+    >>> G.graph["day"] = std::any("Friday");
     {'day': 'Friday'}
 
     **Subclasses (Advanced):**
@@ -340,7 +341,7 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t>
         // add the edge
         // datadict = this->_adj[u].get(v, this->edge_attr_dict_factory());
         // datadict.update(attr);
-        if constexpr (std::is_same<key_type, value_type>::value)
+        if constexpr (std::is_same_v<key_type, value_type>)
         {
             // set
             this->_succ[u].insert(v);
