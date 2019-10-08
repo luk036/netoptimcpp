@@ -84,20 +84,13 @@ find_package (Threads REQUIRED)
 #     message(STATUS "Found BLAS: ${BLAS_INCLUDE_DIRS}")
 #     set(LIBS ${LIBS} ${BLAS_LIBRARIES})
 # endif (BLAS_FOUND)
+find_package (fmt)
 find_package (Boost REQUIRED COMPONENTS context coroutine)
 if (Boost_FOUND)
     message(STATUS "Found boost: ${Boost_INCLUDE_DIRS}")
     set(LIBS ${LIBS} ${Boost_LIBRARIES})
 endif (Boost_FOUND)
 
-
-# add_definitions ( -std=c++1z )
-# add_subdirectory (third_party EXCLUDE_FROM_ALL)
-
-# add_executable (Main profit_main.cpp)
-# add_executable (Test exp1d.cpp)
-# target_link_libraries ( Main Threads::Threads ${LIBS} -llapack -lblas -lfmt)
-# target_link_libraries ( Test Threads::Threads ${LIBS} -llapack -lblas -lfmt)
 set (LIBRARY_INCLUDE_PATH  ${LIBRARY_INCLUDE_PATH} ${Boost_INCLUDE_DIRS})
 
 add_subdirectory (doc)
