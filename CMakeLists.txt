@@ -18,6 +18,8 @@ endif()
 
 project (NetOptimCpp LANGUAGES CXX)
 
+cmake_policy(SET CMP0075 OLD)
+
 include(CTest) # Must be called before adding tests but after calling project(). This automatically calls enable_testing() and configures ctest targets when using Make/Ninja
 include(CMakeDependentOption)# This is a really useful scripts that creates options that depends on other options. It can even be used with generator expressions !
 
@@ -27,6 +29,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake")
 include(LTO)
 include(Warnings)
 include(CopyDllsForDebug)
+
 include(Coverage)
 
 # Guard against in-source builds and bad build-type strings
