@@ -7,7 +7,7 @@ set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
 #set(CTEST_USE_LAUNCHERS 1)
 set(CTEST_PROJECT_NAME "CPP-Ell")
 set(CTEST_BUILD_CONFIGURATION "Coverage") # Only works for multi-config generators
-cmake_policy(SET CMP0075 OLD)
+cmake_policy(SET CMP0075 NEW)
 
 if(NOT "$ENV{GCOV}" STREQUAL "")
     set(GCOV_NAME "$ENV{GCOV}")
