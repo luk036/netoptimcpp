@@ -21,14 +21,14 @@ file (GLOB TEST_SOURCE_FILES "${TEST_SRC_PATH}/*.cpp")
 # add_definitions ( -std=c++17 )
 
 #set target executable
-add_executable (${PROJECT_NAME}_test ${TEST_SOURCE_FILES})
+add_executable (${TEST_APP_NAME} ${TEST_SOURCE_FILES})
 
 #add the library
-target_link_libraries (${PROJECT_NAME}_test ${LIB_NAME} ${LIBS} fmt::fmt Threads::Threads)
+target_link_libraries (${TEST_APP_NAME} ${LIB_NAME} ${LIBS} fmt::fmt Threads::Threads)
 
 # Turn on CMake testing capabilities
 enable_testing()
 
 #parse catch tests
-## ParseAndAddCatchTests (${PROJECT_NAME}_test)
-add_test (NAME ${PROJECT_NAME}_test COMMAND ${PROJECT_NAME}_test )
+## ParseAndAddCatchTests (${TEST_APP_NAME})
+add_test (NAME ${TEST_APP_NAME} COMMAND ${TEST_APP_NAME})
