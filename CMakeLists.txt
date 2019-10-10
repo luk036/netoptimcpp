@@ -18,7 +18,7 @@ endif()
 
 project (NetOptimCpp LANGUAGES CXX)
 
-cmake_policy(SET CMP0075 NEW)
+option(ENABLE_COVERAGE "Generates the coverage build" OFF)
 
 include(CTest) # Must be called before adding tests but after calling project(). This automatically calls enable_testing() and configures ctest targets when using Make/Ninja
 include(CMakeDependentOption)# This is a really useful scripts that creates options that depends on other options. It can even be used with generator expressions !
@@ -29,8 +29,6 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake")
 include(LTO)
 include(Warnings)
 include(CopyDllsForDebug)
-
-include(Coverage)
 
 # Guard against in-source builds and bad build-type strings
 #
@@ -97,6 +95,13 @@ if (Boost_FOUND)
 endif (Boost_FOUND)
 
 set (LIBRARY_INCLUDE_PATH  ${LIBRARY_INCLUDE_PATH} ${Boost_INCLUDE_DIRS})
+
+# Enable code coverage with -DENABLE_COVERAGE=1
+if(ENABLE_COVERAGE)
+    set(CMAKE_BUILD_TYPE "Coverage")
+    include(CodeCoverage)
+    setup_target_for_coverage(${PROJECT_NAME}_coverage ${PROJECT_NAME}_test coverage)
+endif()
 
 add_subdirectory (doc)
 add_subdirectory (lib)
