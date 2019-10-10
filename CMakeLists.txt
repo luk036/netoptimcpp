@@ -64,6 +64,8 @@ endif()
 
 set (THREADS_PREFER_PTHREAD_FLAG ON)
 find_package (Threads REQUIRED)
+find_package (fmt)
+
 # find_package (xtensor-blas REQUIRED)
 # if (xtensor-blas_FOUND)
 #     message(STATUS "Found xtensor-blas: ${xtensor-blas_INCLUDE_DIRS}")
@@ -84,7 +86,7 @@ find_package (Threads REQUIRED)
 #     message(STATUS "Found BLAS: ${BLAS_INCLUDE_DIRS}")
 #     set(LIBS ${LIBS} ${BLAS_LIBRARIES})
 # endif (BLAS_FOUND)
-find_package (fmt)
+
 find_package (Boost REQUIRED COMPONENTS context coroutine)
 if (Boost_FOUND)
     message(STATUS "Found boost: ${Boost_INCLUDE_DIRS}")

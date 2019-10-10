@@ -1,6 +1,4 @@
 // -*- coding: utf-8 -*-
-#define CATCH_CONFIG_MAIN
-
 #include <array>
 #include <catch2/catch.hpp>
 #include <netoptim/neg_cycle.hpp> // import negCycleFinder

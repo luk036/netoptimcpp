@@ -31,6 +31,7 @@
 # SOFTWARE.
 
 include(CMakeDependentOption)
+cmake_policy(SET CMP0075 OLD)
 
 set(COVERAGE_COMPILER_FLAGS  "-g -O0 --coverage" CACHE INTERNAL "")
 set(COVERAGE_LINKER_FLAGS    "--coverage"        CACHE INTERNAL "")
