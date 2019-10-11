@@ -318,9 +318,9 @@ class Graph : public object
         return py::enumerate(this->_adj);
     }
 
-    static Node null_vertex()
+    Node null_vertex() const
     {
-        return Node(-1);
+        return *(this->_node.end());
     }
 
     /// @property

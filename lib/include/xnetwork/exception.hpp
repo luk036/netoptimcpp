@@ -1,6 +1,5 @@
 // -*- coding: utf-8 -*-
-#ifndef _HOME_UBUNTU_GITHUB_XNETWORK_EXCEPTION_HPP
-#define _HOME_UBUNTU_GITHUB_XNETWORK_EXCEPTION_HPP 1
+#pragma once
 
 #include <exception>
 #include <initializer_list>
@@ -11,28 +10,28 @@
 Exceptions
 **********
 
-Base exceptions && errors for XNetwork.
+Base exceptions and errors for XNetwork.
 */
 
 namespace xn
 {
 
-// static const auto __all__ = {
-//     "HasACycle",
-//     "NodeNotFound",
-//     "PowerIterationFailedConvergence",
-//     "ExceededMaxIterations",
-//     "AmbiguousSolution",
-//     "XNetworkAlgorithmError",
-//     "XNetworkException",
-//     "XNetworkError",
-//     "XNetworkNoCycle",
-//     "XNetworkNoPath",
-//     "XNetworkNotImplemented",
-//     "XNetworkPointlessConcept",
-//     "XNetworkUnbounded",
-//     "XNetworkUnfeasible",
-// };
+static const auto __all__ = {
+    "HasACycle",
+    "NodeNotFound",
+    "PowerIterationFailedConvergence",
+    "ExceededMaxIterations",
+    "AmbiguousSolution",
+    "XNetworkAlgorithmError",
+    "XNetworkException",
+    "XNetworkError",
+    "XNetworkNoCycle",
+    "XNetworkNoPath",
+    "XNetworkNotImplemented",
+    "XNetworkPointlessConcept",
+    "XNetworkUnbounded",
+    "XNetworkUnfeasible",
+};
 
 /*! Base class for exceptions : XNetwork. */
 struct XNetworkException : std::runtime_error
@@ -60,8 +59,8 @@ thus the name of the exception.
 
 References
 ----------
-.. [1] Harary, F. && Read, R. "Is the Null Graph a Pointless
-   Concept?"  In Graphs && Combinatorics Conference, George
+.. [1] Harary, F. and Read, R. "Is the Null Graph a Pointless
+   Concept?"  In Graphs and Combinatorics Conference, George
    Washington University.  New York: Springer-Verlag, 1973.
 
  */
@@ -195,5 +194,3 @@ struct ExceededMaxIterations : XNetworkException
 //     }
 // };
 }; // namespace xn
-
-#endif
