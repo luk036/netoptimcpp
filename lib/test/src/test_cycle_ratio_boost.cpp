@@ -117,8 +117,8 @@ TEST_CASE(
 
     auto [r, c] = min_cycle_ratio(G, get_cost, get_time, fun::Fraction<int> {});
     CHECK(!c.empty());
-    CHECK(r == fun::Fraction<int>(3, 2));
-    CHECK(c.size() == 2);
+    CHECK(r == fun::Fraction<int>(1, 1));
+    CHECK(c.size() == 3);
     // print(r);
     // print(c);
     // print(dist.items());

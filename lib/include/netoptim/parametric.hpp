@@ -27,22 +27,27 @@
  *       dist -- optimal sol"n
  */
 template <typename Graph, typename T, typename Fn1, typename Fn2>
-auto max_parametric(Graph& G, T r, Fn1& d, Fn2& zero_cancel)
+auto max_parametric(Graph& G, T r_opt, Fn1& d, Fn2& zero_cancel)
 {
     using edge_t = typename Graph::edge_t;
-
-    auto get_weight = [d, r](const Graph& G,
+ 
+    auto get_weight = [&](const Graph& G,
                           const edge_t& e) -> T { // int???
-        return d(G, r, e);
+        return d(G, r_opt, e);
     };
 
-    auto S = negCycleFinder(G, get_weight);
     auto C_opt = std::vector<edge_t> {};
-    auto r_opt = r;
+    // auto r_opt = r;
 
     while (true)
     {
+        auto S = negCycleFinder(G, get_weight);
         const auto& C_min = S.neg_cycle_relax();
+        if (C_min.empty())
+        {
+            break;
+        }
+
         const auto& r_min = zero_cancel(G, C_min);
 
         if (r_min >= r_opt)

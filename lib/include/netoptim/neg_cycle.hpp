@@ -136,7 +136,7 @@ class negCycleFinder
         for (node_t v : this->_G)
             this->_dist[v] = wt_t(0);
         this->_pred.clear();
-        return std::move(this->neg_cycle_relax());
+        return this->neg_cycle_relax();
     }
 
     /*!
@@ -181,7 +181,7 @@ class negCycleFinder
             {
                 break;
             }
-        }
+        } 
         return cycle;
     }
 
