@@ -9,6 +9,7 @@
 #include <netoptim/neg_cycle.hpp> // import negCycleFinder
 #include <py2cpp/nx2bgl.hpp>
 #include <utility> // for std::pair
+#include <vector>
 
 using graph_t = boost::adjacency_list<
     boost::listS, boost::vecS, boost::directedS, boost::no_property,
@@ -81,8 +82,9 @@ bool do_case(xn::grAdaptor<graph_t>& G)
         return weightmap[e];
     };
 
-    negCycleFinder N(G, get_weight);
-    auto           cycle = N.find_neg_cycle();
+    auto N = negCycleFinder(G);
+    auto dist = std::vector<int>(G.number_of_nodes(), 0);
+    auto cycle = N.find_neg_cycle(dist, get_weight);
     return !cycle.empty();
 }
 

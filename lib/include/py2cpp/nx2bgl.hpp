@@ -248,6 +248,17 @@ class grAdaptor : public VertexView<Graph>
      *
      * @return auto
      */
+    auto number_of_nodes() const
+    {
+        return boost::num_vertices(*this);
+    }
+
+
+    /*!
+     * @brief
+     *
+     * @return auto
+     */
     auto number_of_edges() const
     {
         return boost::num_edges(*this);

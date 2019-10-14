@@ -2,6 +2,7 @@
 #include <array>
 #include <catch2/catch.hpp>
 #include <netoptim/neg_cycle.hpp> // import negCycleFinder
+#include <vector>
 #include <xnetwork/classes/digraphs.hpp>
 
 /*!
@@ -12,7 +13,7 @@
 static auto create_test_case1()
 {
     using Edge = std::pair<int, int>;
-    auto num_nodes = 5;
+    constexpr auto num_nodes = 5;
     enum nodes
     {
         A,
@@ -21,9 +22,9 @@ static auto create_test_case1()
         D,
         E
     };
-    auto edges = std::array {
-        Edge(A, B), Edge(B, C), Edge(C, D), Edge(D, E), Edge(E, A)};
-    auto weights = std::array {-5, 1, 1, 1, 1};
+    auto edges =
+        std::array {Edge(A, B), Edge(B, C), Edge(C, D), Edge(D, E), Edge(E, A)};
+    constexpr auto weights = std::array {-5, 1, 1, 1, 1};
     auto g = xn::DiGraphS(py::range<int>(num_nodes));
     g.add_edges_from(edges, weights);
     return g;
@@ -37,7 +38,7 @@ static auto create_test_case1()
 static auto create_test_case2()
 {
     using Edge = std::pair<int, int>;
-    auto num_nodes = 5;
+    constexpr auto num_nodes = 5;
     enum nodes
     {
         A,
@@ -46,8 +47,8 @@ static auto create_test_case2()
         D,
         E
     };
-    auto edges = std::array {
-        Edge(A, B), Edge(B, C), Edge(C, D), Edge(D, E), Edge(E, A)};
+    auto edges =
+        std::array {Edge(A, B), Edge(B, C), Edge(C, D), Edge(D, E), Edge(E, A)};
     auto weights = std::array {2, 1, 1, 1, 1};
     auto g = xn::DiGraphS(py::range<int>(num_nodes));
     g.add_edges_from(edges, weights);
@@ -62,15 +63,15 @@ static auto create_test_case2()
 static auto create_test_case_timing()
 {
     using Edge = std::pair<int, int>;
-    auto num_nodes = 3;
+    constexpr auto num_nodes = 3;
     enum nodes
     {
         A,
         B,
         C
     };
-    auto edges = std::array {Edge(A, B), Edge(B, A), Edge(B, C),
-        Edge(C, B), Edge(B, C), Edge(C, B), Edge(C, A), Edge(A, C)};
+    auto edges = std::array {Edge(A, B), Edge(B, A), Edge(B, C), Edge(C, B),
+        Edge(B, C), Edge(C, B), Edge(C, A), Edge(A, C)};
     auto weights = std::array {7, 0, 3, 1, 6, 4, 2, 5};
     auto g = xn::DiGraphS(py::range<int>(num_nodes));
     g.add_edges_from(edges, weights);
@@ -93,8 +94,9 @@ bool do_case(const Graph& G)
         return G2[u][v];
     };
 
-    auto N = negCycleFinder(G, get_weight);
-    auto cycle = N.find_neg_cycle();
+    auto dist = std::vector(G.number_of_nodes(), 0);
+    auto N = negCycleFinder(G);
+    auto cycle = N.find_neg_cycle(dist, get_weight);
     return !cycle.empty();
 }
 

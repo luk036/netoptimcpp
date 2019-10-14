@@ -85,8 +85,9 @@ auto do_case(xn::grAdaptor<graph_t>& G) -> bool
         return weightmap[e];
     };
 
-    auto N = negCycleFinder(G, get_weight);
-    auto cycle = N.find_neg_cycle();
+    auto dist = std::vector(G.number_of_nodes(), 0);
+    auto N = negCycleFinder(G);
+    auto cycle = N.find_neg_cycle(dist, get_weight);
     return !cycle.empty();
 }
 

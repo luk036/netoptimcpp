@@ -394,7 +394,7 @@ class dict : public std::unordered_map<Key, T>
     {
         return key_iterator {std::unordered_map<Key, T>::begin()};
     }
- 
+
     /*!
      * @brief
      *
