@@ -1,5 +1,5 @@
-#ifndef _HOME_UBUNTU_GITHUB_XNETWORK_CLASS_DIGRAPH_HPP
-#define _HOME_UBUNTU_GITHUB_XNETWORK_CLASS_DIGRAPH_HPP 1
+// -*- coding: utf-8 -*-
+#pragma once
 
 // #include <boost/any.hpp>
 #include <any>
@@ -551,5 +551,3 @@ using SimpleDiGraphS = Graph<decltype(py::range<int>(1)), py::set<int>>;
 // -> DiGraphS<decltype(py::range<int>(1)), py::set<int>>;
 
 } // namespace xn
-
-#endif

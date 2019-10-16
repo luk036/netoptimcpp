@@ -33,7 +33,7 @@ class VertexView : public Graph
      *
      * @return auto
      */
-    auto begin()
+    auto begin() const
     {
         auto [v_iter, v_end] = boost::vertices(*this);
         return v_iter;
@@ -44,7 +44,7 @@ class VertexView : public Graph
      *
      * @return auto
      */
-    auto end()
+    auto end() const
     {
         auto [v_iter, v_end] = boost::vertices(*this);
         return v_end;

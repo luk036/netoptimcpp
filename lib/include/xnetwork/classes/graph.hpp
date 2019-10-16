@@ -1,5 +1,5 @@
-#ifndef _HOME_UBUNTU_GITHUB_XNETWORK_CLASS_GRAPH_HPP
-#define _HOME_UBUNTU_GITHUB_XNETWORK_CLASS_GRAPH_HPP 1
+// -*- coding: utf-8 -*-
+#pragma once
 
 // #include <boost/any.hpp>
 #include <any>
@@ -831,5 +831,3 @@ using SimpleGraph = Graph<decltype(py::range<int>(1)), py::set<int>>;
 // -> Graph<decltype(py::range<int>(1)), py::set<int>>;
 
 }; // namespace xn
-
-#endif
