@@ -46,12 +46,12 @@ class negCycleFinder
   public:
     /*!
      * @brief find negative cycle
-     * 
-     * @tparam Container 
-     * @tparam WeightFn 
-     * @param dist 
-     * @param get_weight 
-     * @return std::vector<edge_t> 
+     *
+     * @tparam Container
+     * @tparam WeightFn
+     * @param[inout] dist
+     * @param get_weight
+     * @return std::vector<edge_t>
      */
     template <typename Container, typename WeightFn>
     auto find_neg_cycle(Container& dist, const WeightFn& get_weight)
@@ -60,14 +60,9 @@ class negCycleFinder
         this->_pred.clear();
         this->_edge.clear();
 
-        while (true)
+        while (this->__relax(dist, get_weight))
         {
-            auto changed = this->__relax(dist, get_weight);
-            if (!changed)
-            {
-                break;
-            }
-            auto v = this->__find_cycle();
+            const auto v = this->__find_cycle();
             if (v != this->_G.null_vertex())
             {
                 assert(this->__is_negative(v, dist, get_weight));
@@ -80,14 +75,14 @@ class negCycleFinder
   private:
     /*!
      * @brief Find a cycle on policy graph
-     * 
+     *
      * @return node_t a start node of the cycle
      */
     auto __find_cycle() -> node_t
     {
         auto visited = py::dict<node_t, node_t> {};
 
-        for (auto v : this->_G)
+        for (const auto& v : this->_G)
         {
             if (visited.contains(v))
             {
@@ -121,13 +116,13 @@ class negCycleFinder
 
     /*!
      * @brief Perform one relaxation
-     * 
-     * @tparam Container 
-     * @tparam WeightFn 
-     * @param dist 
-     * @param get_weight 
-     * @return true 
-     * @return false 
+     *
+     * @tparam Container
+     * @tparam WeightFn
+     * @param dist
+     * @param get_weight
+     * @return true
+     * @return false
      */
     template <typename Container, typename WeightFn>
     auto __relax(Container& dist, const WeightFn& get_weight) -> bool
@@ -135,15 +130,15 @@ class negCycleFinder
         auto changed = false;
         for (auto e : this->_G.edges())
         {
-            auto [u, v] = this->_G.end_points(e);
-
-            auto wt = get_weight(this->_G, e);
-            auto d = dist[u] + wt;
+            const auto [u, v] = this->_G.end_points(e);
+            const auto wt = get_weight(this->_G, e);
+            const auto d = dist[u] + wt;
+            
             if (dist[v] > d)
             {
-                dist[v] = d;
                 this->_pred[v] = u;
                 this->_edge[v] = e; // ???
+                dist[v] = d;
                 changed = true;
             }
         }
@@ -152,17 +147,17 @@ class negCycleFinder
 
     /*!
      * @brief generate a cycle list
-     * 
-     * @param handle 
-     * @return std::vector<edge_t> 
+     *
+     * @param handle
+     * @return std::vector<edge_t>
      */
-    auto __cycle_list(node_t handle) -> std::vector<edge_t>
+    auto __cycle_list(const node_t& handle) -> std::vector<edge_t>
     {
         auto v = handle;
         auto cycle = std::vector<edge_t> {}; // ???
         while (true)
         {
-            auto u = this->_pred[v];
+            const auto& u = this->_pred[v];
             cycle.push_back(this->_edge[v]); // ???
             v = u;
             if (v == handle)
@@ -175,14 +170,14 @@ class negCycleFinder
 
     /*!
      * @brief check if it is really a negative cycle
-     * 
-     * @tparam Container 
-     * @tparam WeightFn 
-     * @param handle 
-     * @param dist 
-     * @param get_weight 
-     * @return true 
-     * @return false 
+     *
+     * @tparam Container
+     * @tparam WeightFn
+     * @param handle
+     * @param dist
+     * @param get_weight
+     * @return true
+     * @return false
      */
     template <typename Container, typename WeightFn>
     auto __is_negative(const node_t& handle, Container& dist,

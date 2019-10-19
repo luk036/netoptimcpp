@@ -1,7 +1,6 @@
 // -*- coding: utf-8 -*-
 #pragma once
 
-// #include <boost/any.hpp>
 #include <any>
 #include <cassert>
 #include <py2cpp/py2cpp.hpp>

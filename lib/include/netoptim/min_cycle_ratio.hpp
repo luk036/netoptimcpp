@@ -5,8 +5,6 @@
 #include <algorithm>
 #include <numeric>
 #include <py2cpp/py2cpp.hpp>
-// #include <boost/coroutine2/detail/push_coroutine.hpp>
-// #include <boost/coroutine2/detail/pull_coroutine.hpp>
 
 /*!
  * @brief minimum cost-to-time cycle ratio problem
@@ -14,16 +12,16 @@
  *    max  r
  *    s.t. dist[v] - dist[u] <= cost(u, v) - r * time(u, v)
  *         for all (u, v) : G
- * 
- * @tparam Graph 
- * @tparam Fn1 
- * @tparam Fn2 
- * @tparam Container 
- * @param G 
- * @param get_cost 
- * @param get_time 
- * @param dist 
- * @return auto 
+ *
+ * @tparam Graph
+ * @tparam Fn1
+ * @tparam Fn2
+ * @tparam Container
+ * @param G
+ * @param get_cost
+ * @param get_time
+ * @param dist
+ * @return auto
  */
 template <typename Graph, typename Fn1, typename Fn2, typename Container>
 auto min_cycle_ratio(Graph& G, Fn1 get_cost, Fn2 get_time, Container& dist)
@@ -38,14 +36,18 @@ auto min_cycle_ratio(Graph& G, Fn1 get_cost, Fn2 get_time, Container& dist)
         break;
     }
 
+    // auto& edges = G.edges();
+    // auto max_c = *std::max_element(edges.begin(), edges.end(),
+    //                 [](const edge_t& e) { return get_cost(G, e); });
+
     // auto max_cost = *std::max_element(cost.begin(), cost.end());
     // auto min_time = *std::min_element(time.begin(), time.end());
     auto max_cost = get_cost(G, e0);
     auto min_time = get_time(G, e0);
     for (auto e : G.edges())
     {
-        auto c = get_cost(G, e);
-        auto t = get_time(G, e);
+        const auto c = get_cost(G, e);
+        const auto t = get_time(G, e);
         if (max_cost < c)
             max_cost = c;
         if (min_time > t)

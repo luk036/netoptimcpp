@@ -29,11 +29,11 @@ static xn::grAdaptor<graph_t> create_test_case1()
         D,
         E
     };
-    static Edge    edge_array[] = {Edge(A, B), Edge(B, C), Edge(C, D), Edge(D, E), Edge(E, A)};
+    static Edge    edge_array[] = {Edge{A, B}, Edge{B, C}, Edge{C, D}, Edge{D, E}, Edge{E, A}};
     int            weights[]    = {-5, 1, 1, 1, 1};
     int            num_arcs     = sizeof(edge_array) / sizeof(Edge);
     static graph_t g(edge_array, edge_array + num_arcs, weights, num_nodes);
-    return xn::grAdaptor<graph_t>(g);
+    return xn::grAdaptor<graph_t> {g};
 }
 
 static xn::grAdaptor<graph_t> create_test_case2()
@@ -48,11 +48,11 @@ static xn::grAdaptor<graph_t> create_test_case2()
         D,
         E
     };
-    static Edge    edge_array[] = {Edge(A, B), Edge(B, C), Edge(C, D), Edge(D, E), Edge(E, A)};
+    static Edge    edge_array[] = {Edge{A, B}, Edge{B, C}, Edge{C, D}, Edge{D, E}, Edge{E, A}};
     int            weights[]    = {2, 1, 1, 1, 1};
     int            num_arcs     = sizeof(edge_array) / sizeof(Edge);
     static graph_t g(edge_array, edge_array + num_arcs, weights, num_nodes);
-    return xn::grAdaptor<graph_t>(g);
+    return xn::grAdaptor<graph_t> {g};
 }
 
 static xn::grAdaptor<graph_t> create_test_case_timing()
@@ -65,26 +65,26 @@ static xn::grAdaptor<graph_t> create_test_case_timing()
         B,
         C
     };
-    static Edge    edge_array[] = {Edge(A, B), Edge(B, A), Edge(B, C), Edge(C, B),
-                                Edge(B, C), Edge(C, B), Edge(C, A), Edge(A, C)};
+    static Edge    edge_array[] = {Edge{A, B}, Edge{B, A}, Edge{B, C}, Edge{C, B},
+                                Edge{B, C}, Edge{C, B}, Edge{C, A}, Edge{A, C}};
     int            weights[]    = {7, 0, 3, 1, 6, 4, 2, 5};
     int            num_arcs     = sizeof(edge_array) / sizeof(Edge);
     static graph_t g(edge_array, edge_array + num_arcs, weights, num_nodes);
-    return xn::grAdaptor<graph_t>(g);
+    return xn::grAdaptor<graph_t> {g};
 }
 
 bool do_case(xn::grAdaptor<graph_t>& G)
 {
     using edge_t = typename xn::grAdaptor<graph_t>::edge_t;
 
-    auto get_weight = [](const xn::grAdaptor<graph_t>& G, const edge_t& e) -> int {
+    const auto get_weight = [](const xn::grAdaptor<graph_t>& G, const edge_t& e) -> int {
         const auto& weightmap = boost::get(boost::edge_weight, G);
         return weightmap[e];
     };
 
     auto N = negCycleFinder(G);
     auto dist = std::vector<int>(G.number_of_nodes(), 0);
-    auto cycle = N.find_neg_cycle(dist, get_weight);
+    const auto cycle = N.find_neg_cycle(dist, get_weight);
     return !cycle.empty();
 }
 

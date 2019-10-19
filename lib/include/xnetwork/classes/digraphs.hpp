@@ -1,7 +1,6 @@
 // -*- coding: utf-8 -*-
 #pragma once
 
-// #include <boost/any.hpp>
 #include <any>
 #include <boost/coroutine2/all.hpp>
 #include <cassert>

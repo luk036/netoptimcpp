@@ -24,7 +24,7 @@ BOOST_INSTALL_PROPERTY(edge, id_tag);
 
 using graph_t =
     boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS,
-        boost::no_property, boost::property<boost::edge_id_tag_t, std::size_t>>;
+        boost::no_property, boost::property<boost::edge_id_tag_t, size_t>>;
 using Vertex = typename boost::graph_traits<graph_t>::vertex_descriptor;
 using edge_t = typename boost::graph_traits<graph_t>::edge_iterator;
 
@@ -42,11 +42,11 @@ static auto create_test_case1()
         E
     };
     static Edge edge_array[] = {
-        Edge(A, B), Edge(B, C), Edge(C, D), Edge(D, E), Edge(E, A)};
-    std::size_t indices[] = {0, 1, 2, 3, 4};
+        Edge{A, B}, Edge{B, C}, Edge{C, D}, Edge{D, E}, Edge{E, A}};
+    size_t indices[] = {0, 1, 2, 3, 4};
     int num_arcs = sizeof(edge_array) / sizeof(Edge);
     static graph_t g(edge_array, edge_array + num_arcs, indices, num_nodes);
-    return xn::grAdaptor<graph_t>(g);
+    return xn::grAdaptor<graph_t> {g};
 }
 
 static auto create_test_case_timing()
@@ -60,13 +60,13 @@ static auto create_test_case_timing()
         B,
         C
     };
-    Edge edge_array[] = {Edge(A, B), Edge(B, A), Edge(B, C), Edge(C, B),
-        Edge(B, C), Edge(C, B), Edge(C, A), Edge(A, C)};
-    std::size_t indices[] = {0, 1, 2, 3, 4, 5, 6, 7};
+    Edge edge_array[] = {Edge{A, B}, Edge{B, A}, Edge{B, C}, Edge{C, B},
+        Edge{B, C}, Edge{C, B}, Edge{C, A}, Edge{A, C}};
+    size_t indices[] = {0, 1, 2, 3, 4, 5, 6, 7};
     int num_arcs = sizeof(edge_array) / sizeof(Edge);
 
     static graph_t g(edge_array, edge_array + num_arcs, indices, num_nodes);
-    return xn::grAdaptor<graph_t>(g);
+    return xn::grAdaptor<graph_t> {g};
 }
 
 TEST_CASE("Test Cycle Ratio (boost)", "[test_cycle_ratio_boost]")
@@ -109,15 +109,15 @@ TEST_CASE(
     EdgeIndexMap edge_id = boost::get(boost::id_tag, G);
     IterMap cost_pa(cost, edge_id);
 
-    auto get_cost = [&](const xn::grAdaptor<graph_t>& /*G*/,
+    const auto get_cost = [&](const xn::grAdaptor<graph_t>& /*G*/,
                         const auto& e) -> int {
         return boost::get(cost_pa, e);
     };
-    auto get_time = [&](const xn::grAdaptor<graph_t>& /*G*/, const auto &
+    const auto get_time = [&](const xn::grAdaptor<graph_t>& /*G*/, const auto &
                         /*e*/) -> int { return 1; };
 
     auto dist = std::vector(G.number_of_nodes(), fun::Fraction<int>(0));
-    auto [r, c] = min_cycle_ratio(G, get_cost, get_time, dist);
+    const auto [r, c] = min_cycle_ratio(G, get_cost, get_time, dist);
     CHECK(!c.empty());
     CHECK(r == fun::Fraction<int>(1, 1));
     CHECK(c.size() == 3);
