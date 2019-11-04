@@ -89,9 +89,9 @@ static auto create_test_case_timing()
 template <typename Graph>
 bool do_case(const Graph& G)
 {
-    const auto get_weight = [](const Graph& G2, const auto& e) -> int {
-        const auto [u, v] = G2.end_points(e);
-        return G2[u][v];
+    const auto get_weight = [&](const auto& e) -> int {
+        const auto [u, v] = G.end_points(e);
+        return G[u][v];
     };
 
     auto dist = std::vector(G.number_of_nodes(), 0);

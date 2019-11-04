@@ -24,7 +24,7 @@
  * @return auto
  */
 template <typename Graph, typename Fn1, typename Fn2, typename Container>
-auto min_cycle_ratio(Graph& G, Fn1 get_cost, Fn2 get_time, Container& dist)
+auto min_cycle_ratio(Graph& G, Fn1 get_cost, Fn2 get_time, Container& dist, size_t max_iter=1000)
 {
     using edge_t = typename Graph::edge_t;
     using T = typename Container::value_type;
@@ -72,5 +72,5 @@ auto min_cycle_ratio(Graph& G, Fn1 get_cost, Fn2 get_time, Container& dist)
     auto calc_weight = [&](const Graph&, T r, const auto& e) {
         return get_cost(G, e) - r * get_time(G, e);
     };
-    return max_parametric(G, r0, calc_weight, calc_ratio, dist);
+    return max_parametric(G, r0, calc_weight, calc_ratio, dist, max_iter);
 }

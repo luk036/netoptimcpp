@@ -131,7 +131,7 @@ class negCycleFinder
         for (auto e : this->_G.edges())
         {
             const auto [u, v] = this->_G.end_points(e);
-            const auto wt = get_weight(this->_G, e);
+            const auto wt = get_weight(e);
             const auto d = dist[u] + wt;
             
             if (dist[v] > d)
@@ -188,7 +188,7 @@ class negCycleFinder
         {
             auto u = this->_pred[v];
             auto e = this->_edge[v];
-            auto wt = get_weight(this->_G, e); // ???
+            auto wt = get_weight(e); // ???
             if (dist[v] > dist[u] + wt)
             {
                 return true;
