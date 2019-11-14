@@ -16,6 +16,7 @@
 // from collections import Mapping
 // #include <xnetwork.hpp> // as xn
 
+/*
 static const auto __all__ = {
     "AtlasView",
     "AdjacencyView",
@@ -30,6 +31,7 @@ static const auto __all__ = {
     "FilterMultiAdjacency",
     "ReadOnlyGraph",
 };
+*/
 
 /*! An AtlasView is a Read-only Mapping of Mappings.
 

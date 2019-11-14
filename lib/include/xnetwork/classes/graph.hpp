@@ -829,4 +829,4 @@ using SimpleGraph = Graph<decltype(py::range<int>(1)), py::set<int>>;
 //           typename adjlist_t> Graph(int )
 // -> Graph<decltype(py::range<int>(1)), py::set<int>>;
 
-}; // namespace xn
+} // namespace xn

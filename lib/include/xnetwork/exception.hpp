@@ -193,4 +193,4 @@ struct ExceededMaxIterations : XNetworkException
 //         superinit( exception_message, *args, **kw);
 //     }
 // };
-}; // namespace xn
+} // namespace xn
