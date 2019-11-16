@@ -27,7 +27,7 @@ static xn::grAdaptor<graph_t> create_test_case1()
         E
     };
     static Edge edge_array[] = {
-        Edge{A, B}, Edge{B, C}, Edge{C, D}, Edge{D, E}, Edge{E, A}};
+        Edge {A, B}, Edge {B, C}, Edge {C, D}, Edge {D, E}, Edge {E, A}};
     int weights[] = {-5, 1, 1, 1, 1};
     int num_arcs = sizeof(edge_array) / sizeof(Edge);
     static auto g =
@@ -48,7 +48,7 @@ static xn::grAdaptor<graph_t> create_test_case2()
         E
     };
     static Edge edge_array[] = {
-        Edge{A, B}, Edge{B, C}, Edge{C, D}, Edge{D, E}, Edge{E, A}};
+        Edge {A, B}, Edge {B, C}, Edge {C, D}, Edge {D, E}, Edge {E, A}};
     int weights[] = {2, 1, 1, 1, 1};
     int num_arcs = sizeof(edge_array) / sizeof(Edge);
     static auto g =
@@ -66,8 +66,8 @@ static auto create_test_case_timing() -> xn::grAdaptor<graph_t>
         B,
         C
     };
-    static Edge edge_array[] = {Edge{A, B}, Edge{B, A}, Edge{B, C}, Edge{C, B},
-        Edge{B, C}, Edge{C, B}, Edge{C, A}, Edge{A, C}};
+    static Edge edge_array[] = {Edge {A, B}, Edge {B, A}, Edge {B, C},
+        Edge {C, B}, Edge {B, C}, Edge {C, B}, Edge {C, A}, Edge {A, C}};
     int weights[] = {7, 0, 3, 1, 6, 4, 2, 5};
     constexpr int num_arcs = sizeof(edge_array) / sizeof(Edge);
     static auto g =
