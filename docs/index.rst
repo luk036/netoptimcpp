@@ -10,6 +10,13 @@ Welcome to the NetOptimCpp website.
 
    The webpage you are viewing used the ``html_theme`` of |theme| in ``conf.py``.
 
+.. toctree::
+   :maxdepth: 2
+
+   api/library_root
+   how_created
+   using_intersphinx
+
 .. note::
 
    This was built using Exhale version |version|.
@@ -22,10 +29,3 @@ Welcome to the NetOptimCpp website.
 Make sure to view the :ref:`extension_setup` and :ref:`html_theme_setup` for the
 different versions, as they vary slightly (e.g., ``bootstrap`` gets more supplied in the
 ``exhale_args`` portion of ``conf.py``).
-
-.. toctree::
-   :maxdepth: 2
-
-   api/library_root
-   how_created
-   using_intersphinx
