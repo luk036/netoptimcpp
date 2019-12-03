@@ -186,9 +186,9 @@ class negCycleFinder
         auto v = handle;
         while (true)
         {
-            auto u = this->_pred[v];
-            auto e = this->_edge[v];
-            auto wt = get_weight(e); // ???
+            const auto u = this->_pred[v];
+            const auto e = this->_edge[v];
+            const auto wt = get_weight(e); // ???
             if (dist[v] > dist[u] + wt)
             {
                 return true;

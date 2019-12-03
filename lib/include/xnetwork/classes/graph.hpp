@@ -337,7 +337,7 @@ class Graph : public object
     }
 
     // @name.setter
-    auto set_name(const char* s)
+    auto set_name(std::string_view s)
     {
         this->graph["name"] = std::any(s);
     }

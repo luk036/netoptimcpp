@@ -9,9 +9,11 @@
 /*!
  * @brief minimum cost-to-time cycle ratio problem
  *
- *    max  r
- *    s.t. dist[v] - dist[u] <= cost(u, v) - r * time(u, v)
- *         for all (u, v) : G
+ *    This function solves the following network parametric problem:
+ *
+ *        max  r
+ *        s.t. dist[v] − dist[u] ≤ cost(u, v) − r * time(u, v)
+ *             ∀ e(u, v) ∈ G(V, E)
  *
  * @tparam Graph
  * @tparam Fn1
@@ -35,7 +37,7 @@ auto min_cycle_ratio(Graph& G, T r0, Fn1 get_cost, Fn2 get_time,
     auto calc_ratio = [&](auto& C) {
         auto total_cost = cost_T(0);
         auto total_time = time_T(0);
-        for (auto e : C)
+        for (const auto& e : C)
         {
             total_cost += get_cost(e);
             total_time += get_time(e);

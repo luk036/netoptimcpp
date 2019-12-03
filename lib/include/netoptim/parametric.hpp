@@ -9,9 +9,11 @@
 /*!
  * @brief maximum parametric problem
  *
- *    max  r
- *    s.t. dist[v] - dist[u] <= d(u, v, r)
- *         for all (u, v) : G
+ *    This function solves the following network parametric problem:
+ *
+ *        max  r
+ *        s.t. dist[v] − dist[u] ≤ d(u, v, r)
+ *             ∀ e(u, v) ∈ G(V, E)
  *
  * @tparam Graph
  * @tparam T
@@ -60,7 +62,7 @@ auto max_parametric(Graph& G, T r_opt, Fn1& d, Fn2& zero_cancel,
         // update ???
         for (const auto& e : C_opt)
         {
-            auto [u, v] = G.end_points(e);
+            const auto [u, v] = G.end_points(e);
             dist[u] = dist[v] - get_weight(e);
         }
     }
