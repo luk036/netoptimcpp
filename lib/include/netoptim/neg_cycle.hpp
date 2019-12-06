@@ -54,7 +54,7 @@ class negCycleFinder
      * @return std::vector<edge_t>
      */
     template <typename Container, typename WeightFn>
-    auto find_neg_cycle(Container& dist, const WeightFn& get_weight)
+    auto find_neg_cycle(Container&& dist, const WeightFn& get_weight)
         -> std::vector<edge_t>
     {
         this->_pred.clear();
@@ -125,7 +125,7 @@ class negCycleFinder
      * @return false
      */
     template <typename Container, typename WeightFn>
-    auto __relax(Container& dist, const WeightFn& get_weight) -> bool
+    auto __relax(Container&& dist, const WeightFn& get_weight) -> bool
     {
         auto changed = false;
         for (auto e : this->_G.edges())
@@ -180,7 +180,7 @@ class negCycleFinder
      * @return false
      */
     template <typename Container, typename WeightFn>
-    auto __is_negative(const node_t& handle, Container& dist,
+    auto __is_negative(const node_t& handle, Container&& dist,
         const WeightFn& get_weight) -> bool
     {
         auto v = handle;
