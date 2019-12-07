@@ -35,8 +35,9 @@ class VertexView : public Graph
      */
     auto begin() const
     {
-        auto [v_iter, v_end] = boost::vertices(*this);
-        return v_iter;
+        // auto [v_iter, v_end] = boost::vertices(*this);
+        // return v_iter;
+        return boost::vertices(*this).first;
     }
 
     /*!
@@ -46,8 +47,9 @@ class VertexView : public Graph
      */
     auto end() const
     {
-        auto [v_iter, v_end] = boost::vertices(*this);
-        return v_end;
+        // auto [v_iter, v_end] = boost::vertices(*this);
+        // return v_end;
+        return boost::vertices(*this).second;
     }
 
     /*!
@@ -57,8 +59,9 @@ class VertexView : public Graph
      */
     auto cbegin() const
     {
-        auto [v_iter, v_end] = boost::vertices(*this);
-        return v_iter;
+        // auto [v_iter, v_end] = boost::vertices(*this);
+        // return v_iter;
+        return boost::vertices(*this).first;
     }
 
     /*!
@@ -68,8 +71,9 @@ class VertexView : public Graph
      */
     auto cend() const
     {
-        auto [v_iter, v_end] = boost::vertices(*this);
-        return v_end;
+        // auto [v_iter, v_end] = boost::vertices(*this);
+        // return v_end;
+        return boost::vertices(*this).second;
     }
 };
 
