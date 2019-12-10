@@ -269,6 +269,8 @@ class Graph : public object
     {
     }
 
+    Graph(const Graph& ) { exit(1); } // don't copy
+
     /*!
      * @brief For compatible with BGL adaptor
      *
@@ -342,7 +344,7 @@ class Graph : public object
         this->graph["name"] = std::any(s);
     }
 
-    /*! Iterate over the nodes. Use: "for (auto n : G)".
+    /*! Iterate over the nodes. Use: "for (auto&& n : G)".
      *
     Returns
     -------
@@ -632,7 +634,7 @@ class Graph : public object
     auto add_edges_from(const C1& edges, const C2& data)
     {
         auto N = edges.size();
-        for (auto i = 0U; i < N; ++i)
+        for (auto i = 0U; i != N; ++i)
         {
             auto [u, v] = edges[i];
             this->add_edge(u, v, data[i]);
@@ -695,7 +697,7 @@ class Graph : public object
         attributes (but does not provide set-like operations).
         Hence, `G.edges[u, v]["color"]` provides the value of the color
         attribute for edge `(u, v)` while
-        `for (auto u, v, c] : G.edges.data("color", default="red") {`
+        `for (auto [u, v, c] : G.edges.data("color", default="red") {`
         iterates through all the edges yielding the color attribute
         with default `"red"` if (no color attribute exists.
 
@@ -752,7 +754,7 @@ class Graph : public object
     //     The weighted node degree is the sum of the edge weights for
     //     edges incident to that node.
 
-    //     This object provides an iterator for (auto node, degree) as well as
+    //     This object provides an iterator for (node, degree) as well as
     //     lookup for the degree for a single node.
 
     //     Parameters

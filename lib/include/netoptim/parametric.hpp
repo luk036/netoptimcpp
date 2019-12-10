@@ -29,7 +29,7 @@
  */
 template <typename Graph, typename T, typename Fn1, typename Fn2,
     typename Container>
-auto max_parametric(const Graph& G, T& r_opt, const Fn1& d, const Fn2& zero_cancel,
+auto max_parametric(const Graph& G, T& r_opt, Fn1&& d, Fn2&& zero_cancel,
     Container&& dist, size_t max_iter = 1000)
 {
     using edge_t = typename Graph::edge_t;
@@ -44,7 +44,8 @@ auto max_parametric(const Graph& G, T& r_opt, const Fn1& d, const Fn2& zero_canc
     auto niter = 0U;
     for (; niter < max_iter; ++niter)
     {
-        const auto& C_min = S.find_neg_cycle(dist, get_weight);
+        const auto& C_min = S.find_neg_cycle(std::forward<Container>(dist),
+                                             std::move(get_weight));
         if (C_min.empty())
         {
             break;
@@ -60,7 +61,7 @@ auto max_parametric(const Graph& G, T& r_opt, const Fn1& d, const Fn2& zero_canc
         r_opt = r_min;
 
         // update ???
-        for (const auto& e : C_opt)
+        for (auto&& e : C_opt)
         {
             const auto [u, v] = G.end_points(e);
             dist[u] = dist[v] - get_weight(e);

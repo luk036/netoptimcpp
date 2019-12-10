@@ -10,7 +10,7 @@
  *
  * @return auto
  */
-static auto create_test_case1()
+static auto create_test_case1() -> decltype(auto)
 {
     using Edge = std::pair<int, int>;
     constexpr auto num_nodes = 5;
@@ -35,7 +35,7 @@ static auto create_test_case1()
  *
  * @return auto
  */
-static auto create_test_case2()
+static auto create_test_case2() -> decltype(auto)
 {
     using Edge = std::pair<int, int>;
     constexpr auto num_nodes = 5;
@@ -60,7 +60,7 @@ static auto create_test_case2()
  *
  * @return auto
  */
-static auto create_test_case_timing()
+static auto create_test_case_timing() -> decltype(auto)
 {
     using Edge = std::pair<int, int>;
     constexpr auto num_nodes = 3;
@@ -106,7 +106,7 @@ bool do_case(const Graph& G)
  */
 TEST_CASE("Test Negative Cycle", "[test_neg_cycle]")
 {
-    auto G = create_test_case1();
+    const auto G = create_test_case1();
     const auto hasNeg = do_case(G);
     CHECK(hasNeg);
 }
