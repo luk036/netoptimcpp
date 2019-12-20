@@ -85,7 +85,7 @@ bool do_case(xn::grAdaptor<graph_t>& G)
     auto N = negCycleFinder(G);
     auto dist = std::vector<int>(G.number_of_nodes(), 0);
     const auto cycle = N.find_neg_cycle(dist, get_weight);
-    return !cycle.empty();
+    return not cycle.empty();
 }
 
 TEST_CASE("Test Negative Cycle", "[test_neg_cycle]")
@@ -99,14 +99,14 @@ TEST_CASE("Test Negative Cycle", "[test_neg_cycle]")
 
     // G = xn::path_graph(5, create_using=xn::DiGraph());
     // hasNeg = do_case(G);
-    // CHECK(!hasNeg);
+    // CHECK(not hasNeg);
 }
 
 TEST_CASE("Test No Negative Cycle", "[test_neg_cycle]")
 {
     xn::grAdaptor<graph_t> G      = create_test_case2();
     bool                   hasNeg = do_case(G);
-    CHECK(!hasNeg);
+    CHECK(not hasNeg);
     fmt::print("The answer is {}.\n", hasNeg);
 }
 
@@ -114,6 +114,6 @@ TEST_CASE("Test Timing Graph", "[test_neg_cycle]")
 {
     xn::grAdaptor<graph_t> G      = create_test_case_timing();
     bool                   hasNeg = do_case(G);
-    CHECK(!hasNeg);
+    CHECK(not hasNeg);
     fmt::print("The answer is {}.\n", hasNeg);
 }

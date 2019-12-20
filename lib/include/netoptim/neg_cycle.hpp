@@ -43,7 +43,9 @@ class negCycleFinder
     {
     }
 
-    negCycleFinder(const negCycleFinder& ) = delete; // don't copy
+    negCycleFinder(const negCycleFinder&) = delete;            // don't copy
+    negCycleFinder& operator=(const negCycleFinder&) = delete; // don't assign
+    negCycleFinder(negCycleFinder&&) = default;                // don't copy
 
   public:
     /*!
@@ -94,7 +96,7 @@ class negCycleFinder
             while (true)
             {
                 visited[u] = v;
-                if (!this->_pred.contains(u))
+                if (not this->_pred.contains(u))
                 {
                     break;
                 }
@@ -182,8 +184,8 @@ class negCycleFinder
      * @return false
      */
     template <typename Container, typename WeightFn>
-    auto __is_negative(const node_t& handle, Container&& dist,
-        WeightFn&& get_weight) -> bool
+    auto __is_negative(
+        const node_t& handle, Container&& dist, WeightFn&& get_weight) -> bool
     {
         auto v = handle;
         // while (true)

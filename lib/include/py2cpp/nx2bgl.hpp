@@ -255,6 +255,10 @@ class grAdaptor : public VertexView<Graph>
     {
     }
 
+    grAdaptor(const grAdaptor&) = delete;            // don't copy
+    grAdaptor& operator=(const grAdaptor&) = delete; // don't assign
+    grAdaptor(grAdaptor&&) = default;                // don't copy
+
     /*!
      * @brief
      *
