@@ -79,11 +79,11 @@ TEST_CASE("Test Cycle Ratio of Timing Graph", "[test_cycle_ratio]")
     const auto G = create_test_case_timing();
     const auto cost = std::array {7, -1, 3, 0, 2, 4};
 
-    const auto get_cost = [&](const auto& e) -> int {
+    const auto get_cost = [&](const auto& e) {
         auto [u, v] = G.end_points(e);
         return cost[G[u][v]];
     };
-    const auto get_time = [&](const auto & /*e*/) -> int { return 1; };
+    const auto get_time = [&](const auto& /*e*/) { return 1; };
 
     auto dist = std::vector(G.number_of_nodes(), fun::Fraction<int>(0));
     auto r = fun::Fraction<int>(7);

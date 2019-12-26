@@ -151,8 +151,10 @@ inline constexpr auto range(T start, T stop)
         }
     };
 
-    if (stop < start)
-        stop = start;
+    stop = std::max(stop, start);
+    // if (stop < start) {
+    //     stop = start;
+    // }
     return iterable_wrapper {start, stop};
 }
 
@@ -197,7 +199,7 @@ class set : public std::unordered_set<Key>
      *
      * @param init
      */
-    explicit set(std::initializer_list<Key> init)
+    set(std::initializer_list<Key> init)
         : std::unordered_set<Key> {init}
     {
     }
@@ -236,13 +238,13 @@ class set : public std::unordered_set<Key>
      *
      * @return _Self&
      */
-    _Self& operator=(_Self&&) = default;
+    _Self& operator=(_Self&&) noexcept = default;
 
     /*!
      * @brief Move Constructor (default)
      *
      */
-    set(set<Key>&&) = default;
+    set(set<Key>&&) noexcept = default;
 
   private:
     /*!
@@ -339,7 +341,7 @@ class dict : public std::unordered_map<Key, T>
      *
      * @param init
      */
-    explicit dict(std::initializer_list<value_type> init)
+    dict(std::initializer_list<value_type> init)
         : std::unordered_map<Key, T> {init}
     {
     }
@@ -448,13 +450,13 @@ class dict : public std::unordered_map<Key, T>
      *
      * @return _Self&
      */
-    _Self& operator=(_Self&&) = default;
+    _Self& operator=(_Self&&) noexcept = default;
 
     /*!
      * @brief Move Constructor (default)
      *
      */
-    dict(dict<Key, T>&&) = default;
+    dict(dict<Key, T>&&) noexcept = default;
 
   private:
     /*!

@@ -271,7 +271,7 @@ class Graph : public object
 
     Graph(const Graph&) = delete;            // don't copy
     Graph& operator=(const Graph&) = delete; // don't copy
-    Graph(Graph&&) = default;
+    Graph(Graph&&) noexcept = default;
 
     /*!
      * @brief For compatible with BGL adaptor
@@ -336,7 +336,9 @@ class Graph : public object
         a property) `G.name`. This is entirely user controlled.
          */
         if (not this->graph.contains("name"))
+        {
             return "";
+        }
         return std::any_cast<const char*>(this->graph["name"]);
     }
 

@@ -43,10 +43,6 @@ class negCycleFinder
     {
     }
 
-    negCycleFinder(const negCycleFinder&) = delete;            // don't copy
-    negCycleFinder& operator=(const negCycleFinder&) = delete; // don't assign
-    negCycleFinder(negCycleFinder&&) = default;                // don't copy
-
   public:
     /*!
      * @brief find negative cycle

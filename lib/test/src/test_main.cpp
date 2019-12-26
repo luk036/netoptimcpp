@@ -32,11 +32,12 @@ void foo2(boost::coroutines2::coroutine<int>::pull_type& sink)
 
 TEST_CASE("Test Coroutine", "[test_main]")
 {
-    typedef boost::coroutines2::coroutine<int> coro_t;
+    using coro_t = boost::coroutines2::coroutine<int>;
     int max = 8;
 
     coro_t::pull_type source([&](coro_t::push_type& sink) {
-        int first = 1, second = 1;
+        int first = 1;
+        int second = 1;
         sink(first);
         sink(second);
         for (int i = 0; i < max; ++i)
@@ -49,7 +50,9 @@ TEST_CASE("Test Coroutine", "[test_main]")
     });
 
     for (auto i : source)
+    {
         cout << i << " ";
+    }
     cout << endl;
 
     coro_t::push_type sink([&](coro_t::pull_type& source) {

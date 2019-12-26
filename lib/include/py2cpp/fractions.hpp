@@ -78,7 +78,7 @@ struct Fraction
      */
     constexpr Fraction() = default;
 
-    // Fraction(_Self &&) = default;
+    // Fraction(_Self &&) noexcept = default;
 
     /*!
      * @brief

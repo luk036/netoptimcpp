@@ -10,7 +10,7 @@
  *
  * @return auto
  */
-static auto create_test_case1() -> decltype(auto)
+static auto create_test_case1()
 {
     using Edge = std::pair<int, int>;
     constexpr auto num_nodes = 5;
@@ -35,7 +35,7 @@ static auto create_test_case1() -> decltype(auto)
  *
  * @return auto
  */
-static auto create_test_case2() -> decltype(auto)
+static auto create_test_case2()
 {
     using Edge = std::pair<int, int>;
     constexpr auto num_nodes = 5;
@@ -60,7 +60,7 @@ static auto create_test_case2() -> decltype(auto)
  *
  * @return auto
  */
-static auto create_test_case_timing() -> decltype(auto)
+static auto create_test_case_timing()
 {
     using Edge = std::pair<int, int>;
     constexpr auto num_nodes = 3;
@@ -89,7 +89,7 @@ static auto create_test_case_timing() -> decltype(auto)
 template <typename Graph>
 bool do_case(const Graph& G)
 {
-    const auto get_weight = [&](const auto& e) -> int {
+    const auto get_weight = [&](const auto& e) {
         const auto [u, v] = G.end_points(e);
         return G[u][v];
     };
