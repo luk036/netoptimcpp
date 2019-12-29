@@ -1,4 +1,3 @@
-// -*- coding: utf-8 -*-
 #pragma once
 
 #include <initializer_list>
@@ -125,19 +124,19 @@ inline constexpr auto range(T start, T stop)
         using iterator = __iterator;           // luk
         T start;
         T stop;
-        constexpr auto begin() const
+        [[nodiscard]] constexpr auto begin() const
         {
             return iterator {start};
         }
-        constexpr auto end() const
+        [[nodiscard]] constexpr auto end() const
         {
             return iterator {stop};
         }
-        constexpr auto empty() const -> bool
+        [[nodiscard]] constexpr auto empty() const -> bool
         {
             return stop == start;
         }
-        constexpr auto size() const -> size_t
+        [[nodiscard]] constexpr auto size() const -> size_t
         {
             return stop - start;
         }
@@ -145,7 +144,7 @@ inline constexpr auto range(T start, T stop)
         {
             return start + n;
         } // no bounds checking
-        constexpr auto contains(T n) const -> bool
+        [[nodiscard]] constexpr auto contains(T n) const -> bool
         {
             return not(n < start) and n < stop;
         }

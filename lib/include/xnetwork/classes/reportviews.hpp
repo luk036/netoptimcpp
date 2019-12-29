@@ -1,4 +1,3 @@
-// -*- coding: utf-8 -*-
 #pragma once
 
 //    Copyright (C) 2004-2018 by

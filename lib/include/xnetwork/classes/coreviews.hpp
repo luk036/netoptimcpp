@@ -1,4 +1,3 @@
-// -*- coding: utf-8 -*-
 #pragma once
 
 //    Copyright (C) 2004-2018 by
@@ -57,17 +56,17 @@ class AtlasView
     {
     }
 
-    auto size() const
+    [[nodiscard]] auto size() const
     {
         return this->_atlas.size();
     }
 
-    auto begin() const
+    [[nodiscard]] auto begin() const
     {
         return std::begin(this->_atlas);
     }
 
-    auto end() const
+    [[nodiscard]] auto end() const
     {
         return std::end(this->_atlas);
     }
