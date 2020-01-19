@@ -1,6 +1,7 @@
 # netoptimcpp
 network optimization algorithms C++ code
 
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/luk036/netoptimcpp)
 [![Build Status](https://travis-ci.org/luk036/netoptimcpp.svg?branch=master)](https://travis-ci.org/luk036/netoptimcpp)
 [![Documentation Status](https://readthedocs.org/projects/netoptimcpp/badge/?version=latest)](https://netoptimcpp.readthedocs.io/en/latest/?badge=latest)
 [![codecov](https://codecov.io/gh/luk036/netoptimcpp/branch/master/graph/badge.svg)](https://codecov.io/gh/luk036/netoptimcpp)[![CodeFactor](https://www.codefactor.io/repository/github/luk036/netoptimcpp/badge)](https://www.codefactor.io/repository/github/luk036/netoptimcpp)
