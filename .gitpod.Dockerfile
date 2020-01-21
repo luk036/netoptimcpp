@@ -10,6 +10,8 @@ RUN apt-get update \
   less \
   libfmt-dev \
   libspdlog-dev \
+  firefox \
+  lynx \
   lcov \
   wget
 
