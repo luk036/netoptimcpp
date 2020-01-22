@@ -12,6 +12,7 @@ echo "conda activate /workspace/conda/arcw" >> ~/.bashrc &&
 export PATH=/workspace/conda/arcw/bin:$PATH &&
 source ~/.bashrc
 export SHELL=/bin/bash
+export CONDA_PREFIX=/workspace/conda/arcw
 
 #Install conda packages for to run jupyterlab
 conda install -y ninja
