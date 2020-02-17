@@ -8,9 +8,6 @@ RUN apt-get update \
   sudo \
   git \
   less \
-  libfmt-dev \
-  libspdlog-dev \
-  lcov \
   wget
 
 RUN mkdir -p /workspace/data \
@@ -29,5 +26,20 @@ RUN chown -R gitpod:gitpod /opt/conda \
     && chmod -R 777 /opt/conda \
     && chown -R gitpod:gitpod /home/gitpod/.conda \
     && chmod -R 777 /home/gitpod/.conda
+
+RUN /opt/conda/bin/conda config --set always_yes yes --set changeps1 no \
+    && /opt/conda/bin/conda update -q conda \
+    && /opt/conda/bin/conda info -a
+
+RUN /opt/conda/bin/conda install -y \
+    ninja \
+    lcov
+
+RUN /opt/conda/bin/conda install -y -c conda-forge \
+    catch2 \
+    fmt \
+    libboost \
+    spdlog \
+    cppcheck
 
 RUN apt-get clean && rm -rf /var/cache/apt/* && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/*
