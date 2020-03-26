@@ -9,8 +9,6 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-7
-            - libfmt-dev
-            - libspdlog-dev
             - lcov
       env: COMPILER=gcc GCC=7 BUILD_TYPE='Debug'
     - os: linux
@@ -26,8 +24,6 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-8
-            - libfmt-dev
-            - libspdlog-dev
             - lcov
       env: COMPILER=gcc GCC=8 BUILD_TYPE='Debug'
     - os: linux
@@ -40,8 +36,6 @@ matrix:
           packages:
             - clang-8
             - libstdc++-8-dev
-            - libfmt-dev
-            - libspdlog-dev
             - lcov
       env: COMPILER=clang CLANG=8 BUILD_TYPE='Debug'
     - os: linux
@@ -92,7 +86,7 @@ install:
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
   - conda info -a
-  - conda install libboost -c conda-forge
+  - conda install -c conda-forge libboost fmt spdlog
 script:
   - |
     if [[ "$BUILD_TYPE" == "Coverage" ]]; then
