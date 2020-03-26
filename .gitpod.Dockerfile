@@ -6,8 +6,10 @@ RUN apt-get update \
  && apt-get install -y \
   apt-utils \
   sudo \
+  aria2 \
   git \
   less \
+  neofetch \
   wget
 
 RUN mkdir -p /workspace/data \

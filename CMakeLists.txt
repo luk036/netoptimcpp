@@ -18,7 +18,7 @@ endif()
 
 project (NetOptimCpp LANGUAGES CXX)
 
-option(ENABLE_COVERAGE "Generates the coverage build" OFF)
+option(ENABLE_COVERAGE "Generates the coverage build" ON)
 option(ENABLE_DOCTESTS "Include tests in the library. Setting this to OFF will remove all doctest related code.
                         Tests in tests/*.cpp will still be enabled." OFF)
 
@@ -104,11 +104,11 @@ set (LIBRARY_INCLUDE_PATH  ${LIBRARY_INCLUDE_PATH} ${Boost_INCLUDE_DIRS})
 # add_subdirectory (external EXCLUDE_FROM_ALL)
 
 # Enable code coverage with -DENABLE_COVERAGE=1
-if(ENABLE_COVERAGE)
-    set(CMAKE_BUILD_TYPE "Coverage")
-    include(CodeCoverage)
-    setup_target_for_coverage(${PROJECT_NAME}_coverage ${PROJECT_NAME}_test coverage)
-endif()
+# if(ENABLE_COVERAGE)
+#     set(CMAKE_BUILD_TYPE "Coverage")
+#     include(CodeCoverage)
+#     # setup_target_for_coverage(${PROJECT_NAME}_coverage ${PROJECT_NAME}_test coverage)
+# endif()
 
 # add_subdirectory (doc)
 add_subdirectory (lib)

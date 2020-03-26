@@ -1,3 +1,5 @@
+external/*/
+
 # build
 .vscode/*
 build*/
