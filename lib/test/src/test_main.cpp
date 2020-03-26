@@ -1,6 +1,5 @@
-#define CATCH_CONFIG_MAIN // This tells Catch to provide a main() - only do
-                          // this in one cpp file
-#include "catch2/catch.hpp"
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
 
 #include <boost/coroutine2/all.hpp>
 #include <iostream>
@@ -30,7 +29,7 @@ void foo2(boost::coroutines2::coroutine<int>::pull_type& sink)
 }
 
 
-TEST_CASE("Test Coroutine", "[test_main]")
+TEST_CASE("Test Coroutine")
 {
     using coro_t = boost::coroutines2::coroutine<int>;
     int max = 8;

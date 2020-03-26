@@ -1,9 +1,9 @@
 // -*- coding: utf-8 -*-
-#define CATCH_CONFIG_MAIN
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/graph_traits.hpp>
-#include <catch2/catch.hpp>
+#include <doctest.h>
 #include <fmt/format.h>
 #include <netoptim/min_cycle_ratio.hpp>
 #include <netoptim/neg_cycle.hpp> // import negCycleFinder
@@ -88,7 +88,7 @@ bool do_case(xn::grAdaptor<graph_t>& G)
     return not cycle.empty();
 }
 
-TEST_CASE("Test Negative Cycle", "[test_neg_cycle]")
+TEST_CASE("Test Negative Cycle")
 {
     xn::grAdaptor<graph_t> G = create_test_case1();
     // boost::property_map<graph_t, boost::edge_weight_t>::type weightmap =
@@ -102,7 +102,7 @@ TEST_CASE("Test Negative Cycle", "[test_neg_cycle]")
     // CHECK(not hasNeg);
 }
 
-TEST_CASE("Test No Negative Cycle", "[test_neg_cycle]")
+TEST_CASE("Test No Negative Cycle")
 {
     xn::grAdaptor<graph_t> G      = create_test_case2();
     bool                   hasNeg = do_case(G);
@@ -110,7 +110,7 @@ TEST_CASE("Test No Negative Cycle", "[test_neg_cycle]")
     fmt::print("The answer is {}.\n", hasNeg);
 }
 
-TEST_CASE("Test Timing Graph", "[test_neg_cycle]")
+TEST_CASE("Test Timing Graph")
 {
     xn::grAdaptor<graph_t> G      = create_test_case_timing();
     bool                   hasNeg = do_case(G);
