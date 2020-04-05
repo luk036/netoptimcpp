@@ -275,7 +275,7 @@ class Graph : public object
     /*!
      * @brief For compatible with BGL adaptor
      *
-     * @param e
+     * @param[in] e
      * @return edge_t&
      */
     static edge_t& end_points(edge_t& e)
@@ -286,7 +286,7 @@ class Graph : public object
     /*!
      * @brief For compatible with BGL adaptor
      *
-     * @param e
+     * @param[in] e
      * @return edge_t&
      */
     static const edge_t& end_points(const edge_t& e)

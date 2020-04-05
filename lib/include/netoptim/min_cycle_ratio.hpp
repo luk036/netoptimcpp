@@ -19,10 +19,11 @@
  * @tparam Fn1
  * @tparam Fn2
  * @tparam Container
- * @param G
- * @param get_cost
- * @param get_time
- * @param dist
+ * @param[in] G
+ * @param[in,out] r0
+ * @param[in] get_cost
+ * @param[in] get_time
+ * @param[in,out] dist
  * @return auto
  */
 template <typename Graph, typename T, typename Fn1, typename Fn2,
