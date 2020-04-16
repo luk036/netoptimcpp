@@ -19,7 +19,7 @@ namespace py
  * @tparam T
  * @tparam decltype(std::begin(std::declval<T>()))
  * @tparam decltype(std::end(std::declval<T>()))
- * @param iterable
+ * @param[in] iterable
  * @return constexpr auto
  */
 template <typename T, typename TIter = decltype(std::begin(std::declval<T>())),
@@ -196,7 +196,7 @@ class set : public std::unordered_set<Key>
     /*!
      * @brief Construct a new set object
      *
-     * @param init
+     * @param[in] init
      */
     set(std::initializer_list<Key> init)
         : std::unordered_set<Key> {init}
@@ -206,7 +206,7 @@ class set : public std::unordered_set<Key>
     /*!
      * @brief
      *
-     * @param key
+     * @param[in] key
      * @return true
      * @return false
      */
@@ -258,8 +258,8 @@ class set : public std::unordered_set<Key>
  * @brief
  *
  * @tparam Key
- * @param key
- * @param m
+ * @param[in] key
+ * @param[in] m
  * @return true
  * @return false
  */
@@ -273,7 +273,7 @@ inline bool operator<(const Key& key, const set<Key>& m)
  * @brief
  *
  * @tparam Key
- * @param m
+ * @param[in] m
  * @return size_t
  */
 template <typename Key>
@@ -338,7 +338,7 @@ class dict : public std::unordered_map<Key, T>
     /*!
      * @brief Construct a new dict object
      *
-     * @param init
+     * @param[in] init
      */
     dict(std::initializer_list<value_type> init)
         : std::unordered_map<Key, T> {init}
@@ -349,7 +349,7 @@ class dict : public std::unordered_map<Key, T>
      * @brief Construct a new dict object
      *
      * @tparam Sequence
-     * @param S
+     * @param[in] S
      */
     // template <class Sequence>
     // explicit dict(const Sequence &S) {
@@ -362,7 +362,7 @@ class dict : public std::unordered_map<Key, T>
     /*!
      * @brief
      *
-     * @param key
+     * @param[in] key
      * @return true
      * @return false
      */
@@ -374,8 +374,8 @@ class dict : public std::unordered_map<Key, T>
     /*!
      * @brief
      *
-     * @param key
-     * @param default_value
+     * @param[in] key
+     * @param[in] default_value
      * @return T
      */
     T get(const Key& key, const T& default_value)
@@ -471,8 +471,8 @@ class dict : public std::unordered_map<Key, T>
  *
  * @tparam Key
  * @tparam T
- * @param key
- * @param m
+ * @param[in] key
+ * @param[in] m
  * @return true
  * @return false
  */
@@ -487,7 +487,7 @@ inline bool operator<(const Key& key, const dict<Key, T>& m)
  *
  * @tparam Key
  * @tparam T
- * @param m
+ * @param[in] m
  * @return size_t
  */
 template <typename Key, typename T>
