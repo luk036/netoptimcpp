@@ -1,6 +1,6 @@
 // -*- coding: utf-8 -*-
 #pragma once
-
+ 
 #include "parametric.hpp" // import max_parametric
 #include <algorithm>
 #include <numeric>
@@ -12,8 +12,8 @@
  *    This function solves the following network parametric problem:
  *
  *        max  r
- *        s.t. dist[v] − dist[u] ≤ cost(u, v) − r * time(u, v)
- *             ∀ e(u, v) ∈ G(V, E)
+ *        s.t. dist[v] - dist[u] \ge cost(u, v) - r * time(u, v)
+ *             \forall e(u, v) \in G(V, E)
  *
  * @tparam Graph
  * @tparam Fn1
@@ -45,7 +45,7 @@ auto min_cycle_ratio(const Graph& G, T& r0, Fn1&& get_cost, Fn2&& get_time,
         return T(total_cost) / total_time;
     };
 
-    auto calc_weight = [&](const T& r, const auto& e) {
+    auto calc_weight = [&](const T& r, const auto& e) -> T {
         return get_cost(e) - r * get_time(e);
     };
 

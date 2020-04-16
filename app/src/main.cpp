@@ -4,7 +4,7 @@
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/graph_traits.hpp>
 #include <doctest.h>
-#include <fmt/format.h>
+//#include <fmt/format.h>
 #include <netoptim/min_cycle_ratio.hpp>
 #include <netoptim/neg_cycle.hpp> // import negCycleFinder
 #include <py2cpp/nx2bgl.hpp>
@@ -85,7 +85,7 @@ bool do_case(xn::grAdaptor<graph_t>& G)
     auto N = negCycleFinder(G);
     auto dist = std::vector<int>(G.number_of_nodes(), 0);
     const auto cycle = N.find_neg_cycle(dist, get_weight);
-    return not cycle.empty();
+    return !cycle.empty();
 }
 
 TEST_CASE("Test Negative Cycle")
@@ -99,21 +99,21 @@ TEST_CASE("Test Negative Cycle")
 
     // G = xn::path_graph(5, create_using=xn::DiGraph());
     // hasNeg = do_case(G);
-    // CHECK(not hasNeg);
+    // CHECK(!hasNeg);
 }
 
 TEST_CASE("Test No Negative Cycle")
 {
     xn::grAdaptor<graph_t> G      = create_test_case2();
     bool                   hasNeg = do_case(G);
-    CHECK(not hasNeg);
-    fmt::print("The answer is {}.\n", hasNeg);
+    CHECK(!hasNeg);
+    // fmt::print("The answer is {}.\n", hasNeg);
 }
 
 TEST_CASE("Test Timing Graph")
 {
     xn::grAdaptor<graph_t> G      = create_test_case_timing();
     bool                   hasNeg = do_case(G);
-    CHECK(not hasNeg);
-    fmt::print("The answer is {}.\n", hasNeg);
+    CHECK(!hasNeg);
+    // fmt::print("The answer is {}.\n", hasNeg);
 }
