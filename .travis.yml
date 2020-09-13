@@ -48,7 +48,7 @@ matrix:
           packages:
           - lcov
           update: true
-      env: COMPILER=clang CLANG=8 BUILD_TYPE='Release'
+      env: COMPILER=clang CLANG=9 BUILD_TYPE='Release'
 
 env:
   global:
