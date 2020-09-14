@@ -100,19 +100,19 @@ inline constexpr auto range(T start, T stop)
         T i;
         constexpr bool operator!=(const __iterator& other) const
         {
-            return i != other.i;
+            return this->i != other.i;
         }
         constexpr bool operator==(const __iterator& other) const
         {
-            return i == other.i;
+            return this->i == other.i;
         }
         constexpr T operator*() const
         {
-            return i;
+            return this->i;
         }
         constexpr __iterator& operator++()
         {
-            ++i;
+            ++this->i;
             return *this;
         }
     };
@@ -126,27 +126,27 @@ inline constexpr auto range(T start, T stop)
         T stop;
         [[nodiscard]] constexpr auto begin() const
         {
-            return iterator {start};
+            return iterator {this->start};
         }
         [[nodiscard]] constexpr auto end() const
         {
-            return iterator {stop};
+            return iterator {this->stop};
         }
         [[nodiscard]] constexpr auto empty() const -> bool
         {
-            return stop == start;
+            return this->stop == this->start;
         }
         [[nodiscard]] constexpr auto size() const -> size_t
         {
-            return stop - start;
+            return this->stop - this->start;
         }
         constexpr auto operator[](size_t n) const -> T
         {
-            return T(start + n);
+            return T(this->start + n);
         } // no bounds checking
         [[nodiscard]] constexpr auto contains(T n) const -> bool
         {
-            return !(n < start) && n < stop;
+            return !(n < this->start) && n < this->stop;
         }
     };
 
@@ -288,7 +288,7 @@ inline size_t len(const set<Key>& m)
  * @tparam Key
  */
 template <typename Key>
-set(std::initializer_list<Key>)->set<Key>;
+set(std::initializer_list<Key>) -> set<Key>;
 
 // template <typename Key>
 // set(std::initializer_list<const char*> ) -> set<std::string>;
@@ -503,10 +503,10 @@ inline size_t len(const dict<Key, T>& m)
  * @tparam T
  */
 template <typename Key, typename T>
-dict(std::initializer_list<std::pair<const Key, T>>)->dict<Key, T>;
+dict(std::initializer_list<std::pair<const Key, T>>) -> dict<Key, T>;
 
 template <class Sequence>
 dict(const Sequence& S)
-    ->dict<std::remove_cv_t<decltype(*std::begin(S))>, size_t>;
+    -> dict<std::remove_cv_t<decltype(*std::begin(S))>, size_t>;
 
 } // namespace py

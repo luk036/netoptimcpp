@@ -171,4 +171,3 @@ TEST_CASE("Test Negative Cycle")
     const auto hasNeg = do_case(G);
     CHECK(hasNeg);
 }
-
