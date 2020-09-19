@@ -165,7 +165,7 @@ TEST_CASE("Test Negative Cycle")
     };
     const auto edges = std::array {
         Edge {A, B}, Edge {B, C}, Edge {C, D}, Edge {D, E}, Edge {E, A}};
-    constexpr auto weights = std::array {-5., 1., 1., 1., 1.};
+    constexpr auto weights = std::array {-5, 1, 1, 1, 1};
     auto G = xn::DiGraphS {py::range<int>(num_nodes)};
     G.add_edges_from(edges, weights);
     const auto hasNeg = do_case(G);
