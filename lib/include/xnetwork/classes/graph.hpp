@@ -1,6 +1,7 @@
 #pragma once
 
-#include <any>
+#include <boost/any.hpp>
+#include <boost/utility/string_view.hpp>
 #include <cassert>
 #include <py2cpp/py2cpp.hpp>
 #include <type_traits>
@@ -104,7 +105,7 @@ namespace xn
     direct manipulation of the attribute
     dictionaries named graph, node and edge respectively.
 
-    >>> G.graph["day"] = std::any("Friday");
+    >>> G.graph["day"] = boost::any("Friday");
     {'day': 'Friday'}
 
     **Subclasses (Advanced):**
@@ -193,7 +194,7 @@ namespace xn
     a dictionary-like object.
 */
 
-struct object : py::dict<const char*, std::any>
+struct object : py::dict<const char*, boost::any>
 {
 };
 
@@ -204,7 +205,7 @@ class Graph : public object
   public:
     using nodeview_t = __nodeview_t;
     using Node = typename nodeview_t::value_type; // luk
-    using dict = py::dict<const char*, std::any>;
+    using dict = py::dict<const char*, boost::any>;
     using graph_attr_dict_factory = dict;
     // using edge_attr_dict_factory = dict;
     // using node_attr_dict_factory = dict;
@@ -312,7 +313,14 @@ class Graph : public object
     */
     auto adj() const
     {
-        return AdjacencyView(this->_adj);
+        using T = std::remove_reference_t<decltype(this->_adj)>;
+        return AdjacencyView<const T&>(this->_adj);
+    }
+
+    auto adj()
+    {
+        using T = std::remove_cv_t<decltype(this->_adj)>;
+        return AdjacencyView<T>(this->_adj);
     }
 
     auto _nodes_nbrs() const
@@ -338,13 +346,13 @@ class Graph : public object
         {
             return "";
         }
-        return std::any_cast<const char*>(this->graph["name"]);
+        return boost::any_cast<const char*>(this->graph["name"]);
     }
 
     // @name.setter
-    auto set_name(std::string_view s)
+    auto set_name(boost::string_view s)
     {
-        this->graph["name"] = std::any(s);
+        this->graph["name"] = boost::any(s);
     }
 
     /*! Iterate over the nodes. Use: "for (auto&& n : G)".
@@ -490,11 +498,12 @@ class Graph : public object
             {0: 1, 1: 2, 2: 3}
 
          */
-        auto nodes = NodeView(*this);
+        using T = decltype(*this);
+        auto nodes = NodeView<T>(*this);
         // Lazy View creation: overload the (class) property on the instance
         // Then future G.nodes use the existing View
         // setattr doesn"t work because attribute already exists
-        this->operator[]("nodes") = std::any(nodes);
+        this->operator[]("nodes") = boost::any(nodes);
         return nodes;
     }
 
@@ -604,7 +613,9 @@ class Graph : public object
         >>> G[1][2].update({0: 5});
         >>> G.edges()[1, 2].update({0: 5});
      */
-    auto add_edge(const Node& u, const Node& v)
+    template <typename U = key_type>
+    typename std::enable_if<std::is_same<U, value_type>::value>::type
+    add_edge(const Node& u, const Node& v)
     {
         // auto [u, v] = u_of_edge, v_of_edge;
         // add nodes
@@ -613,19 +624,27 @@ class Graph : public object
         // add the edge
         // datadict = this->_adj[u].get(v, this->edge_attr_dict_factory());
         // datadict.update(attr);
-        if constexpr (std::is_same_v<key_type, value_type>)
-        {
-            // set
-            this->_adj[u].insert(v);
-            this->_adj[v].insert(u);
-        }
-        else
-        {
-            using T = typename adjlist_t::mapped_type;
-            auto data = this->_adj[u].get(v, T {});
-            this->_adj[u][v] = data;
-            this->_adj[v][u] = data; // ???
-        }
+        // set
+        this->_adj[u].insert(v);
+        this->_adj[v].insert(u);
+        this->_num_of_edges += 1;
+    }
+
+    template <typename U = key_type>
+    typename std::enable_if<!std::is_same<U, value_type>::value>::type
+    add_edge(const Node& u, const Node& v)
+    {
+        // auto [u, v] = u_of_edge, v_of_edge;
+        // add nodes
+        assert(this->_node.contains(u));
+        assert(this->_node.contains(v));
+        // add the edge
+        // datadict = this->_adj[u].get(v, this->edge_attr_dict_factory());
+        // datadict.update(attr);
+        using T = typename adjlist_t::mapped_type;
+        auto data = this->_adj[u].get(v, T {});
+        this->_adj[u][v] = data;
+        this->_adj[v][u] = data; // ???
         this->_num_of_edges += 1;
     }
 
@@ -645,8 +664,8 @@ class Graph : public object
         auto N = edges.size();
         for (auto i = 0U; i != N; ++i)
         {
-            auto [u, v] = edges[i];
-            this->add_edge(u, v, data[i]);
+            const auto& e = edges[i];
+            this->add_edge(e.first, e.second, data[i]);
         }
     }
 
@@ -690,7 +709,7 @@ class Graph : public object
         return this->_adj[u].contains(v);
     }
 
-    auto degree(const Node& n)
+    auto degree(const Node& n) const
     {
         return this->_adj[n].size();
     }
@@ -751,7 +770,7 @@ class Graph : public object
     */
     // auto edges() {
     //     auto edges = EdgeView(*this);
-    //     this->operator[]("edges") = std::any(edges);
+    //     this->operator[]("edges") = boost::any(edges);
     //     return edges;
     // }
 
@@ -796,7 +815,7 @@ class Graph : public object
     //     [(0, 1), (1, 2), (2, 2)];
     //      */
     //     auto degree = DegreeView(*this);
-    //     this->operator[]("degree") = std::any(degree);
+    //     this->operator[]("degree") = boost::any(degree);
     //     return degree;
     // }
 

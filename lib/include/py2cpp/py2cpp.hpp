@@ -287,8 +287,8 @@ inline size_t len(const set<Key>& m)
  *
  * @tparam Key
  */
-template <typename Key>
-set(std::initializer_list<Key>) -> set<Key>;
+// template <typename Key>
+// set(std::initializer_list<Key>) -> set<Key>;
 
 // template <typename Key>
 // set(std::initializer_list<const char*> ) -> set<std::string>;
@@ -394,7 +394,8 @@ class dict : public std::unordered_map<Key, T>
      */
     auto begin() const
     {
-        return key_iterator {std::unordered_map<Key, T>::begin()};
+        using Iter = decltype(std::unordered_map<Key, T>::begin());
+        return key_iterator<Iter> {std::unordered_map<Key, T>::begin()};
     }
 
     /*!
@@ -404,7 +405,8 @@ class dict : public std::unordered_map<Key, T>
      */
     auto end() const
     {
-        return key_iterator {std::unordered_map<Key, T>::end()};
+        using Iter = decltype(std::unordered_map<Key, T>::end());
+        return key_iterator<Iter> {std::unordered_map<Key, T>::end()};
     }
 
     /*!
@@ -502,11 +504,11 @@ inline size_t len(const dict<Key, T>& m)
  * @tparam Key
  * @tparam T
  */
-template <typename Key, typename T>
-dict(std::initializer_list<std::pair<const Key, T>>) -> dict<Key, T>;
+// template <typename Key, typename T>
+// dict(std::initializer_list<std::pair<const Key, T>>) -> dict<Key, T>;
 
-template <class Sequence>
-dict(const Sequence& S)
-    -> dict<std::remove_cv_t<decltype(*std::begin(S))>, size_t>;
+// template <class Sequence>
+// dict(const Sequence& S)
+//     -> dict<std::remove_cv_t<decltype(*std::begin(S))>, size_t>;
 
 } // namespace py
