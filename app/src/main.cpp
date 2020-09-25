@@ -32,8 +32,8 @@ static xn::grAdaptor<graph_t> create_test_case1()
     static Edge    edge_array[] = {Edge{A, B}, Edge{B, C}, Edge{C, D}, Edge{D, E}, Edge{E, A}};
     int            weights[]    = {-5, 1, 1, 1, 1};
     int            num_arcs     = sizeof(edge_array) / sizeof(Edge);
-    static graph_t g(edge_array, edge_array + num_arcs, weights, num_nodes);
-    return xn::grAdaptor<graph_t> {g};
+    auto g = graph_t(edge_array, edge_array + num_arcs, weights, num_nodes);
+    return xn::grAdaptor<graph_t> {std::move(g)};
 }
 
 static xn::grAdaptor<graph_t> create_test_case2()
@@ -51,8 +51,8 @@ static xn::grAdaptor<graph_t> create_test_case2()
     static Edge    edge_array[] = {Edge{A, B}, Edge{B, C}, Edge{C, D}, Edge{D, E}, Edge{E, A}};
     int            weights[]    = {2, 1, 1, 1, 1};
     int            num_arcs     = sizeof(edge_array) / sizeof(Edge);
-    static graph_t g(edge_array, edge_array + num_arcs, weights, num_nodes);
-    return xn::grAdaptor<graph_t> {g};
+    auto g = graph_t(edge_array, edge_array + num_arcs, weights, num_nodes);
+    return xn::grAdaptor<graph_t> {std::move(g)};
 }
 
 static xn::grAdaptor<graph_t> create_test_case_timing()
@@ -69,8 +69,8 @@ static xn::grAdaptor<graph_t> create_test_case_timing()
                                 Edge{B, C}, Edge{C, B}, Edge{C, A}, Edge{A, C}};
     int            weights[]    = {7, 0, 3, 1, 6, 4, 2, 5};
     int            num_arcs     = sizeof(edge_array) / sizeof(Edge);
-    static graph_t g(edge_array, edge_array + num_arcs, weights, num_nodes);
-    return xn::grAdaptor<graph_t> {g};
+    auto g = graph_t(edge_array, edge_array + num_arcs, weights, num_nodes);
+    return xn::grAdaptor<graph_t> {std::move(g)};
 }
 
 bool do_case(xn::grAdaptor<graph_t>& G)
