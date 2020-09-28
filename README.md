@@ -11,4 +11,4 @@ network optimization algorithms C++ code
 Highlight
 ---------
 
-- Work for C++20/17/14
+- Work for C++20/17
