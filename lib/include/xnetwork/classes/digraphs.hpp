@@ -198,17 +198,19 @@ namespace xn
     a dictionary-like object.
 */
 template <typename nodeview_t,
-    typename adjlist_t = py::dict<Value_type<nodeview_t>, int>>
-class DiGraphS : public Graph<nodeview_t, adjlist_t>
+    typename adjlist_t = py::dict<Value_type<nodeview_t>, int>,
+    typename adjlist_outer_dict_factory = py::dict<Value_type<nodeview_t>, adjlist_t>    
+ >
+class DiGraphS : public Graph<nodeview_t, adjlist_t, adjlist_outer_dict_factory>
 {
-    using _Base = Graph<nodeview_t, adjlist_t>;
+    using _Base = Graph<nodeview_t, adjlist_t, adjlist_outer_dict_factory>;
 
   public:
     using Node = typename _Base::Node; // luk
     using edge_t = std::pair<Node, Node>;
     using graph_attr_dict_factory = typename _Base::graph_attr_dict_factory;
-    using adjlist_outer_dict_factory =
-        typename _Base::adjlist_outer_dict_factory;
+    // using adjlist_outer_dict_factory =
+    //     typename _Base::adjlist_outer_dict_factory;
     using key_type = typename _Base::key_type;
     using value_type = typename _Base::value_type;
 
@@ -555,7 +557,9 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t>
     }
 };
 
-using SimpleDiGraphS = DiGraphS<decltype(py::range<int>(1)), py::dict<int, int>>;
+
+using SimpleDiGraphS = DiGraphS<decltype(py::range<int>(1)),
+                          py::dict<int, int>, std::vector<py::dict<int, int>> >;
 
 // template <typename nodeview_t,
 //           typename adjlist_t> DiGraphS(int )

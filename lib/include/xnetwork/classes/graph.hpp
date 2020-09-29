@@ -199,7 +199,9 @@ struct object : py::dict<const char*, boost::any>
 };
 
 template <typename __nodeview_t,
-    typename adjlist_t = py::set<Value_type<__nodeview_t>>>
+    typename adjlist_t = py::set<Value_type<__nodeview_t>>,
+    typename adjlist_outer_dict_factory = py::dict<Value_type<__nodeview_t>, adjlist_t>    
+    >
 class Graph : public object
 {
   public:
@@ -213,7 +215,6 @@ class Graph : public object
     // using adjlist_inner_dict_factory = py::dict<Node,
     // edge_attr_dict_factory>;
     using adjlist_inner_dict_factory = adjlist_t;
-    using adjlist_outer_dict_factory = std::vector<adjlist_t>;
     using key_type = typename adjlist_t::key_type;
     using value_type = typename adjlist_t::value_type;
     using edge_t = std::pair<Node, Node>;

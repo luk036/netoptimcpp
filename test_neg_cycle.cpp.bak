@@ -19,7 +19,7 @@ bool do_case(const Graph& G)
 {
     const auto get_weight = [&](const auto& edge) -> int {
         const auto e = G.end_points(edge);
-        return G[e.first].at(e.second);
+        return G[e.first][e.second];
     };
 
     auto dist = std::vector<int>(G.number_of_nodes(), 0);
@@ -138,7 +138,7 @@ bool do_case_float(const Graph& G)
 {
     const auto get_weight = [&](const auto& edge) -> double {
         const auto e = G.end_points(edge);
-        return G[e.first].at(e.second);
+        return G[e.first][e.second];
     };
 
     auto dist = std::vector<double>(G.number_of_nodes(), 0.0);
