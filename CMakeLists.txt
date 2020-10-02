@@ -59,10 +59,11 @@ set (CMAKE_CXX_STANDARD_REQUIRED ON)
 # Don't use e.g. GNU extension (like -std=gnu++11) for portability
 # set(CMAKE_CXX_EXTENSIONS OFF)
 # Enable helpfull warnings and C++17 for all files
+
 if(MSVC)
     add_compile_options(/std:c++latest /W3 /WX)
 else()
-    add_compile_options(-DBOOST_EXCEPTION_DISABLE -Wall -Wnon-virtual-dtor -Wunused -pedantic)
+    add_compile_options(-fcoroutines -fno-exceptions -DBOOST_EXCEPTION_DISABLE -Wall  -Wnon-virtual-dtor -Wunused -pedantic)
 endif()
 
 # set(LIBS ${LIBS} "-L$ENV{CONDA_PREFIX}/lib")

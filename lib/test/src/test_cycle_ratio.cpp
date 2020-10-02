@@ -5,6 +5,7 @@
 #include <py2cpp/fractions.hpp> // import Fraction
 // #include <xnetwork/classes/digraphs.hpp>
 #include <netoptim/test_cases.hpp>
+#include <iostream>
 
 TEST_CASE("Test Cycle Ratio")
 {

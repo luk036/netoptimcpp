@@ -1,5 +1,12 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
+#include <coroutine>
+#include <cppcoro/generator.hpp>
+
+cppcoro::generator<int> test()
+{
+    co_yield 3;
+}
 
 // #include <boost/coroutine2/all.hpp>
 // #include <iostream>

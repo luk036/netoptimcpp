@@ -1,7 +1,8 @@
 #pragma once
 
-#include <boost/any.hpp>
-#include <boost/coroutine2/all.hpp>
+#include <any>
+// #include <boost/coroutine2/all.hpp>
+#include <cppcoro/generator.hpp>
 #include <cassert>
 #include <py2cpp/py2cpp.hpp>
 #include <type_traits>
@@ -108,7 +109,7 @@ namespace xn
     direct manipulation of the attribute
     dictionaries named graph, node and edge respectively.
 
-    >>> G.graph["day"] = boost::any("Friday");
+    >>> G.graph["day"] = std::any("Friday");
     {'day': 'Friday'}
 
     **Subclasses (Advanced):**
@@ -430,9 +431,6 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t, adjlist_outer_dict_factory>
         return this->_succ[n];
     }
 
-    using coro_t = boost::coroutines2::coroutine<edge_t>;
-    using pull_t = typename coro_t::pull_type;
-
     /// @property
     /*! An OutEdgeView of the DiGraph as G.edges().
 
@@ -493,20 +491,34 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t, adjlist_outer_dict_factory>
         OutEdgeDataView([(0, 1)])
 
     */
-    auto edges() const -> pull_t
+    // using coro_t = boost::coroutines2::coroutine<edge_t>;
+    // using pull_t = typename coro_t::pull_type;
+
+    // auto edges() const -> pull_t
+    // {
+    //     auto func = [&](typename coro_t::push_type& yield) {
+    //         for (auto&& rslt : this->_nodes_nbrs())
+    //         {
+    //             auto&& n = std::get<0>(rslt);
+    //             auto&& nbrs = std::get<1>(rslt);
+    //             for (auto&& nbr : nbrs)
+    //             {
+    //                 yield(edge_t {Node(n), Node(nbr)});
+    //             }
+    //         }
+    //     };
+    //     return pull_t(func);
+    // }
+
+    cppcoro::generator<edge_t> edges() const
     {
-        auto func = [&](typename coro_t::push_type& yield) {
-            for (auto&& rslt : this->_nodes_nbrs())
+        for (auto&& [n, nbrs] : this->_nodes_nbrs())
+        {
+            for (auto&& nbr : nbrs)
             {
-                auto&& n = std::get<0>(rslt);
-                auto&& nbrs = std::get<1>(rslt);
-                for (auto&& nbr : nbrs)
-                {
-                    yield(edge_t {Node(n), Node(nbr)});
-                }
+                co_yield edge_t{Node(n), Node(nbr)};
             }
-        };
-        return pull_t(func);
+        }
     }
 
     // auto edges() {
