@@ -260,13 +260,13 @@ class Graph : public object
     */
     explicit Graph(const nodeview_t& Nodes)
         : _node {Nodes}
-        , _adj(Nodes.size())
+        , _adj{} // py::dict???
     {
     }
 
     explicit Graph(int num_nodes)
         : _node {py::range<int>(num_nodes)}
-        , _adj(num_nodes)
+        , _adj(num_nodes) // std::vector
     {
     }
 
@@ -326,6 +326,7 @@ class Graph : public object
 
     auto _nodes_nbrs() const
     {
+        // @TODO support py:dict
         return py::enumerate(this->_adj);
     }
 

@@ -130,9 +130,7 @@ class negCycleFinder
         auto changed = false;
         for (auto&& e : this->_G.edges())
         {
-            const auto vs = this->_G.end_points(e);
-            const auto& u = vs.first;
-            const auto& v = vs.second;
+            const auto [u, v] = this->_G.end_points(e);
             const auto wt = get_weight(e);
             const auto d = dist[u] + wt;
 

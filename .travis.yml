@@ -29,26 +29,26 @@ matrix:
     - os: linux
       addons: *gcc10
       env: COMPILER=gcc GCC=10 BUILD_TYPE='Release'
-    # - os: linux
-    #   addons: &clang10
-    #     apt:
-    #       sources: ['llvm-toolchain-bionic-10', 'ubuntu-toolchain-r-test']
-    #       packages:
-    #         - clang-10
-    #         - libstdc++-10-dev
-    #         - lcov
-    #   env: COMPILER=clang CLANG=10 BUILD_TYPE='Debug'
-    # - os: linux
-    #   addons: *clang10
-    #   env: COMPILER=clang CLANG=10 BUILD_TYPE='Release'
-    # - os: osx
-    #   osx_image: xcode12
-    #   addons:
-    #     homebrew:
-    #       packages:
-    #       - lcov
-    #       update: true
-    #   env: COMPILER=clang CLANG=10 BUILD_TYPE='Release'
+    - os: linux
+      addons: &clang10
+        apt:
+          sources: ['llvm-toolchain-bionic-10', 'ubuntu-toolchain-r-test']
+          packages:
+            - clang-10
+            - libstdc++-10-dev
+            - lcov
+      env: COMPILER=clang CLANG=10 BUILD_TYPE='Debug'
+    - os: linux
+      addons: *clang10
+      env: COMPILER=clang CLANG=10 BUILD_TYPE='Release'
+    - os: osx
+      osx_image: xcode12
+      addons:
+        homebrew:
+          packages:
+          - lcov
+          update: true
+      env: COMPILER=clang CLANG=10 BUILD_TYPE='Release'
 
 env:
   global:

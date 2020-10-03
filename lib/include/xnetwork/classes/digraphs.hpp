@@ -1,8 +1,8 @@
 #pragma once
 
 #include <any>
-// #include <boost/coroutine2/all.hpp>
-#include <cppcoro/generator.hpp>
+#include <boost/coroutine2/all.hpp>
+// #include <cppcoro/generator.hpp>
 #include <cassert>
 #include <py2cpp/py2cpp.hpp>
 #include <type_traits>
@@ -240,7 +240,7 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t, adjlist_outer_dict_factory>
     }
 
     explicit DiGraphS(int num_nodes)
-        : _Base {py::range<int>(num_nodes)}
+        : _Base {num_nodes}
         , _succ {_Base::_adj}
     {
     }
@@ -491,35 +491,33 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t, adjlist_outer_dict_factory>
         OutEdgeDataView([(0, 1)])
 
     */
-    // using coro_t = boost::coroutines2::coroutine<edge_t>;
-    // using pull_t = typename coro_t::pull_type;
+    using coro_t = boost::coroutines2::coroutine<edge_t>;
+    using pull_t = typename coro_t::pull_type;
 
-    // auto edges() const -> pull_t
-    // {
-    //     auto func = [&](typename coro_t::push_type& yield) {
-    //         for (auto&& rslt : this->_nodes_nbrs())
-    //         {
-    //             auto&& n = std::get<0>(rslt);
-    //             auto&& nbrs = std::get<1>(rslt);
-    //             for (auto&& nbr : nbrs)
-    //             {
-    //                 yield(edge_t {Node(n), Node(nbr)});
-    //             }
-    //         }
-    //     };
-    //     return pull_t(func);
-    // }
-
-    cppcoro::generator<edge_t> edges() const
+    auto edges() const -> pull_t
     {
-        for (auto&& [n, nbrs] : this->_nodes_nbrs())
-        {
-            for (auto&& nbr : nbrs)
+        auto func = [&](typename coro_t::push_type& yield) {
+            for (auto&& [n, nbrs] : this->_nodes_nbrs())
             {
-                co_yield edge_t{Node(n), Node(nbr)};
+                for (auto&& nbr : nbrs)
+                {
+                    yield(edge_t {Node(n), Node(nbr)});
+                }
             }
-        }
+        };
+        return pull_t(func);
     }
+
+    // cppcoro::generator<edge_t> edges() const
+    // {
+    //     for (auto&& [n, nbrs] : this->_nodes_nbrs())
+    //     {
+    //         for (auto&& nbr : nbrs)
+    //         {
+    //             co_yield edge_t{Node(n), Node(nbr)};
+    //         }
+    //     }
+    // }
 
     // auto edges() {
     //     return OutEdgeView(*this);
