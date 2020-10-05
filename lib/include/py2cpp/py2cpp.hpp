@@ -121,6 +121,7 @@ inline constexpr auto range(T start, T stop)
     {
       public:
         using value_type [[maybe_unused]] = T; // luk:
+        using key_type [[maybe_unused]] = T;   // luk:
         using iterator = __iterator;           // luk
         T start;
         T stop;

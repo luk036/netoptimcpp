@@ -341,8 +341,8 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t, adjlist_outer_dict_factory>
     {
         // auto [u, v] = u_of_edge, v_of_edge;
         // add nodes
-        assert(this->_node.contains(u));
-        assert(this->_node.contains(v));
+        // assert(this->s->_node.contains(u));
+        // assert(this->s->_node.contains(v));
         // add the edge
         // datadict = this->_adj[u].get(v, this->edge_attr_dict_factory());
         // datadict.update(attr);
@@ -357,8 +357,8 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t, adjlist_outer_dict_factory>
     {
         // auto [u, v] = u_of_edge, v_of_edge;
         // add nodes
-        assert(this->_node.contains(u));
-        assert(this->_node.contains(v));
+        // assert(this->s->_node.contains(u));
+        // assert(this->s->_node.contains(v));
         // add the edge
         // datadict = this->_adj[u].get(v, this->edge_attr_dict_factory());
         // datadict.update(attr);
@@ -372,8 +372,8 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t, adjlist_outer_dict_factory>
     template <typename T>
     auto add_edge(const Node& u, const Node& v, const T& data)
     {
-        assert(this->_node.contains(u));
-        assert(this->_node.contains(v));
+        // assert(this->s->_node.contains(u));
+        // assert(this->s->_node.contains(v));
         this->_succ[u][v] = data;
         this->_num_of_edges += 1;
     }
