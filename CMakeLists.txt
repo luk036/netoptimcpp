@@ -63,7 +63,7 @@ set (CMAKE_CXX_STANDARD_REQUIRED ON)
 if(MSVC)
     add_compile_options(/std:c++latest /W3 /WX)
 else()
-    add_compile_options(-DBOOST_EXCEPTION_DISABLE -Wall  -Wnon-virtual-dtor -Wunused -pedantic)
+    add_compile_options(-DBOOST_EXCEPTION_DISABLE -Wall -Wnon-virtual-dtor -Wunused -pedantic)
 endif()
 
 # set(LIBS ${LIBS} "-L$ENV{CONDA_PREFIX}/lib")

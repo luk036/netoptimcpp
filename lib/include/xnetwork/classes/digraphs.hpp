@@ -494,17 +494,33 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t, adjlist_outer_dict_factory>
     using coro_t = boost::coroutines2::coroutine<edge_t>;
     using pull_t = typename coro_t::pull_type;
 
+    /// @TODO: sync with networkx
     auto edges() const -> pull_t
     {
         auto func = [&](typename coro_t::push_type& yield) {
-            for (auto&& [n, nbrs] : this->_nodes_nbrs())
+            if constexpr (std::is_same_v<nodeview_t,decltype(py::range<int>(0))>)
             {
-                for (auto&& nbr : nbrs)
+                for (auto&& [n, nbrs] : py::enumerate(this->_adj))
                 {
-                    yield(edge_t {Node(n), Node(nbr)});
+                    for (auto&& nbr : nbrs)
+                    {
+                        yield(edge_t {n, nbr});
+                    }
+                }
+            }
+            else
+            {
+                for (auto&& [n, nbrs] : this->_adj.items())
+                {
+                    for (auto&& nbr : nbrs)
+                    {
+                        yield(edge_t {n, nbr});
+                    }
                 }
             }
         };
+
+
         return pull_t(func);
     }
 
