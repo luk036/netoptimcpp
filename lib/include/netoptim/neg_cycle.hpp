@@ -7,6 +7,7 @@ Negative cycle detection for weighed graphs.
 #include <cassert>
 #include <py2cpp/py2cpp.hpp>
 #include <vector>
+#include <optional>
 
 /*!
  * @brief negative cycle
@@ -63,10 +64,10 @@ class negCycleFinder
         while (this->_relax(dist, get_weight))
         {
             const auto v = this->_find_cycle();
-            if (v != this->_G.null_vertex())
+            if (v)
             {
-                assert(this->_is_negative(v, dist, get_weight));
-                return this->_cycle_list(v);
+                assert(this->_is_negative(*v, dist, get_weight));
+                return this->_cycle_list(*v);
             }
         }
         return std::vector<edge_t> {}; // ???
@@ -78,7 +79,7 @@ class negCycleFinder
      *
      * @return node_t a start node of the cycle
      */
-    auto _find_cycle() -> node_t
+    auto _find_cycle() -> std::optional<node_t>
     {
         auto visited = py::dict<node_t, node_t> {};
 
@@ -111,7 +112,7 @@ class negCycleFinder
             }
         }
 
-        return this->_G.null_vertex();
+        return {};
     }
 
     /*!
