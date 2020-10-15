@@ -44,7 +44,6 @@ class negCycleFinder
     {
     }
 
-  public:
     /*!
      * @brief find negative cycle
      *

@@ -2,6 +2,7 @@ external/*/
 
 # build
 .vscode/*
+.cache/*
 build*/
 
 # Generated API from Exhale
