@@ -1,4 +1,4 @@
-FROM gitpod/workspace-full
+FROM gitpod/workspace-full:latest
 
 USER root
 # Install util tools.
@@ -43,7 +43,7 @@ RUN /opt/conda/bin/conda install -y -c conda-forge \
     benchmark \
     catch2 \
     fmt \
-    libboost \
+    boost \
     spdlog \
     cppcheck
 
