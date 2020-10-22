@@ -1,9 +1,9 @@
 #pragma once
 
 #include <any>
-#include <string_view>
 #include <cassert>
 #include <py2cpp/py2cpp.hpp>
+#include <string_view>
 #include <type_traits>
 #include <vector>
 #include <xnetwork/classes/coreviews.hpp> // import AtlasView, AdjacencyView
@@ -198,14 +198,14 @@ struct object : py::dict<const char*, std::any>
 {
 };
 
-template <typename __nodeview_t,
-    typename adjlist_t = py::set<Value_type<__nodeview_t>>,
-    typename adjlist_outer_dict_factory = py::dict<Value_type<__nodeview_t>, adjlist_t>
-    >
+template <typename _nodeview_t,
+    typename adjlist_t = py::set<Value_type<_nodeview_t>>,
+    typename adjlist_outer_dict_factory =
+        py::dict<Value_type<_nodeview_t>, adjlist_t>>
 class Graph : public object
 {
   public:
-    using nodeview_t = __nodeview_t;
+    using nodeview_t = _nodeview_t;
     using Node = typename nodeview_t::value_type; // luk
     using dict = py::dict<const char*, std::any>;
     using graph_attr_dict_factory = dict;
@@ -220,7 +220,6 @@ class Graph : public object
     using edge_t = std::pair<Node, Node>;
     using node_t = Node;
 
-  public:
     size_t _num_of_edges = 0;
 
     // std::vector<Node > _Nodes{};
@@ -260,7 +259,7 @@ class Graph : public object
     */
     explicit Graph(const nodeview_t& Nodes)
         : _node {Nodes}
-        , _adj{} // py::dict???
+        , _adj {} // py::dict???
     {
     }
 
@@ -270,9 +269,9 @@ class Graph : public object
     {
     }
 
-    Graph(const Graph&) = delete;            // don't copy
-    Graph& operator=(const Graph&) = delete; // don't copy
-    Graph(Graph&&) noexcept = default;
+    // Graph(const Graph&) = delete;            // don't copy
+    // Graph& operator=(const Graph&) = delete; // don't copy
+    // Graph(Graph&&) noexcept = default;
 
     /*!
      * @brief For compatible with BGL adaptor
@@ -280,7 +279,7 @@ class Graph : public object
      * @param[in] e
      * @return edge_t&
      */
-    static edge_t& end_points(edge_t& e)
+    static auto end_points(edge_t& e) -> edge_t&
     {
         return e;
     }
@@ -291,7 +290,7 @@ class Graph : public object
      * @param[in] e
      * @return edge_t&
      */
-    static const edge_t& end_points(const edge_t& e)
+    static auto end_points(const edge_t& e) -> const edge_t&
     {
         return e;
     }
@@ -330,12 +329,15 @@ class Graph : public object
         return py::enumerate(this->_adj);
     }
 
-    /// @TODO need better idea 
-    Node null_vertex() const
-    {
-        return *(this->_node.end());
-    }
+    // auto null_vertex() const -> const Node&
+    // {
+    //     return *(this->_node.end());
+    // }
 
+    // Node& null_vertex()
+    // {
+    //     return *(this->_node.end());
+    // }
 
     /// @property
     auto get_name()
@@ -392,7 +394,7 @@ class Graph : public object
     >>> 1 : G
     true
      */
-    bool contains(const Node& n)
+    auto contains(const Node& n) -> bool
     {
         return this->_node.contains(n);
     }
@@ -618,8 +620,8 @@ class Graph : public object
         >>> G.edges()[1, 2].update({0: 5});
      */
     template <typename U = key_type>
-    typename std::enable_if<std::is_same<U, value_type>::value>::type
-    add_edge(const Node& u, const Node& v)
+    typename std::enable_if<std::is_same<U, value_type>::value>::type add_edge(
+        const Node& u, const Node& v)
     {
         // auto [u, v] = u_of_edge, v_of_edge;
         // add nodes
@@ -635,8 +637,8 @@ class Graph : public object
     }
 
     template <typename U = key_type>
-    typename std::enable_if<!std::is_same<U, value_type>::value>::type
-    add_edge(const Node& u, const Node& v)
+    typename std::enable_if<!std::is_same<U, value_type>::value>::type add_edge(
+        const Node& u, const Node& v)
     {
         // auto [u, v] = u_of_edge, v_of_edge;
         // add nodes
@@ -857,7 +859,8 @@ class Graph : public object
     }
 };
 
-using SimpleGraph = Graph<decltype(py::range<int>(1)), py::set<int>, std::vector<py::set<int>> >;
+using SimpleGraph =
+    Graph<decltype(py::range<int>(1)), py::set<int>, std::vector<py::set<int>>>;
 
 // template <typename nodeview_t,
 //           typename adjlist_t> Graph(int )

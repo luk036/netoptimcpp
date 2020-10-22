@@ -176,7 +176,7 @@ template <typename nodeview_t>
 class NodeView
 {
   private:
-    using _Self = NodeView<nodeview_t>;
+    using Self = NodeView<nodeview_t>;
     using Node = typename nodeview_t::value_type;
 
     nodeview_t& _nodes;
@@ -210,18 +210,18 @@ class NodeView
         return std::end(this->_nodes);
     }
 
-    // const auto& operator[](const Node& n) const
-    // {
-    //     return this->_nodes[n];
-    // }
+    const auto& operator[](const Node& n) const
+    {
+        return this->_nodes[n];
+    }
 
-    auto operator[](const Node& n) const
+    auto& operator[](const Node& n)
     {
         return this->_nodes[n];
     }
 
     // Set methods
-    bool contains(const Node& n)
+    auto contains(const Node& n) -> bool
     {
         return this->_nodes.contains(n);
     }
