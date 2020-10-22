@@ -1,9 +1,9 @@
 // -*- coding: utf-8 -*-
 #include <doctest.h>
 #include <netoptim/min_cycle_ratio.hpp> // import min_cycle_ratio, set_default
-#include <py2cpp/fractions.hpp>         // import Fraction
-#include <vector>
 #include <netoptim/test_cases2_boost.hpp>
+#include <py2cpp/fractions.hpp> // import Fraction
+#include <vector>
 // from fractions import Fraction
 
 TEST_CASE("Test Cycle Ratio (boost)")
@@ -24,7 +24,8 @@ TEST_CASE("Test Cycle Ratio (boost)")
     };
     auto get_time = [&](const auto & /*unused*/) -> int { return 1; };
 
-    auto dist = std::vector<fun::Fraction<int>>(G.number_of_nodes(), fun::Fraction<int>(0));
+    auto dist = std::vector<fun::Fraction<int>>(
+        G.number_of_nodes(), fun::Fraction<int>(0));
     auto r = fun::Fraction<int>(5);
     const auto c = min_cycle_ratio(G, r, get_cost, get_time, dist);
     CHECK(!c.empty());
@@ -53,7 +54,8 @@ TEST_CASE("Test Cycle Ratio of Timing Graph (boost)")
     };
     const auto get_time = [&](const auto & /*e*/) -> int { return 1; };
 
-    auto dist = std::vector<fun::Fraction<int>>(G.number_of_nodes(), fun::Fraction<int>(0));
+    auto dist = std::vector<fun::Fraction<int>>(
+        G.number_of_nodes(), fun::Fraction<int>(0));
     auto r = fun::Fraction<int>(7);
     const auto c = min_cycle_ratio(G, r, get_cost, get_time, dist);
     CHECK(!c.empty());

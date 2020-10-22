@@ -200,8 +200,8 @@ namespace xn
 */
 template <typename nodeview_t,
     typename adjlist_t = py::dict<Value_type<nodeview_t>, int>,
-    typename adjlist_outer_dict_factory = py::dict<Value_type<nodeview_t>, adjlist_t>    
- >
+    typename adjlist_outer_dict_factory =
+        py::dict<Value_type<nodeview_t>, adjlist_t>>
 class DiGraphS : public Graph<nodeview_t, adjlist_t, adjlist_outer_dict_factory>
 {
     using _Base = Graph<nodeview_t, adjlist_t, adjlist_outer_dict_factory>;
@@ -336,8 +336,8 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t, adjlist_outer_dict_factory>
         >>> G.edges()[1, 2].update({0: 5});
      */
     template <typename U = key_type>
-    typename std::enable_if<std::is_same<U, value_type>::value>::type
-    add_edge(const Node& u, const Node& v)
+    typename std::enable_if<std::is_same<U, value_type>::value>::type add_edge(
+        const Node& u, const Node& v)
     {
         // auto [u, v] = u_of_edge, v_of_edge;
         // add nodes
@@ -352,8 +352,8 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t, adjlist_outer_dict_factory>
     }
 
     template <typename U = key_type>
-    typename std::enable_if<!std::is_same<U, value_type>::value>::type
-    add_edge(const Node& u, const Node& v)
+    typename std::enable_if<!std::is_same<U, value_type>::value>::type add_edge(
+        const Node& u, const Node& v)
     {
         // auto [u, v] = u_of_edge, v_of_edge;
         // add nodes
@@ -498,7 +498,8 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t, adjlist_outer_dict_factory>
     auto edges() const -> pull_t
     {
         auto func = [&](typename coro_t::push_type& yield) {
-            if constexpr (std::is_same_v<nodeview_t,decltype(py::range<int>(0))>)
+            if constexpr (std::is_same_v<nodeview_t,
+                              decltype(py::range<int>(0))>)
             {
                 for (auto&& [n, nbrs] : py::enumerate(this->_adj))
                 {
@@ -584,8 +585,8 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t, adjlist_outer_dict_factory>
 };
 
 
-using SimpleDiGraphS = DiGraphS<decltype(py::range<int>(1)),
-                          py::dict<int, int>, std::vector<py::dict<int, int>> >;
+using SimpleDiGraphS = DiGraphS<decltype(py::range<int>(1)), py::dict<int, int>,
+    std::vector<py::dict<int, int>>>;
 
 // template <typename nodeview_t,
 //           typename adjlist_t> DiGraphS(int )

@@ -5,9 +5,9 @@
 Negative cycle detection for weighed graphs.
 **/
 #include <cassert>
+#include <optional>
 #include <py2cpp/py2cpp.hpp>
 #include <vector>
-#include <optional>
 
 /*!
  * @brief negative cycle

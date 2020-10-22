@@ -2,29 +2,17 @@
 #include <array>
 #include <doctest.h>
 #include <netoptim/neg_cycle.hpp> // import negCycleFinder
-#include <vector>
 #include <string>
+#include <vector>
 #include <xnetwork/classes/digraphs.hpp>
 
 template <typename Container>
 inline auto create_test_case4(const Container& weights)
 {
     using Edge = std::pair<std::string, std::string>;
-    std::vector<std::string> nodes =
-    {
-        "A",
-        "B",
-        "C",
-        "D",
-        "E"
-    };
-    const auto edges = std::array<Edge, 5> {
-        Edge {"A", "B"},
-        Edge {"B", "C"},
-        Edge {"C", "D"},
-        Edge {"D", "E"},
-        Edge {"E", "A"}
-    };
+    std::vector<std::string> nodes = {"A", "B", "C", "D", "E"};
+    const auto edges = std::array<Edge, 5> {Edge {"A", "B"}, Edge {"B", "C"},
+        Edge {"C", "D"}, Edge {"D", "E"}, Edge {"E", "A"}};
     // constexpr auto weights = std::array<int, 5> {-5, 1, 1, 1, 1};
 
     auto G = xn::DiGraphS {nodes};
@@ -45,10 +33,10 @@ bool do_case(const Graph& G)
 {
     const auto get_weight = [&](const auto& edge) -> int {
         const auto [u, v] = G.end_points(edge);
-        return G[u][v]; 
+        return G[u][v];
     };
 
-    auto dist = py::dict<std::string, int>{};
+    auto dist = py::dict<std::string, int> {};
     for (auto&& v : G)
     {
         dist[v] = 0;

@@ -19,7 +19,7 @@ bool do_case(const Graph& G)
 {
     const auto get_weight = [&](const auto& edge) -> int {
         const auto [u, v] = G.end_points(edge);
-        return G[u][v]; 
+        return G[u][v];
     };
 
     auto dist = std::vector<int>(G.number_of_nodes(), 0);

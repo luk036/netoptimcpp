@@ -30,13 +30,13 @@ inline xn::grAdaptor<graph_t> create_test_case1(const Container& weights)
         Edge {A, B}, Edge {B, C}, Edge {C, D}, Edge {D, E}, Edge {E, A}};
     // int weights[] = {-5, 1, 1, 1, 1};
     int num_arcs = sizeof(edge_array) / sizeof(Edge);
-    auto g =
-        graph_t(edge_array, edge_array + num_arcs, weights, num_nodes);
+    auto g = graph_t(edge_array, edge_array + num_arcs, weights, num_nodes);
     return xn::grAdaptor<graph_t> {std::move(g)};
 }
 
 template <typename Container>
-inline auto create_test_case_timing(const Container& weights) -> xn::grAdaptor<graph_t>
+inline auto create_test_case_timing(const Container& weights)
+    -> xn::grAdaptor<graph_t>
 {
     using Edge = std::pair<int, int>;
     constexpr auto num_nodes = 3;
@@ -50,7 +50,6 @@ inline auto create_test_case_timing(const Container& weights) -> xn::grAdaptor<g
         Edge {C, B}, Edge {B, C}, Edge {C, B}, Edge {C, A}, Edge {A, C}};
     // int weights[] = {7, 0, 3, 1, 6, 4, 2, 5};
     constexpr int num_arcs = sizeof(edge_array) / sizeof(Edge);
-    auto g =
-        graph_t(edge_array, edge_array + num_arcs, weights, num_nodes);
+    auto g = graph_t(edge_array, edge_array + num_arcs, weights, num_nodes);
     return xn::grAdaptor<graph_t> {std::move(g)};
 }
