@@ -9,6 +9,10 @@ Negative cycle detection for weighed graphs.
 #include <py2cpp/py2cpp.hpp>
 #include <vector>
 
+#include <ThreadPool.h>
+#include <chrono>
+// #include <iostream> // for debugging
+
 /*!
  * @brief negative cycle
  *
@@ -128,20 +132,38 @@ class negCycleFinder
     auto _relax(Container&& dist, WeightFn&& get_weight) -> bool
     {
         auto changed = false;
+        ThreadPool pool(std::thread::hardware_concurrency());
+        std::vector<std::future<void>> results;
+        std::vector<std::mutex> n_mutex(this->_G.number_of_nodes());
         for (auto&& e : this->_G.edges())
         {
             const auto [u, v] = this->_G.end_points(e);
-            const auto wt = get_weight(e);
-            const auto d = dist[u] + wt;
-
-            if (dist[v] > d)
+            if (u == v)
             {
-                this->_pred[v] = u;
-                this->_edge[v] = e; // ???
-                dist[v] = d;
-                changed = true;
-            }
+                continue;
+            } // unlikely
+            results.emplace_back(pool.enqueue([&, e]() {
+                const auto [u, v] = this->_G.end_points(e);
+                if (u == v)
+                {
+                    return;
+                } // unlikely
+                std::scoped_lock lock(n_mutex[u], n_mutex[v]);
+                const auto wt = get_weight(e); // assume it takes a long time
+                const auto d = dist[u] + wt;
+                if (dist[v] > d)
+                {
+                    this->_pred[v] = u;
+                    this->_edge[v] = e; // ???
+                    dist[v] = d;
+                    changed = true;
+                }
+            }));
         }
+
+        for (auto&& result : results)
+            result.get();
+
         return changed;
     }
 

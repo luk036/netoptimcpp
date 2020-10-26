@@ -6,6 +6,7 @@
 // #include <xnetwork/classes/digraphs.hpp>
 #include <netoptim/test_cases.hpp>
 
+
 /*!
  * @brief
  *
@@ -59,7 +60,7 @@ TEST_CASE("Test No Negative Cycle")
  */
 TEST_CASE("Test Timing Graph")
 {
-    auto weights = std::array<int, 8> {7, 0, 3, 1, 6, 4, 2, 5};
+    auto weights = std::array<int, 6> {7, 0, 6, 4, 2, 5};
     auto G = create_test_case_timing(weights);
     const auto hasNeg = do_case(G);
     CHECK(!hasNeg);
@@ -71,7 +72,7 @@ TEST_CASE("Test Timing Graph")
  */
 TEST_CASE("Test Timing Graph (2)")
 {
-    auto weights = std::array<int, 8> {3, -4, -1, -1, 2, 0, -2, 1};
+    auto weights = std::array<int, 6> {3, -4, 2, 0, -2, 1};
     auto G = create_test_case_timing(weights);
     const auto hasNeg = do_case(G);
     CHECK(hasNeg);

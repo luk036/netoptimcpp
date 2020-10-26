@@ -54,8 +54,8 @@ inline auto create_test_case_timing(const Container& weights)
         C
     };
     const auto edges =
-        std::array<Edge, 8> {Edge {A, B}, Edge {B, A}, Edge {B, C}, Edge {C, B},
-            Edge {B, C}, Edge {C, B}, Edge {C, A}, Edge {A, C}};
+        std::array<Edge, 6> {Edge {A, B}, Edge {B, A}, Edge {B, C}, Edge {C, B},
+            Edge {C, A}, Edge {A, C}}; // no multiple edges
     auto G = xn::SimpleDiGraphS {num_nodes};
     G.add_edges_from(edges, weights);
     return G;
