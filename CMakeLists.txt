@@ -61,7 +61,7 @@ set (CMAKE_CXX_STANDARD_REQUIRED ON)
 # Enable helpfull warnings and C++17 for all files
 
 if(MSVC)
-    add_compile_options(/std:c++latest /W3 /WX)
+    add_compile_options(/std:c++latest /W3 /WX -D_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS)
 else()
     add_compile_options(-DBOOST_EXCEPTION_DISABLE -Wall -Wnon-virtual-dtor -Wunused -pedantic)
 endif()
