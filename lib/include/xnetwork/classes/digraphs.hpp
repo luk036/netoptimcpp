@@ -505,7 +505,7 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t, adjlist_outer_dict_factory>
                 {
                     for (auto&& nbr : nbrs)
                     {
-                        yield(edge_t {n, nbr});
+                        yield(edge_t {Node(n), Node(nbr)});
                     }
                 }
             }
