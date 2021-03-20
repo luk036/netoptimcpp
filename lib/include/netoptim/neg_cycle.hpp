@@ -144,19 +144,34 @@ class negCycleFinder
             } // unlikely
             results.emplace_back(pool.enqueue([&, e]() {
                 const auto [u, v] = this->_G.end_points(e);
-                if (u == v)
+                // std::scoped_lock lock(n_mutex[u], n_mutex[v]);
+                auto relax = [&]() {
+                    const auto wt = get_weight(e); 
+                    // assume it takes a long time
+                    const auto d = dist[u] + wt;
+                    if (dist[v] > d)
+                    {
+                        this->_pred[v] = u;
+                        this->_edge[v] = e; // ???
+                        dist[v] = d;
+                        changed = true;
+                    }
+                };
+                if (u < v)
                 {
-                    return;
-                } // unlikely
-                std::scoped_lock lock(n_mutex[u], n_mutex[v]);
-                const auto wt = get_weight(e); // assume it takes a long time
-                const auto d = dist[u] + wt;
-                if (dist[v] > d)
+                    std::lock_guard lock(n_mutex[u]);
+                    {
+                        std::lock_guard lock(n_mutex[v]);
+                        relax();
+                    }
+                }
+                else
                 {
-                    this->_pred[v] = u;
-                    this->_edge[v] = e; // ???
-                    dist[v] = d;
-                    changed = true;
+                    std::lock_guard lock(n_mutex[v]);
+                    {
+                        std::lock_guard lock(n_mutex[u]);
+                        relax();
+                    }
                 }
             }));
         }
