@@ -137,14 +137,17 @@ class negCycleFinder
         std::vector<std::mutex> n_mutex(this->_G.number_of_nodes());
         for (auto&& e : this->_G.edges())
         {
-            const auto [u, v] = this->_G.end_points(e);
+            const auto vs = this->_G.end_points(e);
+	    const auto& u = vs.first;
+	    const auto& v = vs.second;
             if (u == v)
             {
                 continue;
             } // unlikely
             results.emplace_back(pool.enqueue([&, e]() {
-                const auto [u, v] = this->_G.end_points(e);
-                // std::scoped_lock lock(n_mutex[u], n_mutex[v]);
+                const auto vs = this->_G.end_points(e);
+	        const auto& u = vs.first;
+	        const auto& v = vs.second;
                 auto relax = [&]() {
                     const auto wt = get_weight(e); 
                     // assume it takes a long time
