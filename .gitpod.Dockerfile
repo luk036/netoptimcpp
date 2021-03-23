@@ -2,18 +2,47 @@ FROM gitpod/workspace-full
 
 USER root
 # Install util tools.
+
 RUN apt-get update \
  && apt-get install -y \
   apt-utils \
-  sudo \
   aria2 \
-  git \
+# c++ stuff \
+  clang-format \
+  cppcheck \
+  doctest-dev \
+  kcachegrind-converters \
+  kcachegrind \
   lcov \
-  less \
-  neofetch \
+  libbenchmark-dev \
+  libboost-dev \
+  libfmt-dev \
+#  libjsoncpp-dev \
+#  libopenblas-dev \
+  librange-v3-dev \
+  libspdlog-dev \
+  ninja-build \
+# utilities (not ripgrep, gh) \
   asciinema \
-  tmux \
-  wget
+  bat \
+  byobu \
+  curl \
+  elinks \
+  fd-find \
+  fish \
+  mdp \
+  ncdu \
+  neofetch \
+  patat \
+  pkg-config \
+  ranger \
+  w3m \
+# just for fun (not cmatrix) \
+  cowsay \
+  figlet \
+  fortune \
+  toilet \
+  tty-clock
 
 RUN mkdir -p /workspace/data \
     && chown -R gitpod:gitpod /workspace/data
@@ -27,24 +56,22 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
     echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
     echo "conda activate base" >> ~/.bashrc
     
-RUN chown -R gitpod:gitpod /opt/conda \
-    && chmod -R 777 /opt/conda \
-    && chown -R gitpod:gitpod /home/gitpod/.conda \
-    && chmod -R 777 /home/gitpod/.conda
-
 RUN /opt/conda/bin/conda config --set always_yes yes --set changeps1 no \
     && /opt/conda/bin/conda update -q conda \
     && /opt/conda/bin/conda info -a
 
-RUN /opt/conda/bin/conda install -y \
-    ninja
-
 RUN /opt/conda/bin/conda install -y -c conda-forge \
-    benchmark \
-    doctest \
-    fmt \
-    boost \
-    spdlog \
-    cppcheck
+    pandoc-crossref \
+    pandoc
+
+RUN /opt/conda/bin/pip install \
+    cppclean \
+    pyprof2calltree \
+    lolcat
+
+RUN chown -R gitpod:gitpod /opt/conda \
+    && chmod -R 777 /opt/conda \
+    && chown -R gitpod:gitpod /home/gitpod/.conda \
+    && chmod -R 777 /home/gitpod/.conda
 
 RUN apt-get clean && rm -rf /var/cache/apt/* && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/*
