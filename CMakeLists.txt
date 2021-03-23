@@ -10,7 +10,7 @@
 #
 cmake_minimum_required(VERSION 3.8.2)
 
-set(CMAKE_PREFIX_PATH $ENV{CONDA_PREFIX})
+# set(CMAKE_PREFIX_PATH $ENV{CONDA_PREFIX})
 
 if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
     message(FATAL_ERROR "Do not build in-source. Please remove CMakeCache.txt and the CMakeFiles/ directory. Then build out-of-source.")
@@ -29,7 +29,7 @@ include(CMakeDependentOption)# This is a really useful scripts that creates opti
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake")
 include(Colors)
-include(Doctest)
+# include(Doctest)
 include(LTO)
 include(Warnings)
 include(CopyDllsForDebug)
@@ -99,6 +99,8 @@ if (Boost_FOUND)
     message(STATUS "Found boost: ${Boost_INCLUDE_DIRS}")
     set(LIBS ${LIBS} ${Boost_LIBRARIES})
 endif (Boost_FOUND)
+
+find_package (doctest REQUIRED)
 
 set (LIBRARY_INCLUDE_PATH  ${LIBRARY_INCLUDE_PATH} ${Boost_INCLUDE_DIRS})
 

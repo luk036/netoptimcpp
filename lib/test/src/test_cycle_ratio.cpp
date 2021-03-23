@@ -1,6 +1,6 @@
 // -*- coding: utf-8 -*-
 #include <array>
-#include <doctest.h>
+#include <doctest/doctest.h>
 #include <netoptim/min_cycle_ratio.hpp>
 #include <py2cpp/fractions.hpp> // import Fraction
 // #include <xnetwork/classes/digraphs.hpp>

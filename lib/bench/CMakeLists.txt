@@ -16,11 +16,11 @@ foreach(ONE_BENCH_CPP ${ALL_BENCH_CPP})
 
    add_executable(${TARGET_NAME} ${ONE_BENCH_CPP})
    set_target_properties(${TARGET_NAME} PROPERTIES OUTPUT_NAME ${ONE_BENCH_EXEC}) 
-   target_link_libraries(${TARGET_NAME} 
+   target_link_libraries(${TARGET_NAME} PRIVATE
 
    # If required, you can add your project library here
 # ...
-    ${LIB_NAME} ${LIBS} doctest Threads::Threads benchmark::benchmark
+${LIB_NAME} ${LIBS}  Threads::Threads benchmark::benchmark
    )
 
    # If you want to run benchmarks with the "make test" command, uncomment me

@@ -1,5 +1,5 @@
 // -*- coding: utf-8 -*-
-#include <doctest.h>
+#include <doctest/doctest.h>
 // #include <netoptim/min_cycle_ratio.hpp>
 #include <netoptim/neg_cycle.hpp> // import negCycleFinder
 #include <netoptim/test_cases_boost.hpp>

@@ -1,6 +1,6 @@
 // -*- coding: utf-8 -*-
 #include <array>
-#include <doctest.h>
+#include <doctest/doctest.h>
 #include <netoptim/neg_cycle.hpp> // import negCycleFinder
 #include <vector>
 #include <xnetwork/classes/digraphs.hpp>

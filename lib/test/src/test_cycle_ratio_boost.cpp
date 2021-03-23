@@ -1,5 +1,5 @@
 // -*- coding: utf-8 -*-
-#include <doctest.h>
+#include <doctest/doctest.h>
 #include <netoptim/min_cycle_ratio.hpp> // import min_cycle_ratio, set_default
 #include <netoptim/test_cases2_boost.hpp>
 #include <py2cpp/fractions.hpp> // import Fraction
