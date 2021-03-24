@@ -100,7 +100,7 @@ if (Boost_FOUND)
     set(LIBS ${LIBS} ${Boost_LIBRARIES})
 endif (Boost_FOUND)
 
-find_package (doctest REQUIRED)
+# find_package (doctest REQUIRED)
 
 set (LIBRARY_INCLUDE_PATH  ${LIBRARY_INCLUDE_PATH} ${Boost_INCLUDE_DIRS})
 
