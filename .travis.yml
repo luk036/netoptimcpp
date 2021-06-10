@@ -9,6 +9,7 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-9
+            - libboost-all-dev
             - lcov
       env: COMPILER=gcc GCC=9 BUILD_TYPE='Debug'
     - os: linux
@@ -24,6 +25,7 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-10
+            - libboost-all-dev
             - lcov
       env: COMPILER=gcc GCC=10 BUILD_TYPE='Debug'
     - os: linux
@@ -36,6 +38,7 @@ matrix:
           packages:
             - clang-10
             - libstdc++-10-dev
+            - libboost-all-dev
             - lcov
       env: COMPILER=clang CLANG=10 BUILD_TYPE='Debug'
     - os: linux
@@ -47,6 +50,7 @@ matrix:
         homebrew:
           packages:
           - lcov
+          - libboost-all-dev
           update: true
       env: COMPILER=clang CLANG=10 BUILD_TYPE='Release'
 
@@ -85,7 +89,7 @@ install:
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
   - conda info -a
-  - conda install -c conda-forge benchmark boost fmt spdlog doctest
+  - conda install -c conda-forge benchmark fmt spdlog doctest
 script:
   - |
     if [[ "$BUILD_TYPE" == "Coverage" ]]; then
