@@ -68,7 +68,7 @@ TEST_CASE("Test No Negative Cycle")
     auto weights = std::array<int, 5> {2, 1, 1, 1, 1};
     auto G = create_test_case4(weights);
     do_case(G);
-    //CHECK(!hasNeg);
+    // CHECK(!hasNeg);
 }
 
 // /*!

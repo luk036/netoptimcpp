@@ -8,9 +8,8 @@ auto do_case(const xn::grAdaptor<graph_t>& G) -> bool
 {
     using edge_t = decltype(*(std::begin(G.edges())));
 
-    const auto get_weight = [&](const edge_t& e) -> int {
-        return boost::get(boost::edge_weight, G)[e];
-    };
+    const auto get_weight = [&](const edge_t& e) -> int
+    { return boost::get(boost::edge_weight, G)[e]; };
 
     auto dist = std::vector<int>(G.number_of_nodes(), 0);
     auto N = negCycleFinder<xn::grAdaptor<graph_t>> {G};
@@ -22,9 +21,8 @@ auto do_case_float(const xn::grAdaptor<graph_t>& G) -> bool
 {
     using edge_t = decltype(*(std::begin(G.edges())));
 
-    const auto get_weight = [&](const edge_t& e) -> double {
-        return boost::get(boost::edge_weight, G)[e];
-    };
+    const auto get_weight = [&](const edge_t& e) -> double
+    { return boost::get(boost::edge_weight, G)[e]; };
 
     auto dist = std::vector<double>(G.number_of_nodes(), 0.0);
     auto N = negCycleFinder<xn::grAdaptor<graph_t>> {G};
