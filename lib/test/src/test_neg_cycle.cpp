@@ -16,7 +16,7 @@
  * @return false
  */
 template <typename Graph>
-bool do_case(const Graph& G)
+auto do_case(const Graph& G) -> bool
 {
     const auto get_weight = [&](const auto& edge) -> int
     {

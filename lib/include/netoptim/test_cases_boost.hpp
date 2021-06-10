@@ -14,7 +14,7 @@ using Vertex = boost::graph_traits<graph_t>::vertex_descriptor;
 using Edge_it = boost::graph_traits<graph_t>::edge_iterator;
 
 template <typename Container>
-inline xn::grAdaptor<graph_t> create_test_case1(const Container& weights)
+inline auto create_test_case1(const Container& weights) -> xn::grAdaptor<graph_t>
 {
     using Edge = std::pair<int, int>;
     const auto num_nodes = 5;

@@ -336,8 +336,8 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t, adjlist_outer_dict_factory>
         >>> G.edges()[1, 2].update({0: 5});
      */
     template <typename U = key_type>
-    typename std::enable_if<std::is_same<U, value_type>::value>::type add_edge(
-        const Node& u, const Node& v)
+    auto add_edge(
+        const Node& u, const Node& v) -> typename std::enable_if<std::is_same<U, value_type>::value>::type
     {
         // auto [u, v] = u_of_edge, v_of_edge;
         // add nodes
@@ -352,8 +352,8 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t, adjlist_outer_dict_factory>
     }
 
     template <typename U = key_type>
-    typename std::enable_if<!std::is_same<U, value_type>::value>::type add_edge(
-        const Node& u, const Node& v)
+    auto add_edge(
+        const Node& u, const Node& v) -> typename std::enable_if<!std::is_same<U, value_type>::value>::type
     {
         // auto [u, v] = u_of_edge, v_of_edge;
         // add nodes
@@ -421,12 +421,12 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t, adjlist_outer_dict_factory>
         -----
         neighbors() and successors() are the same.
     */
-    auto& successors(const Node& n)
+    auto successors(const Node& n) -> auto&
     {
         return this->_succ[n];
     }
 
-    const auto& successors(const Node& n) const
+    auto successors(const Node& n) const -> const auto&
     {
         return this->_succ[n];
     }

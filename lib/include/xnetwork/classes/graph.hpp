@@ -5,6 +5,7 @@
 #include <py2cpp/py2cpp.hpp>
 #include <string_view>
 #include <type_traits>
+#include <utility>
 #include <vector>
 #include <xnetwork/classes/coreviews.hpp> // import AtlasView, AdjacencyView
 #include <xnetwork/classes/reportviews.hpp> // import NodeView, EdgeView, DegreeView
@@ -257,8 +258,8 @@ class Graph : public object
         >>> r = py::range(100);
         >>> G = xn::Graph(r);  // or DiGraph, MultiGraph, MultiDiGraph, etc
     */
-    explicit Graph(const nodeview_t& Nodes)
-        : _node {Nodes}
+    explicit Graph(nodeview_t  Nodes)
+        : _node {std::move(Nodes)}
         , _adj {} // py::dict???
     {
     }
@@ -422,12 +423,12 @@ class Graph : public object
     >>> G[0];
     AtlasView({1: {}});
      */
-    const auto& operator[](const Node& n) const
+    auto operator[](const Node& n) const -> const auto&
     {
         return this->adj()[n];
     }
 
-    auto& operator[](const Node& n)
+    auto operator[](const Node& n) -> auto&
     {
         return this->adj()[n];
     }
@@ -620,8 +621,8 @@ class Graph : public object
         >>> G.edges()[1, 2].update({0: 5});
      */
     template <typename U = key_type>
-    typename std::enable_if<std::is_same<U, value_type>::value>::type add_edge(
-        const Node& u, const Node& v)
+    auto add_edge(
+        const Node& u, const Node& v) -> typename std::enable_if<std::is_same<U, value_type>::value>::type
     {
         // auto [u, v] = u_of_edge, v_of_edge;
         // add nodes
@@ -637,8 +638,8 @@ class Graph : public object
     }
 
     template <typename U = key_type>
-    typename std::enable_if<!std::is_same<U, value_type>::value>::type add_edge(
-        const Node& u, const Node& v)
+    auto add_edge(
+        const Node& u, const Node& v) -> typename std::enable_if<!std::is_same<U, value_type>::value>::type
     {
         // auto [u, v] = u_of_edge, v_of_edge;
         // add nodes

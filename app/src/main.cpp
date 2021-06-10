@@ -17,7 +17,7 @@ using graph_t = boost::adjacency_list<
 using Vertex  = boost::graph_traits<graph_t>::vertex_descriptor;
 using Edge_it = boost::graph_traits<graph_t>::edge_iterator;
 
-static xn::grAdaptor<graph_t> create_test_case1()
+static auto create_test_case1() -> xn::grAdaptor<graph_t>
 {
     using Edge           = std::pair<int, int>;
     const auto num_nodes = 5;
@@ -36,7 +36,7 @@ static xn::grAdaptor<graph_t> create_test_case1()
     return xn::grAdaptor<graph_t> {std::move(g)};
 }
 
-static xn::grAdaptor<graph_t> create_test_case2()
+static auto create_test_case2() -> xn::grAdaptor<graph_t>
 {
     using Edge           = std::pair<int, int>;
     const auto num_nodes = 5;
@@ -55,7 +55,7 @@ static xn::grAdaptor<graph_t> create_test_case2()
     return xn::grAdaptor<graph_t> {std::move(g)};
 }
 
-static xn::grAdaptor<graph_t> create_test_case_timing()
+static auto create_test_case_timing() -> xn::grAdaptor<graph_t>
 {
     using Edge           = std::pair<int, int>;
     const auto num_nodes = 3;
@@ -73,7 +73,7 @@ static xn::grAdaptor<graph_t> create_test_case_timing()
     return xn::grAdaptor<graph_t> {std::move(g)};
 }
 
-bool do_case(xn::grAdaptor<graph_t>& G)
+auto do_case(xn::grAdaptor<graph_t>& G) -> bool
 {
     using edge_t = typename xn::grAdaptor<graph_t>::edge_t;
 
