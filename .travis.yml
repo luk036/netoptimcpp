@@ -45,18 +45,35 @@ matrix:
             - lcov
       env: COMPILER=clang CLANG=10 BUILD_TYPE='Debug'
     - os: linux
-      addons: *clang10
-      env: COMPILER=clang CLANG=10 BUILD_TYPE='Release'
-    - os: osx
-      osx_image: xcode12
-      addons:
-        homebrew:
+      addons: *clang11
+      env: COMPILER=clang CLANG=11 BUILD_TYPE='Release'
+    - os: linux
+      addons: &clang11
+        apt:
+          sources: ['llvm-toolchain-bionic-10', 'ubuntu-toolchain-r-test']
           packages:
-            - lcov
+            - clang-11
+            - libstdc++-10-dev
             - libboost-all-dev
             - doctest-dev
-          update: true
-      env: COMPILER=clang CLANG=10 BUILD_TYPE='Release'
+            - lcov
+      env: COMPILER=clang CLANG=11 BUILD_TYPE='Debug'
+    - os: linux
+      addons: *clang11
+      env: COMPILER=clang CLANG=11 BUILD_TYPE='Release'
+      #    - os: linux
+      #      addons: *clang10
+      #      env: COMPILER=clang CLANG=10 BUILD_TYPE='Release'
+      #    - os: osx
+      #      osx_image: xcode12
+      #      addons:
+      #        homebrew:
+      #          packages:
+      #            - lcov
+      #            - libboost-all-dev
+      #            - doctest-dev
+      #          update: true
+      #      env: COMPILER=clang CLANG=10 BUILD_TYPE='Release'
 
 env:
   global:
