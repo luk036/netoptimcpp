@@ -10,7 +10,7 @@ matrix:
           packages:
             - g++-9
             - libboost-all-dev
-            - libdoctest-dev
+            - doctest-dev
             - lcov
       env: COMPILER=gcc GCC=9 BUILD_TYPE='Debug'
     - os: linux
@@ -27,7 +27,7 @@ matrix:
           packages:
             - g++-10
             - libboost-all-dev
-            - libdoctest-dev
+            - doctest-dev
             - lcov
       env: COMPILER=gcc GCC=10 BUILD_TYPE='Debug'
     - os: linux
@@ -41,7 +41,7 @@ matrix:
             - clang-10
             - libstdc++-10-dev
             - libboost-all-dev
-            - libdoctest-dev
+            - doctest-dev
             - lcov
       env: COMPILER=clang CLANG=10 BUILD_TYPE='Debug'
     - os: linux
@@ -54,7 +54,7 @@ matrix:
           packages:
             - lcov
             - libboost-all-dev
-            - libdoctest-dev
+            - doctest-dev
           update: true
       env: COMPILER=clang CLANG=10 BUILD_TYPE='Release'
 
