@@ -45,8 +45,8 @@ matrix:
             - lcov
       env: COMPILER=clang CLANG=10 BUILD_TYPE='Debug'
     - os: linux
-      addons: *clang11
-      env: COMPILER=clang CLANG=11 BUILD_TYPE='Release'
+      addons: *clang10
+      env: COMPILER=clang CLANG=10 BUILD_TYPE='Release'
     - os: linux
       addons: &clang11
         apt:
