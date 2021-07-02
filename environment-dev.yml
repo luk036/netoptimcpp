@@ -1,4 +1,4 @@
-name: xnetwork
+name: netoptimcpp
 channels:
   - conda-forge
 dependencies:
