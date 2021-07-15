@@ -5,6 +5,7 @@
 // #include <cppcoro/generator.hpp>
 #include <cassert>
 #include <py2cpp/py2cpp.hpp>
+// #include <range/v3/view/enumerate.hpp>
 #include <type_traits>
 #include <utility>
 #include <vector>
@@ -239,7 +240,7 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t, adjlist_outer_dict_factory>
     {
     }
 
-    explicit DiGraphS(int num_nodes)
+    explicit DiGraphS(uint32_t num_nodes)
         : _Base {num_nodes}
         , _succ {_Base::_adj}
     {
@@ -500,7 +501,7 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t, adjlist_outer_dict_factory>
         auto func = [&](typename coro_t::push_type& yield)
         {
             if constexpr (std::is_same_v<nodeview_t,
-                              decltype(py::range<int>(0))>)
+                              decltype(py::range<uint32_t>(uint32_t{}))>)
             { // this->_succ???
                 for (auto&& [n, nbrs] : py::enumerate(this->_adj))
                 {
@@ -586,8 +587,9 @@ class DiGraphS : public Graph<nodeview_t, adjlist_t, adjlist_outer_dict_factory>
 };
 
 
-using SimpleDiGraphS = DiGraphS<decltype(py::range<int>(1)), py::dict<int, int>,
-    std::vector<py::dict<int, int>>>;
+using SimpleDiGraphS
+    = DiGraphS<decltype(py::range<uint32_t>(uint32_t{})), py::dict<uint32_t, int>,
+    std::vector<py::dict<uint32_t, int>>>;
 
 // template <typename nodeview_t,
 //           typename adjlist_t> DiGraphS(int )

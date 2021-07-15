@@ -6,8 +6,8 @@
 template <typename Container>
 inline auto create_test_case1(const Container& weights)
 {
-    using Edge = std::pair<int, int>;
-    constexpr int num_nodes = 5;
+    using Edge = std::pair<uint32_t, uint32_t>;
+    constexpr uint32_t num_nodes = 5;
     enum nodes
     {
         A,
@@ -27,8 +27,8 @@ inline auto create_test_case1(const Container& weights)
 template <typename Container>
 inline auto create_test_case2(const Container& weights)
 {
-    using Edge = std::pair<int, int>;
-    constexpr auto num_nodes = 3;
+    using Edge = std::pair<uint32_t, uint32_t>;
+    constexpr uint32_t num_nodes = 3;
     enum nodes
     {
         A,
@@ -45,8 +45,8 @@ inline auto create_test_case2(const Container& weights)
 template <typename Container>
 inline auto create_test_case_timing(const Container& weights)
 {
-    using Edge = std::pair<int, int>;
-    constexpr auto num_nodes = 3;
+    using Edge = std::pair<uint32_t, uint32_t>;
+    constexpr uint32_t num_nodes = 3;
     enum nodes
     {
         A,

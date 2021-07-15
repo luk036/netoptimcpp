@@ -3,9 +3,9 @@
 #include <any>
 #include <cassert>
 #include <py2cpp/py2cpp.hpp>
+// #include <range/v3/view/enumerate.hpp>
 #include <string_view>
 #include <type_traits>
-#include <utility>
 #include <vector>
 #include <xnetwork/classes/coreviews.hpp> // import AtlasView, AdjacencyView
 #include <xnetwork/classes/reportviews.hpp> // import NodeView, EdgeView, DegreeView
@@ -258,14 +258,14 @@ class Graph : public object
         >>> r = py::range(100);
         >>> G = xn::Graph(r);  // or DiGraph, MultiGraph, MultiDiGraph, etc
     */
-    explicit Graph(nodeview_t  Nodes)
-        : _node {std::move(Nodes)}
+    explicit Graph(const nodeview_t& Nodes)
+        : _node {Nodes}
         , _adj {} // py::dict???
     {
     }
 
-    explicit Graph(int num_nodes)
-        : _node {py::range<int>(num_nodes)}
+    explicit Graph(uint32_t num_nodes)
+        : _node {py::range<uint32_t>(num_nodes)}
         , _adj(num_nodes) // std::vector
     {
     }
@@ -362,7 +362,7 @@ class Graph : public object
         this->graph["name"] = std::any(s);
     }
 
-    /*! Iterate over the nodes. Use: "for (auto&& n : G)".
+    /*! Iterate over the nodes. Use: "for (const auto& n : G)".
      *
     Returns
     -------
@@ -523,7 +523,7 @@ class Graph : public object
 
     See Also
     --------
-    order, __len__  which are identical
+    order, size  which are identical
 
     Examples
     --------
@@ -550,9 +550,25 @@ class Graph : public object
 
     See Also
     --------
-    number_of_nodes, __len__  which are identical
+    number_of_nodes, size  which are identical
      */
     auto order()
+    {
+        return this->_node.size();
+    }
+
+    /*! Return the number of nodes : the graph.
+
+    Returns
+    -------
+    nnodes : int
+        The number of nodes : the graph.
+
+    See Also
+    --------
+    number_of_nodes, order  which are identical
+     */
+    auto size()
     {
         return this->_node.size();
     }
@@ -621,8 +637,8 @@ class Graph : public object
         >>> G.edges()[1, 2].update({0: 5});
      */
     template <typename U = key_type>
-    auto add_edge(
-        const Node& u, const Node& v) -> typename std::enable_if<std::is_same<U, value_type>::value>::type
+    auto add_edge(const Node& u, const Node& v) ->
+        typename std::enable_if<std::is_same<U, value_type>::value>::type
     {
         // auto [u, v] = u_of_edge, v_of_edge;
         // add nodes
@@ -638,8 +654,8 @@ class Graph : public object
     }
 
     template <typename U = key_type>
-    auto add_edge(
-        const Node& u, const Node& v) -> typename std::enable_if<!std::is_same<U, value_type>::value>::type
+    auto add_edge(const Node& u, const Node& v) ->
+        typename std::enable_if<!std::is_same<U, value_type>::value>::type
     {
         // auto [u, v] = u_of_edge, v_of_edge;
         // add nodes
@@ -665,14 +681,25 @@ class Graph : public object
         this->_num_of_edges += 1;
     }
 
+    template <typename C1>
+    auto add_edges_from(const C1& edges)
+    {
+        for (const auto& e : edges)
+        {
+            this->add_edge(e.first, e.second);
+            this->_num_of_edges += 1;
+        }
+    }
+
     template <typename C1, typename C2>
     auto add_edges_from(const C1& edges, const C2& data)
     {
-        auto N = edges.size();
-        for (auto i = 0U; i != N; ++i)
+        auto it = data.begin();
+        for (const auto& e : edges)
         {
-            const auto& e = edges[i];
-            this->add_edge(e.first, e.second, data[i]);
+            this->add_edge(e.first, e.second, *it);
+            this->_num_of_edges += 1;
+            ++it;
         }
     }
 
@@ -861,10 +888,10 @@ class Graph : public object
 };
 
 using SimpleGraph =
-    Graph<decltype(py::range<int>(1)), py::set<int>, std::vector<py::set<int>>>;
+    Graph<decltype(py::range<uint32_t>(uint32_t{})), py::set<uint32_t>, std::vector<py::set<uint32_t>>>;
 
 // template <typename nodeview_t,
 //           typename adjlist_t> Graph(int )
-// -> Graph<decltype(py::range<int>(1)), py::set<int>>;
+// -> Graph<decltype(py::range(1)), py::set<int>>;
 
 } // namespace xn
